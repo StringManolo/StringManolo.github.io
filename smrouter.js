@@ -16,6 +16,12 @@ function CambiarPagina(url) {
       AñadirHistorial(url);
       AñadirTemplate("index");
     break;
+    
+    case _BASEURL+"/#/about.html" :
+      AñadirHistorial(url);
+      AñadirTemplate("about");
+    break;
+
 
     default:
       AñadirHistorial(url);
