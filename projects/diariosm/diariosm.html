@@ -1,0 +1,595 @@
+<!DOCTYPE html>
+<html lang="es-ES">
+<head prefix="og:http://ogp.me/ns#">
+<meta charset="utf-8">
+<meta name="robots" content="index,follow">
+<meta name="application-name" content="DiarioSM - Tecnología, Política, Economía y Ciencia.">
+<meta property="og:type" content="website">
+<meta name="summary" content="Titulares y noticias diarias. Conoce lo que sucede a tu al rededor.">
+<meta name="author" content="StringManolo"> 
+<meta name="designer" content="StringManolo">
+<meta name="publisher" content="StringManolo">
+<meta name="lang" content="es">
+<meta name="description" content="DiarioSM es un diario digital con las últimas noticias.">
+<meta name="keywords" content="Noticias,Tecnología,Política,Economía,Ciencia">
+<meta name="distribution" content="global">
+<meta name="web_author" content="StringManolo">
+<meta name="rating" content="news">
+<meta name="rating" content="safe for kids">
+<meta name="subject" content="Noticias">
+<meta name="title" content="DiarioSM - Noticias">
+<meta name="copyright" content="Copyright 2020">
+<meta name="abstract" content="DiarioSM es un espacio público creado por StringManolo.">
+<meta name="country" content="Spain">
+<meta name="classification" content="Noticias diarias de Tecnología, Política, Economía, Ciencia y Otros. Con publicaciones diarias e información contrastada.">
+<meta name="format-detection" content="telephone=yes">
+<meta property="og:image" content="https://smlearningfullstack.000webhostapp.com/diarioSMImagen.png">
+<meta property="og:description" content="Las últimas noticias en DiarioSM. Revisa la actualidad de una forma amena y veraz">
+<meta property="og:locale" content="es_ES">
+<meta property="og:url" content="https://smlearningfullstack.000webhostapp.com">
+<meta property="og:site_name" content="DiarioSM">
+<title>DiarioSM - Noticias</title>
+<!--<meta name="HandheldFriendly" content="true">-->
+<style>
+/*#autores {
+  display: block;
+}*/
+
+nav, footer {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+}
+
+footer {
+  background-image: linear-gradient(to bottom right, #f8faff , #fff);
+}
+
+button[type=button] {
+  width: 6em;
+  height: 2em;
+  font-size: 2em;
+  background-color: #fff;
+  color: #08f;
+  font-family: -apple-system, system-ui, BlinkMacSystemFont, "Segoe UI", "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  outline-color: #000;
+  border-radius: 3px;
+}
+
+header {
+  font-size: 3em;
+  margin-left: 1em;
+  font-family: -apple-system, system-ui, BlinkMacSystemFont, "Segoe UI", "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+#secResumenes {
+  margin-top: 4em;
+}
+
+.backgroundStyles {
+  margin-left: 1em;
+  margin-right: 1em;
+  background-color: #fff;
+  width: 55%;
+}
+
+.Azul {
+  color: #08f;
+}
+
+#resumenTec, #resumenEcon, #resumenExtra {
+  /*background-color: #eee;*/
+}
+
+#resumenTecText, #resumenPolitText, #resumenEconText, #resumenCienText, #resumenExtraText {
+  background-color: #fff;
+  margin-right: 1em;
+  padding-left: 2em;
+  border: 0 0 0 0;
+  font-size: 2em;
+  height: 4em;
+}
+
+.res {
+  display: inline-block; 
+  padding-left: 1em;
+  font-size: 2em;
+  padding-bottom: 1em;
+}
+
+.notDiaria1 {
+  /*margin-bottom: 3em;*/
+}
+
+h2 {
+  text-align: center;
+  padding-bottom: 1em;
+}
+
+p {
+  margin-left: 1em;
+}
+
+.resumen {
+  margin-bottom: 3em;
+  border-top: 1em solid #fff;
+}
+
+#secTec, #secPolit, #secEcon, #secCien, .notDiaria1, .notDiaria2, .notDiaria3, .notDiaria4, .notDiaria5 {
+  border-top: 1em solid #fff;
+  padding-right: 1em;
+  margin-bottom: 2em;
+}
+
+div {
+  padding-bottom: 2em;
+}
+
+a {
+  display: inline;
+  margin-bottom: 1em;
+  color: #24e;
+}
+
+a:visited {
+  color: #79e;
+}
+
+address, #address {
+  font-size: 1em;
+  display: block;
+  height: 1em;
+  text-align: right;
+}
+
+time {
+  font-size: 1em;
+  position: fixed;
+  right: 1em;
+  bottom: 1em;
+}
+
+.infoSeccion {
+  font-size: 2em;
+  margin-top: 2em;
+}
+
+#secExtra {
+  display: none;
+}
+</style>
+</head>
+<body>
+<main>
+<header id="NombreOrg">Diario<span class="Azul">S</span>M</header>
+<time datetime="2020-05-07 20:00">2020-05-07 20:00</time>
+<nav>
+<button type="button" id="tec">Tecnología</button>
+<button type="button" id="polit">Política</button>
+<button type="button" id="econ">Economía</button>
+<button type="button" id="cien">Ciencia</button>
+</nav>
+<section class="backgroundStyles">
+<section id="secResumenes">
+<article class="resumen" id="resumenTec">
+<b class="res">Titular noticia tecnológica destacada.</b>
+<br />
+<div id="resumenTecText"><a href="#secTecNot1">La crisis del coronavirus podría impulsar tecnologías como el control a distancia de dispositivos electrónicos.</a></div>
+</article>
+<article class="resumen" id="resumenPolit">
+<b class="res">Titular noticia política destacada.</b>
+<br />
+<div id="resumenPolitText"><a href="#secPolitNot1">Trump y la OMS se contradicen en disputa por el origen del coronavirus.</a></div>
+</article>
+<article class="resumen" id="resumenEcon">
+<b class="res">Titular noticia económica destacada.</b>
+<br />
+<div id="resumenEconText"><a href="#secEconNot1">Las bolsas europeas incrementan su valor gracias a un incremento del precio del petroleo estadounidense.</a></div>
+</article>
+<article class="resumen" id="resumenCien">
+<b class="res">Titular noticia científica destacada.</b>
+<br />
+<div id="resumenCienText"><a href="#secCienNot1">Se descubre el posible agujero negro más cercano a la tierra hasta la fecha a poco más de 1000 años luz de distancia.</a></div>
+</article><!--
+<article class="resumen" id="resumenExtra">
+<b class="res">Titular noticia miscelanea del día.</b>
+<br />
+<div id="resumenExtraText">El turismo y el Covid.</div>
+</article>-->
+</section>
+<section id="secTec">
+<h1 class="infoSeccion">Noticias de Tecnología</h1>
+<article class="notDiaria1">
+<h2 id="secTecNot1"> La crisis del coronavirus podría impulsar tecnología basada en el control a distancia de dispositivos.</div>
+</h2>
+<p>Debido a la crisis de coronavirus las tecnologías por voz que se utilizaban por comodidad, novedad o curiosidad podrían ver impulsadas su implantación en varios nichos.
+Las tecnologías en las que se basan productos comerciales como el asistente de Google, Alexa o Siri podrían emerger como un aliado más en la lucha contra el virus. Industria, Sanidad y Hostelería son solo algunos de los sectores que podrían requerir de su uso para evitar el contacto directo con dispositivos electrónicos. Tareas cotidianas como agarrar una puerta, servirse un café de una máquina expendedora o fichar en la oficina son solo algunas de las múltiples tareas que realizamos a diario y podrían ser realizadas a través de un sistema de reconocimiento de voz.
+</p>
+<span id="address"><em><pre>
+<address class="author">Por <a rel="author" href="javascript:void(0);" class="autorStringManolo">StringManolo</a></address>
+</pre></em></span>
+</article>
+<article class="notDiaria2">
+<h2>Mozi, el nuevo malware utilizado en la creación de redes de ordenadores zombies.</h2>
+<p>Un desarrollador de malware está ofreciendo la potencia de su botnet en redes sociales para realizar ataques de denegación de servicio.
+La nueva botnet "Dark Nexus" es todo un escándalo en lo que a malware orientado a IoT se refiere. El malware tiene características avanzadas y está recibiendo actualizaciones prácticamente diarias.
+Está infectando todo tipo de dispositivos con acceso a internet utilizando exploits para vulnerabilidades conocidas.
+Ataca principalmente a dispositivos Linux en el continente asiático dando prioridad a arquitectura ARM.</p>
+<address class="author">Por <a rel="author" href="javascript:void(0);" class="autorStringManolo">StringManolo</a></address>
+</article>
+<article class="notDiaria3">
+<h2>IBM sigue centrándose en la especialización hacia el sector privado y compra Red Hat.</h2>
+<p>Mientras las grandes tecnológicas apuestan por abrirse mercado, IBM se centra en adaptarse a la empresa, Inteligencia Artificial y automatización.
+Enfocados en el 5G y en ofrecer soluciones tecnológicas frente a la pandemia, IBM ha adquirido Red Hat por 34 billones de dolares.
+La compra ha supuesto el mayor desembolso de IBM hasta la fecha.
+</p>
+<address class="author">Por <a rel="author" href="javascript:void(0);" class="autorStringManolo">StringManolo</a></address>
+</article>
+<article class="notDiaria4">
+<h2>C sigue aumentando su popularidad.</h2>
+<p>Cuando pensamos en un lenguaje popular nos vienen a la mente Python, Java, Javascript...
+Lo cierto es que la popularidad de C no se ha visto afectada por los nuevos lenguajes y entornos de programación. Sigue siendo el rey en la programación de alto rendimiento.
+Con el incremento de la producción de dispositivos enfocados al ámbito sanitario, la popularidad de C que ya venía incrementándose en el último año, no ha dejado de aumentar.
+Tampoco podemos olvidarnos de todos los drivers, el IoT y los componentes más esenciales de los sistemas modernos.
+Podemos concluir con que aún no se acerca el día en el que el lenguaje rey pase a ser cosa del pasado, a pesar de tener medio siglo de antiguedad.
+</p>
+<address class="author">Por <a rel="author" href="javascript:void(0);" class="autorStringManolo">StringManolo</a></address>
+</article>
+<article class="notDiaria5">
+<h2>Cibercriminales ponen a la venta fallos de seguridad de Zoom por 500.000$</h2>
+<p>La aplicación de video-conferencias Zoom ha atraído la atención de nuevos usuarios con motivo del confinamiento.
+Pero los usuarios legítimos no son los únicos que han decidido invertir su tiempo en la aplicación.
+Tras detectar ataques desde Korea Del Norte, Zoom ha salido al paso y ha forzado una actualización sin la cual no se puede seguir utilizando el software.
+</p>
+<address class="author">Por <a rel="author" href="javascript:void(0);" class="autorStringManolo">StringManolo</a></address>
+</article>
+</section>
+<section id="secPolit">
+<h1 class="infoSeccion">Noticias de Política</h1>
+<article class="notDiaria1">
+<h2 id="secPolitNot1">Trump y la OMS se contradicen en disputa por el origen del coronavirus.</h2>
+<p>  La OMS ha salido al paso tras las recientes declaraciones por parte del gobierno de US.
+Desde hace un par de semanas el gobierno de los Estados Unidos ha estado insistiendo en atribuir el origen del virus a un laboratorio de Wuhan, China. También alegó que disponen de pruebas que lo demostrarían.
+La Organización Mundial de la Salud ha reiterado en varias ocasiones que el origen del virus es animal. De momento no existen pruebas feacietes que puedan confirmar ninguna de las teorías. Al menos no de forma pública.
+Ambas partes tienen múltiples intereses (principalmente el económico) en defender su versión. 
+  </p>
+<span id="address"><em><pre>
+<address class="author">Por <a rel="author" href="javascript:void(0);" class="autorStringManolo">StringManolo</a></address>
+</pre></em></span>
+</article>
+<article class="notDiaria2">
+<h2>Las falsas especulaciones sobre la muerte de Kim Jong Um.</h2>
+<p>Desde principios del mes de abril se viene especulando sobre la posible muerte, operación o estado vegetativo del lider de Korea del Norte.
+La especulación comenzó tras no registrarse imágenes públicas del lider como venía siendo común.
+Esta semana ha vuelto a realizar intervenciones públicas en aparente buen estado de salud.
+El propio Alejandro Cao de Benós, representante de Korea del Norte en España, negó las especulaciones sin dejar ápice de duda.
+También aprovechó para añadir que a pesar de ser vecinos fronterizos con China, se habría contenido la pandemia con el cierre de fronteras.
+</p>
+<span id="address"><em><pre>
+<address class="author">Por <a rel="author" href="javascript:void(0);" class="autorStringManolo">StringManolo</a></address>
+</pre></em></span>
+</article>
+<article class="notDiaria3">
+<h2>El gobierno de Bolsonaro flaquea durante la crisis producida por el covid19.</h2>
+<p>El gobierno de Brasil se ve envuelto en varios escándalos.
+Varios ministros serán juzgados por sus ingerencias en la policía federal.
+El portavoz de Bolsonaro infectado por coronavirus.
+Brasil supera el medio centenar de muertos en 24 horas.
+Bolsonaro ha dejado claro que prevalecerá la economía sobre la salud de la gente. 
+Catalogando el coronavirus como un resfriadito y atacando a la prensa con insultos.
+João Doria, gobernador de São Paulo tras recomendar el confinamiento a la población fué descalificado por Bolsonaro.
+Tras estos escándalos habrían sido varios los gobernadores antiguamente afines a las políticas de Bolsonaro que se han desmarcado de su gestión ante la crisis.
+</p>
+<span id="address"><em><pre>
+<address class="author">Por <a rel="author" href="javascript:void(0);" class="autorStringManolo">StringManolo</a></address>
+</pre></em></span>
+</article>
+<article class="notDiaria4">
+<h2>Un exmilitar estadounidense capturado en La Guaira, Venezuela, habría confesado en un interrogatorio los planes para derrocar a Maduro.</h2>
+<p>El exmilitar estadounidense ha relatado la operación mediante la cual se intentaría capturar a Maduro en Venezuela por un comando de casi un centenar de integrantes.
+El objetivo del operativo, según relató el exmilitar era capturar a Maduro para trasladarlo a los Estados Unidos.
+Se verían directamente involucrados un grupo de desidentes venezolanos, el gobierno de Colombia y el propio Juan Guaido, lider de la oposición.
+A quien se le atribuye la firma de un contrato relacionado con la operación.
+Tanto los gobiernos implicados como el lider de la oposición venezolana niegan ser partícipes de los hechos que el exmilitar les ha atribuído.</p>
+<span id="address"><em><pre>
+<address class="author">Por <a rel="author" href="javascript:void(0);" class="autorStringManolo">StringManolo</a></address>
+</pre></em></span>
+</article>
+<article class="notDiaria5">
+<h2>Amnistía internacional denuncia la muerte de Abdulá al Hamid.</h2>
+<p>Abdulá al Hamid, profesor, escritor y defensor del constitucionalismo monárquico y la carta de los derechos humanos en oriente próximo ha fallecido por un ictus.
+Sufría de hipertensión. Tras entrar en coma el 9 de abril, Aministía Internacional reclamó su puesta en libertad en Arabia Saudí.
+Finalmente falleció a los 69 años de edad en dependecias sauditas 2 semanas después de entrar en coma.
+Amnistía Internacional denuncia su muerte por causas de una mal asistencia para con su estado de salud.</p>
+<span id="address"><em><pre>
+<address class="author">Por <a rel="author" href="javascript:void(0);" class="autorStringManolo">StringManolo</a></address>
+</pre></em></span>
+</article>
+</section>
+<section id="secEcon">
+<h1 class="infoSeccion">Noticias de Economía</h1>
+<article class="notDiaria1">
+<h2 id="secEconNot1">Las bolsas europeas incrementan su valor gracias a un incremento del precio del petroleo estadounidense.</h2>
+<p>  Tras previsiones que parecen indicar el decremento en la producción de pretoleo por parte de Arabia Saudí y Rusia, el valor del crudo estadounidense aumenta más de un 24% su valor.
+Las bolsas europeas han registrado aumentos entre un 1% y un 4% de media.</p>
+<span id="address"><em><pre>
+<address class="author">Por <a rel="author" href="javascript:void(0);" class="autorStringManolo">StringManolo</a></address>
+</pre></em></span>
+</article>
+<article class="notDiaria2">
+<h2>El FMI recomienda la bajada de impuestos al ámbito laboral y al consumo.</h2>
+<p>Las recomendaciones parecen ir enfocadas a reducir el paro e incrementar el consumo así como a reducir el gasto en las unidades familiares con menos recursos económicos.
+Esta noticia no sorprende ya que sigue bajo la línea de garantizar el funcionamiento de los sectores esenciales y el abastecimiento de recursos mínimos a la población.
+Un estudio abalado por el FMI ya venía elucidando la directrices y posibles enfoques necesarios.
+En el mismo estudio también se hace mención a la posibilidad de racionamientos y nacionalización de empresas en sectores estratégicos. 
+El Bde valora la posibilidad de un corralito de darse una compra masiva de bonos para estabilizar el mercado.
+</p>
+<span id="address"><em><pre>
+<address class="author">Por <a rel="author" href="javascript:void(0);" class="autorStringManolo">StringManolo</a></address>
+</pre></em></span>
+</article>
+<article class="notDiaria3">
+<h2>Aumenta la emisión de bonos sostenibles y bonos sociales en España.</h2>
+<p>Se estima que la cantidad prevista de bonos emitidos en 2020 se verá incrementada entre 1/4 y un 1/3 de los emitidos en 2019.
+Ya el 2019 fué un año en el que se incrementaron notablemente los bonos verdes.</p>
+<span id="address"><em><pre>
+<address class="author">Por <a rel="author" href="javascript:void(0);" class="autorStringManolo">StringManolo</a></address>
+</pre></em></span>
+</article>
+<article class="notDiaria4">
+<h2>Telefónica y Liberty Global fusionan sus negocios en Reino Unido.</h2>
+<p>La filial O2 de telefónica, y Liberty Global, forman el negocio de telecomunicaciones más grande de Reino Unido para reducir costes y aumentar sus infrastructuras.
+ Tras el acuerdo telefónica ha subido su valor en bolsa hasta un 5%. 
+ Por el otro lado BT, la principal competidora cae más de un 8% en bolsa motivado por la unión de sus comperidores y el anunció de la suspensión de dividendos hasta el 2022.</p>
+<span id="address"><em><pre>
+<address class="author">Por <a rel="author" href="javascript:void(0);" class="autorStringManolo">StringManolo</a></address>
+</pre></em></span>
+</article>
+<article class="notDiaria5">
+<h2>El banco chino ha iniciado el programa piloto de su moneda digital.</h2>
+<p>De hacerse oficial sería el primer sistema de pago electrónico puesto en marcha por un gigante bancario.
+Otras entidades bancarias estarían tomando nota de la iniciativa.
+Al margen del sistema financiero, Google y la fundación de Bill Gates estarían enfocándose en el desarrollo de software libre para apoyar a la economías más desfavorecidas con el desarrollo de sistemas de pago al alcance de todo el mundo.
+Por otro lado Libra, la currencia de Facebook (que había derivado hacia unos objetivos muy ambiciosos) habría vuelto a su senda más modesta hacia un sistema de pago más tradicional.</p>
+<span id="address"><em><pre>
+<address class="author">Por <a rel="author" href="javascript:void(0);" class="autorStringManolo">StringManolo</a></address>
+</pre></em></span>
+</article>
+</section>
+<section id="secCien">
+<h1 class="infoSeccion">Noticias de Ciencia</h1>
+<article class="notDiaria1">
+<h2 id="secCienNot1">Se descubre el posible agujero negro más cercano a la tierra hasta la fecha a poco más de 1000 años luz de distancia.</h2>
+<p>Un grupo de astrónomos se encontraron la sorpresa mientras estudiaban el sistema binario de estrellas HR 6819.
+No se ha podido probar activamente que se trate de un agujero negro, pero es prácticamente la única teoría que explicaría la órbita de la estrella central del sistema.</p>
+<span id="address"><em><pre>
+<address class="author">Por <a rel="author" href="javascript:void(0);" class="autorStringManolo">StringManolo</a></address>
+</pre></em></span>
+</article>
+<article class="notDiaria2">
+<h2>Investigadores del MIT de Singapore descubren un nuevo mecanismo de protección que utilizan algunas bacterias para proteger su ADN.</h2>
+<p>Es un importante descubirmiento en el campo de la medicina.
+Las bacterias con resistencia a los antibióticos pueden ser tratadas utilizando bacteriófagos, que inyectan su propio ADN en las bacterias y pueden acabar con ellas a través de la réplica. El mecanismo de defensa descubierto demuestra como las bacterias protegen su ADN de los bacteriófagos.</p>
+<span id="address"><em><pre>
+<address class="author">Por <a rel="author" href="javascript:void(0);" class="autorStringManolo">StringManolo</a></address>
+</pre></em></span>
+</article>
+<article class="notDiaria3">
+<h2>Investigadores encontrarón estructura de un mamífero con rasgos únicos
+que vivió hace 66 millones de años en Madagascar.</h2>
+<p>Se encontró en Magascar una estructura osea muy bien conservada de un mamífero al que han nombrado como Adalatherium. El exótico ser tiene un tamaño bastante superior al resto de mamíferos de la época de unos pocos centímetros de tamaño y tiene una gran cantidad de cavidades. Múltiples de ellas tendrían la función de mejorar las capacidades sensoriales y su percepción del entorno.</p>
+<span id="address"><em><pre>
+<address class="author">Por <a rel="author" href="javascript:void(0);" class="autorStringManolo">StringManolo</a></address>
+</pre></em></span>
+</article>
+<article class="notDiaria4">
+<h2>Estudios de la universidad de Miami encuentran relación entre las estaciones lluviosas y las erupciones volcánicas.</h2>
+<p>El descubrimiento se produjo estudiando el volcán Kilauea de Hawai y la correlación entre sus erupciones y las estaciones lluviosas. Se atribuye esta reacción a la debilitación que sufren las estructuras solidas que albergan el magma al humedecerse. El descubrimiento podría llegar a salvar vidas anticipando algunas erupciones que suponen un gran riesgo para la población circundante y que hasta ahora no se podían predecir.</p>
+<span id="address"><em><pre>
+<address class="author">Por <a rel="author" href="javascript:void(0);" class="autorStringManolo">StringManolo</a></address>
+</pre></em></span>
+</article>
+<article class="notDiaria5">
+<h2>Swift J1818.0-1607 el magnetar más joven de la Vía Lactea.</h2>
+<p>Con tan solo 240 años de vida, este objeto estelar, es el quinto de este tipo detectado en la Via Lactea aunque tiene características únicas. Se categorizó como magnetar pero perfectamente podría haber sido catalogado como púlsar, ya que tiene características de ambos objetos.</p>
+<span id="address"><em><pre>
+<address class="author">Por <a rel="author" href="javascript:void(0);" class="autorStringManolo">StringManolo</a></address>
+</pre></em></span>
+</article>
+</section>
+<section id="secExtra">
+<h1 class="infoSeccion">Noticias de Miscelanea</h1>
+<article class="notDiaria1">
+<h2>Noticia Miscelanea 1.</h2>
+<p>Contenido de la noticia</p>
+<span id="address"><em><pre>
+<address class="author">Por <a rel="author" href="javascript:void(0);" class="autorStringManolo">StringManolo</a></address>
+</pre></em></span>
+</article>
+<article class="notDiaria2">
+<h2>Noticia Miscelanea 2.</h2>
+<p>Contenido de la noticia</p>
+<span id="address"><em><pre>
+<address class="author">Por <a rel="author" href="javascript:void(0);" class="autorStringManolo">StringManolo</a></address>
+</pre></em></span>
+</article>
+<article class="notDiaria3">
+<h2>Noticia Miscelanea 3.</h2>
+<p>Contenido de la noticia</p>
+<span id="address"><em><pre>
+<address class="author">Por <a rel="author" href="javascript:void(0);" class="autorStringManolo">StringManolo</a></address>
+</pre></em></span>
+</article>
+<article class="notDiaria4">
+<h2>Noticia Miscelanea 4.</h2>
+<p>Contenido de la noticia</p>
+<span id="address"><em><pre>
+<address class="author">Por <a rel="author" href="javascript:void(0);" class="autorStringManolo">StringManolo</a></address>
+</pre></em></span>
+</article>
+<article class="notDiaria5">
+<h2>Noticia Miscelanea 5.</h2>
+<p>Contenido de la noticia</p>
+<span id="address"><em><pre>
+<address class="author">Por <a rel="author" href="javascript:void(0);" class="autorStringManolo">StringManolo</a></address>
+</pre></em></span>
+</article>
+</section>
+</section><!-- bg styles -->
+<!--<section id="Autores">
+<article id="StringManolo">
+StringManolo es el creador, diseñador y desarrollador de Diario<span class="Azul">S</span>M.
+También el principal redactor de las noticias y los artículos de Diario<span class="Azul">S</span>M.
+Como aficionado y autodidacta informático es un firme defensor del conocimiento y la información libre, gratuita y verídica.
+Los valores de trabajo en equipo, el reconocimiento al valor individual y la autorealización como principal impulsora del crecimiento profesional y personal.
+<br />
+</article>
+</section>-->
+<footer>
+&copy; Copyright <span class="fechaJs">2020</span>
+<br />Creado por: StringManolo
+<!--Información de contacto: <a href="mailto:manuelvarelacaldas@gmail.com">manuelvarelacaldas@gmail.com</a>-->
+</footer>
+</main>
+
+<script>
+var autorStringManolo = document.querySelectorAll(".autorStringManolo");
+for (var i = 0; i < autorStringManolo.length; ++i) {
+  autorStringManolo[i].addEventListener("click", function() {
+    alert("StringManolo es el creador, diseñador y desarrollador de DiarioSM. También el principal redactor de las noticias y los artículos de DiarioSM.\n\n"+
+"Como aficionado y autodidacta informático es un firme defensor del conocimiento; la información libre, gratuita y veraz.\n\n"+
+"Los valores de trabajo en equipo, el reconocimiento al valor individual y la autorealización como principal impulsora del crecimiento profesional y personal.");
+  });
+}
+
+
+var fechas = document.querySelectorAll(".fechaJs");
+for (var i = 0; i < fechas.length; ++i) {
+  fechas[i].innerHTML = new Date().getFullYear();
+}
+
+var nombreOrg = document.querySelector("#NombreOrg");
+nombreOrg.addEventListener("click", function() {
+  IrA("NombreOrg");
+});
+
+var bTec = document.querySelector("#tec");
+bTec.addEventListener("click", function() {
+  IrA("tec");
+});
+
+var bPolit = document.querySelector("#polit");
+bPolit.addEventListener("click", function() {
+  IrA("polit");
+});
+
+var bEcon = document.querySelector("#econ");
+bEcon.addEventListener("click", function() {
+  IrA("econ");
+});
+
+var bCien = document.querySelector("#cien");
+bCien.addEventListener("click", function() {
+  IrA("cien");
+});
+
+
+var secTec = document.querySelector("#secTec");
+var secPolit = document.querySelector("#secPolit");
+var secEcon = document.querySelector("#secEcon");
+var secCien = document.querySelector("#secCien");
+var secResumenes = document.querySelector("#secResumenes");
+
+function IrA(donde) {
+
+  switch(donde) {
+
+case "NombreOrg":
+      secTec.style.display = "block";
+      bTec.style.background = "#fff";
+      bTec.style.color = "#08f";
+      secPolit.style.display = "block";
+      bPolit.style.background = "#fff";
+      bPolit.style.color = "#08f";
+      secEcon.style.display = "block";
+      bEcon.style.background = "#fff";
+      bEcon.style.color = "#08f";
+      secCien.style.display = "block";
+      bCien.style.background = "#fff";
+      bCien.style.color = "#08f";
+      secResumenes.style.display = "block";
+    break;
+
+    case "tec":
+      secTec.style.display = "block";
+      bTec.style.background = "#08a";
+      bTec.style.color = "#fff";
+      secPolit.style.display = "none";
+      bPolit.style.background = "#fff";
+      bPolit.style.color = "#08f";
+      secEcon.style.display = "none";
+      bEcon.style.background = "#fff";
+      bEcon.style.color = "#08f";
+      secCien.style.display = "none";
+      bCien.style.background = "#fff";
+      bCien.style.color = "#08f";
+      secResumenes.style.display = "none";
+    break;
+
+    case "polit":
+      secTec.style.display = "none";
+      bTec.style.background = "#fff";
+      bTec.style.color = "#08e";
+      secPolit.style.display = "block";
+      bPolit.style.background = "#0af";
+      bPolit.style.color = "#fff";
+      secEcon.style.display = "none";
+      bEcon.style.background = "#fff";
+      bEcon.style.color = "#08f";
+      secCien.style.display = "none";
+      bCien.style.background = "#fff";
+      bCien.style.color = "#08f";
+      secResumenes.style.display = "none";
+    break;
+
+    case "econ":
+      secTec.style.display = "none";
+      bTec.style.background = "#fff";
+      bTec.style.color = "#08f";
+      secPolit.style.display = "none";
+      bPolit.style.background = "#fff";
+      bPolit.style.color = "#08f";
+      secEcon.style.display = "block";
+      bEcon.style.background = "#08a";
+      bEcon.style.color = "#fff";
+      secCien.style.display = "none";
+      bCien.style.background = "#fff";
+      bCien.style.color = "#08f";
+      secResumenes.style.display = "none";
+    break;
+
+    case "cien":
+      secTec.style.display = "none";
+      bTec.style.background = "#fff";
+      bTec.style.color = "#08f";
+      secPolit.style.display = "none";
+      bPolit.style.background = "#fff";
+      bPolit.style.color = "#08f";
+      secEcon.style.display = "none";
+      bEcon.style.background = "#fff";
+      bEcon.style.color = "#08f";
+      secCien.style.display = "block";
+      bCien.style.background = "#0af";
+      bCien.style.color = "#fff";
+      secResumenes.style.display = "none";
+    break;
+
+    default:
+      alert(donde + " no recon");
+
+  }
+}
+</script>
+</body>
+</html>

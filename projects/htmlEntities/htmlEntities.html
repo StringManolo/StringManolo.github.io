@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>htmlEntities</title>
+</head>
+<body>
+<h4 id="en" onclick="cambiarIdioma('en');" style="display:inline;font-size:40px">EN</h4>
+<h4 style="font-size:40px;display:inline"> | </h4>
+<h4 id="es" onclick="cambiarIdioma('es');" style="font-size:40px;display:inline;color:coral"> ES</h4>
+<div style="width:100%;align:center">
+<h1 style="color:coral;font-size: 60px;align:center;text-align:center;display: block; margin-right: auto; margin-left: auto;">htmlEntities()</h1>
+<input type="text" id="codigo" placeholder="Introduce tu código a parsear" style="width:95%;font-size: 60px; display: block; margin-right: auto; margin-left: auto; outline-color:coral">
+<br />
+<button type="button" id="bt" onclick="Parsear()" style="width:47.5%;font-size: 50px;display: block; margin-right: auto; margin-left: auto; background-color: #fafafa;outline-color: coral">Parsear</button>
+
+
+<br />
+<textarea id="ta" contenteditable="true" style="width:95%;height:400px;overflow-y:scroll;padding:10px;background-color:#eee;color:coral;align:center;display: block; margin-right: auto; margin-left: auto;">Aquí aparecerá tu código.</textarea>
+</div>
+
+<script>
+function cambiarIdioma(identificador) {
+  if (identificador == "en") {   document.getElementById("codigo").placeholder = "Introduce your code to parse here";
+document.getElementById("ta").innerHTML = "Here is going to be your code.";
+ document.getElementById("en").style.color="coral"; document.getElementById("es").style.color="black";
+  document.getElementById("bt").innerHTML="Parse";
+  }
+
+  if (identificador == "es") { document.getElementById("codigo").placeholder = "Introduce tu código a parsear"; document.getElementById("en").style.color="black"; document.getElementById("es").style.color="coral"; document.getElementById("ta").innerHTML = "Aquí aparecerá tu código."; document.getElementById("bt").innerHTML="Parsear";
+  }
+}
+
+
+function Parsear() {
+  var miString = document.querySelector("#codigo").value;
+
+  miString = htmlEntities(miString);
+
+   document.querySelector("#ta").innerHTML= miString;
+}
+
+
+/* Codigo */
+function htmlEntities(string) {
+r='replace';d=document;a=string[r](/ /g,"&#32;")[r](/!/g,"&#33;")[r](/"/g,"&#34;")[r](/%/g,"&#37;")[r](/'/g,"&#39;")[r](/\(/g,"&#40;")[r](/\)/g,"&#41;")[r](/</g,"&#60;")[r](/>/g,"&#62;")[r](/`/g,"&#96;")[r](/a/g,"&#97;")[r](/A/g,"&#65;")[r](/e/g,"&#101;")[r](/E/g,"&#69;")[r](/i/g,"&#105;")[r](/I/g,"&#73;")[r](/o/g,"&#111;")[r](/O/g,"&#79;")[r](/u/g,"&#117;")[r](/U/g,"&#85;")[r](/{/g,"&#123;")[r](/}/g,"&#125;")[r](/‘/g,"&#8216;")[r](/’/g,"&#8217")[r](/‚/g,"&#8218;")[r](/“/g,"&#8220;")[r](/”/g,"&#8221;")[r](/„/g,"&#8222;")[r](/′/g,"&#8242;")[r](/″/g,"&#8244;")[r](/‹/g,"&#8249;")[r](/›/g,"&#8250;")[r](/s/g,"&#115;")[r](/S/g,"&#83;")[r](/\./g,"&#46;");a=d.createTextNode(a);b=d.createElement('pre');b.appendChild(a);return b.innerHTML;
+}
+
+</script>
+</body>
+</html>
+
