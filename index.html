@@ -11,64 +11,17 @@
 <body>
 
 <main id="app">
-  <router-view></router-view>
+  <web-header></web-header>
+
   <nav>
   <router-link to="/">Home</router-link>
   <router-link to="/projects">Projects</router-link>
   <router-link to="/about">About</router-link>
   </nav>
-  <developer-name></developer-name>
-  <developer-description></developer-description>
-  <developer-info></developer-info>
-  <section id="projects">
-  <article id="diariosm">
-  <h3>DIARIOSM</h3>
-  <iframe src="./projects/diariosm/diariosm.html"></iframe>
-  <p class="description">Newspaper</p>
-  </article>
-  <br />
-  <article id="jex">
-  <h3>JEX</h3>
-  <iframe src="./projects/jex/jex.html"></iframe>
-  <p class="description">Hexadecimal Editor.</p>
-  </article>
-  <br />
-  <article id="passwordValidator">
-  <h3>PASSWORDVALIDATOR</h3>
-  <iframe src="./projects/passwordValidator/passwordValidator.html"></iframe>
-  <p class="description">A valid password is the one that conforms to the following rules:<br />
-  - Minimum length is 8.<br />
-  - Maximum length is 32.<br />
-  - Should contain at least one number.<br />
-  - Should contain at least one special character (such as &, +, @, $, #, %, etc.).<br />
-  - Should not contain spaces.</p>
-  </article>
-  <br />
-  <article id="htmlEntities">
-  <h3>HTMLENTITIES</h3>
-  <iframe src="./projects/htmlEntities/htmlEntities.html"></iframe>
-  <p class="description">Encode your source code using rfc html entities to help prevent Cross Site Scripting atacks in your application.</p>
-  </article>
-  <br />
-  <article id="RXSSGEN">
-  <h3>RXSSGEN</h3>
-  <iframe src="./projects/rxssgen/rxssgen.html"></iframe>
-  <p class="description">Modal Assistent to generate a full working custom payload to exploit Reflected Cross Site Scriping via POST http method.</p>
-  </article>
-  </section>
+
+  <router-view></router-view>
+
   <web-footer></web-footer>
-    <!-- use router-link component for navigation. -->
-    <!-- specify the link by passing the `to` prop. -->
-    <!-- `<router-link>` will be rendered as an `<a>` tag by default -->
-
-<!-- router:
-    <router-link to="/home">Go to Home</router-link>
-    <router-link to="/about">Go to About</router-link>
--->
-
-  <!-- route outlet -->
-  <!-- component matched by the route will render here -->
-
 
 </main>
 <style>
