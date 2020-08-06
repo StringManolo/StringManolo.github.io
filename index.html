@@ -20,14 +20,15 @@
   </nav>
 
   <router-view></router-view>
-
+  <div class="footerPlaceHolder"></div>
   <web-footer></web-footer>
-
 </main>
+
 <style>
 iframe {
   width: 94%;
   height: 600px;
+  border: 1px dashed #b44;
 }
 </style>
 <!-- Router -->
@@ -37,22 +38,41 @@ iframe {
 <script src="./app.js"></script>
 -->
 <style>
+* {
+  border-radius: 1em;
+}
+
 html, body {
   height: 100%;
   margin: 0 0 0 0;
 }
 
+main {
+  padding: 0 1em 0 1em;
+}
+
 footer {
   width: 100%;
   background-color: #b44;
-  position: fixed;
-  bottom: 0;
   font-size: 2em;
   text-align: right;
+  bottom: 0;
+  position: fixed;
+  border-radius: 1em 0 0 1em;
 }
 
-header {
+.footerPlaceHolder {
+  height: 2em;
+}
+
+header, nav {
   font-size: 2em;
+  text-align: center;
+}
+
+nav, .home {
+  font-size: 2em;
+  padding: 0 1em 0 2em;
 }
 
 .innerFooter {
@@ -66,6 +86,14 @@ header {
 a:active {
   color: black;
 } 
+
+.home, .projects, .about {
+  text-align: center;
+}
+
+.about, .about > * {
+  border: 1px dashed #b44;
+}
 
 </style>
 </body>

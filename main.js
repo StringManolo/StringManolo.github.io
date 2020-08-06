@@ -9,7 +9,7 @@
 /* Pages: */
 const About = { 
   template: `
-<div>
+<div class="about">
 <developer-name></developer-name>                                     <developer-description></developer-description>                       <developer-info></developer-info>
 </div>
 `
@@ -17,13 +17,13 @@ const About = {
 
 const Home = { 
   template: `
-<i>Home Template Here</i>
+<div class="home">Home Template Here</div>
 `
 }
 
 const Projects = { 
   template: `
-<div>
+<div class="projects">
 <section id="projects">
   <article id="diariosm">
   <h3>DIARIOSM</h3>
@@ -56,7 +56,7 @@ const Projects = {
   <br />
   <article id="RXSSGEN">
   <h3>RXSSGEN</h3>
-  <iframe src="./projects/rxssgen/rxssgen.html"></iframe>
+  <!-- <iframe src="./projects/rxssgen/rxssgen.html"></iframe> -->
   <p class="description">Modal Assistent to generate a full working custom payload to exploit Reflected Cross Site Scriping via POST http method.</p>
   </article>
   </section>
