@@ -1,15 +1,15 @@
 /* Components: */
 Vue.component('web-header', {
-  template: '<header><h1>{{ title }}</h1></header>',
+  template: '<header><h1><span class="colorRed">S</span>tring<span class="colorRed">M</span>anolo</h1><h2><span class="colorRed">S</span>oftware <span class="colorRed">D</span>eveloper & <span class="colorRed">S</span>ecurity <span class="colorRed">E</span>nthusiast</h2></header>',
   data: function () {
     return {
-      title: 'Manolo\'s Portfolio'
+     /* title: 'StringManolo' */
     }
   }
 });
 
 Vue.component('web-footer', {
-  template: '<footer><h6>Copyrigth &copy; {{currentYear}}</h6></footer>',
+  template: '<footer><h6 class="innerFooter">Copyrigth &copy; {{currentYear}}</h6></footer>',
   computed: {
     currentYear: function() {
       return new Date().getFullYear();
