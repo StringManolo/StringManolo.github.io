@@ -9,7 +9,7 @@ html, body {
 
 iframe {                                                                width: 94%;
   height: 600px;
-  border: 1px dashed #b44;
+  border: 1px dashed #b22;
 }
 
 .divisor {
@@ -50,11 +50,11 @@ nav {
   border: 1px solid #000;
   border-radius: 0 0 1em 1em;
   padding: 1px 1em 4px 1em;
-  color: #b44;
+  color: #000;
 }
 
 #navWrapper {
-  text-align: center;;
+  text-align: center;
 }
 
 .innerFooter {
@@ -62,12 +62,13 @@ nav {
 }
 
 .colorRed, a {
-  color: #b44;
+  color: #b22;
+  text-decoration: none;
 }
 
 a:active {
   color: black;
-  text-shadow: 2px 2px 4px red;
+  text-shadow: 2px 2px 4px #b22;
 } 
 
 .home, .projects, .about {
@@ -81,7 +82,7 @@ a:active {
 }
 
 .about > * {
-  border: 1px dashed #b44;
+  border: 1px dashed #b22;
 }
 
 footer {
