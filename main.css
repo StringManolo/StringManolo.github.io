@@ -9,7 +9,7 @@ html, body {
 
 iframe {                                                                width: 94%;
   height: 600px;
-  border: 1px dashed #b22;
+  border: 1px solid #000;
 }
 
 .divisor {
@@ -85,7 +85,8 @@ a:active {
 }
 
 .about > * {
-  border: 1px dashed #b22;
+  border: 1px solid #000;
+  margin: 0 0 30px 0;
 }
 
 footer {
