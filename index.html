@@ -15,15 +15,16 @@
 <body>
 
 <main id="app">
+  <div id="navWrapper">
+  <nav>
+  <router-link to="/">Home</router-link> • 
+  <router-link to="/projects">Projects</router-link> • 
+  <router-link to="/about">About</router-link> 
+  </nav>
+  </div>
 
   <web-header></web-header>
 
-  <nav>
-  <router-link to="/">Home</router-link>
-  <router-link to="/projects">Projects</router-link>
-  <router-link to="/about">About</router-link>
-  </nav>
-  
   <span class="divisor">
   <router-view></router-view>
   <div class="marginSides">
@@ -78,10 +79,22 @@ header, nav {
   font-size: 2em;
   text-align: center;
 }
-
-nav, .home {
+{
+.home {
   font-size: 2em;
   padding: 0 1em 0 2em;
+}
+
+nav {
+  display: inline-block;
+  background-color: #fff;
+  border: 1px solid #000;
+  border-radius: 0 0 1em 1em;
+  padding: 1px 1em 4px 1em;
+}
+
+#navWrapper {
+  text-align: center;;
 }
 
 .innerFooter {
@@ -108,7 +121,6 @@ a:active {
 
 .divisor {
   display: block;
-  background-color: #fff;
   border-top: 2px solid #000;
   border-radius: 0;
 }
