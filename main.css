@@ -24,13 +24,19 @@ iframe {                                                                width: 9
   padding: 0 1em 0 1em;
 }
 
+/*
 .footerPlaceHolder {
   height: 150px;
 }
+*/
 
 header, nav {
   font-size: 2em;
   text-align: center;
+}
+
+header {
+  text-shadow: 1px 0 1px black;
 }
 
 .home {
@@ -44,6 +50,7 @@ nav {
   border: 1px solid #000;
   border-radius: 0 0 1em 1em;
   padding: 1px 1em 4px 1em;
+  color: #b44;
 }
 
 #navWrapper {
@@ -60,12 +67,17 @@ nav {
 
 a:active {
   color: black;
+  text-shadow: 2px 2px 4px red;
 } 
 
 .home, .projects, .about {
+  height: 100%;
   text-align: center;
   background-color: #fff;
   border-radius: 1em;
+  overflow-y: scroll;
+  margin: 0 0 40px 0;
+  padding: 0 0 40px 0;
 }
 
 .about > * {
