@@ -19,7 +19,6 @@ iframe {                                                                width: 9
   border-radius: 0;
 }
 
-
 .marginSides {
   padding: 0 1em 0 1em;
 }
@@ -31,7 +30,7 @@ iframe {                                                                width: 9
 */
 
 header, nav {
-  font-size: 2em;
+  font-size: 3em;
   text-align: center;
 }
 
@@ -79,6 +78,10 @@ a:active {
   overflow-y: scroll;
   margin: 0 0 40px 0;
   padding: 0 0 40px 0;
+}
+
+.home {
+  height: 900px;
 }
 
 .about > * {

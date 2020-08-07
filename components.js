@@ -46,17 +46,6 @@ Vue.component('developer-description', {
 Vue.component('developer-info', {
   template: `
 <section id="developerProfile">
-<article id="name">
-Name: {{name}}
-</article>
-
-<article id="surname">
-Surname: {{surname}}
-</article>
-
-<article id="alias">
-Alias: {{alias}}
-</article>
 
 <article id="birthdate">
 Birthdate: {{birthdate}}
@@ -65,13 +54,22 @@ Birthdate: {{birthdate}}
 <article id="country">
 Country: {{country}}
 </article>
+
+<article id="emailLink">
+Email: <a href="mailto:manuelvarelacaldas@gmail.com">Send Email</a>
+</article>
+
+<article id="twitterLink">
+Twitter: <a href="https://twitter.com/xsstringmanolo">@XSStringManolo</a>
+</article>
+
+<article id="githubLink">
+Github: <a href="https://github.com">StringManolo</a>
+</article>
 </section>
 `,
   data: function() {
     return {
-      name: "Manuel Ángel",
-      surname: "Varela Caldas",
-      alias: "StringManolo",
       birthdate: "22/10/1993",
       country: "Spain"
     }
