@@ -1,0 +1,75 @@
+html, body {
+  margin: 0 2% 0 2%; /* Remove default margin */
+  width: auto; /* Remember the use of all available space */
+}
+
+header {
+  background-color: #ff0; /* Set header background yellow */
+  display: flex; /* Use flex */
+  justify-content: space-between; /* Title left and button right */
+  margin: 0 2% 4% 2%; /* Sides margin & bottom aestetic margin */
+  padding: 0 2% 0 2%; /* Aestetic padding */
+  width: auto; /* Use 100% of available space */
+  border-radius: 4%; /* Unsharp borders */
+}
+
+header > h1, header > a {
+  margin: 0 0 0 0; /* Remove default h1 margin from header title */
+  font-size: 2em; /* Set font size the double of reading size */
+  text-decoration: none; /* Remove <a> underline */
+  color: #333; /* Set text color to black */
+  outline: none; /* Remove outerborder on click */
+  -webkit-tap-highlight-color: transparent; /* Remove blue box on click */
+  
+}
+
+
+nav > div {
+  display: flex;
+  flex-flow: column nowrap;
+  text-align: center;
+  width: auto;
+}
+
+.imageLink {
+  border: 1px solid #333;
+  background-color: #333;
+  color: #00f;
+  font-size: 5em;
+  text-decoration: none;
+  margin: 4% 2% 0 2%;
+  padding: 4% 0 0 0;
+  fill: #fff;
+  stroke: #fff;
+}
+
+.textLink {
+  border: 1px solid #333;
+  color: #333;
+  margin: 0 2% 0 2%;
+  font-size: 2em;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+#icon_article_newspaper {
+  stroke: #333;
+  fill: #fff;
+}
+
+.fillBlack {
+  fill: #333;
+  stroke: #333;
+}
+
+#icon_news {
+  fill: #fff
+}
+
+#icon_news_container {
+  text-align: center;
+}
+
+nav {
+  display: none;
+}

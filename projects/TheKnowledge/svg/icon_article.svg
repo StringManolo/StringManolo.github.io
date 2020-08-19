@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg version="1.1" class="icon_article" xmlns="http://www.w3.org/2000/svg" width="80" height="80">
+  <title>Article Icon</title>
+  <g>
+  <path id="icon_article_newspaper" d="M0 5 L80 0 L80 75 L0 80 L0 5" fill="#fff" stroke="#333" />
+  <path id="icon_article_fake_top_image1" d="M3 8 L12 7 L12 16 L3 17" fill="#333" />
+  <path id="icon_article_fake_top_image2" d="M13 7 L22 6 L22 15 L13 16" fill="#333" /> 
+  <path id="icon_article_fake_line_text1" d="M3 22 L78 14 L78 16 L3 24" fill="#333" />
+  <path id="icon_article_fake_line_text2" d="M3 30 L38 26 L38 28 L3 32" fill="#333" />
+  <path id="icon_article_fake_line_text3" d="M3 38 L38 34 L38 36 L3 40" fill="#333" />
+  <path id="icon_article_fake_line_text4" d="M3 46 L38 42 L38 44 L3 48" fill="#333" />
+  <path id="icon_article_fake_line_text5" d="M3 54 L78 46 L78 48 L3 56" fill="#333" />
+  <path id="icon_article_fake_center_image1" d="M40 26 L78 21 L78 42 L40 46" fill="#333" />
+  </g>
+  </svg>
