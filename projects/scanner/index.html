@@ -4,10 +4,19 @@
     <meta charset="utf-8">
     <link rel="icon" href="data:;base64,iVBORw0KGgo=">
     <title>My WebPage</title>
+    <style>
+    .xssRed {
+      color: red;
+      background-color: #000;
+    }
+    </style>
   </head>
   <body>
 	  <input type="text" id="url" placeholder="url" value="https://example.com">
     <button type="button" id="urlB">Process</button>
+    <button type="button" id="hSink">Highlight DOM Sinks</button>
+    <resultTags></resultTags>
+    <resultOuter></resultOuter>
     <externalCode></externalCode>
     <script type="module" src="main.js"></script>
   </body>
