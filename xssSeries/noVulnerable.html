@@ -1,0 +1,17 @@
+<html>
+<head>
+<meta charset="utf-8">
+</head>
+<body>
+Esta página no es vulnerable a XSS.
+<input id="noVulnerable" type="password">
+<div id="reflejado"></div>
+<script>
+var nonVuln = document.querySelector("#noVulnerable");
+var refl = document.querySelector("#reflejado");
+nonVuln.addEventListener("input", function() {
+  refl.innerText = nonVuln.value;
+});
+</script>
+</body>
+</html>
