@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+</head>
+<body>Esta página es vulnerable a Dangling Html Injection<br /> 
+<input type="text"><br />
+<button id="b1" type="button">Enviar</button>
+<button id="b2" type="button">Comprobar</button>
+<div id="injectionPoint"></div>
+User Agent:
+<script>document.write(navigator.userAgent);</script>
+<div id="breakpoint"></div>
+
+<script>
+
+
+var iP = document.querySelector("#injectionPoint");
+var input = document.querySelector("input");
+var button1 = document.querySelector("#b1");
+var button2 = document.querySelector("#b2");
+
+iP.innerHTML = (localStorage.payload || 0);
+
+button1.addEventListener("click", function() {
+  localStorage.payload = input.value;
+  iP.innerHTML = input.value;
+});
+
+button2.addEventListener("click", function() {
+  try {
+    alert(iP.outerHTML);
+  } catch (e) {
+    alert(e);
+  }
+  
+  location.reload();
+
+});
+</script>
+</body>
+</html>

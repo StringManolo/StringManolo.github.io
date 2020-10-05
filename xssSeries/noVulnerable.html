@@ -3,8 +3,10 @@
 <meta charset="utf-8">
 </head>
 <body>
-Esta página no es vulnerable a XSS.
-<input id="noVulnerable" type="password">
+<div id="mensaje">Esta página no es vulnerable a XSS.</div>
+<div>Repetidor 2.0</div>
+<div>Este programa repite todo lo que le digas. No es increhíble?</div>
+Escribe aquí -> <input id="noVulnerable" type="password">
 <div id="reflejado"></div>
 <script>
 var nonVuln = document.querySelector("#noVulnerable");
@@ -13,5 +15,17 @@ nonVuln.addEventListener("input", function() {
   refl.innerText = nonVuln.value;
 });
 </script>
+<style>
+div {
+  border-bottom: solid 3px #999;
+  background-color: #ccc;
+}
+
+#mensaje {
+  border: none;
+  margin-bottom: 2em;
+  background-color: #fff;
+}
+</style>
 </body>
 </html>

@@ -3,8 +3,10 @@
 <meta charset="utf-8">
 </head>
 <body>
-Esta página sí es vulnerable a XSS.
-<input id="Vulnerable" type="password">
+<div id="mensaje">Esta página es vulnerable a XSS.</div>
+<div>Repetidor 2.0</div>
+<div>Este programa repite todo lo que le digas. No es increhíble?</div>
+Escribe aquí -> <input id="Vulnerable" type="password">
 <div id="reflejado"></div>
 <script>
 var vuln = document.querySelector("#Vulnerable");
@@ -16,5 +18,17 @@ vuln.addEventListener("input", function() {
   } catch(er) { "nada" }
 });
 </script>
+<style>
+div {
+  border-bottom: solid 3px #999;
+  background-color: #ccc;
+}
+
+#mensaje {
+  border: none;
+  margin-bottom: 2em;
+  background-color: #fff
+}
+</style>
 </body>
 </html>

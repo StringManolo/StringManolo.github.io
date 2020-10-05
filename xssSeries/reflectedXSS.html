@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+</head>
+<body>
+<div id="mensaje">Esta página es vulnerable a reflected XSS</div>
+<main>
+<header><span class="rojo">G</span><span class="azul">OO</span><span class="verde">L</span><span class="rojo">G</span><span class="amarillo">E</span></header>
+<div id="goolge">
+<input type"text" id="goolgeSearchLeft" disabled><input type="text" id="goolgeSearch" placeholder="Busca o escribe una dirección"><input type"text" id="goolgeSearchRigth" disabled>
+</div>
+<div id="respuesta">
+
+</div>
+</main>
+<script>
+var resp = document.querySelector("#respuesta");
+var input = document.querySelector("#goolgeSearch");
+
+
+input.addEventListener("input", search);
+
+function search() {
+  try {
+    window.location = window.location.toString().split("#")[0] + `#/search?q=${input.value}`;
+  } catch(er) { alert(er)}
+	setTimeout(function(){resp.innerHTML = `No se han encontrado resultados para ${input.value}`;}, 1000);
+}
+
+(function detectInitialUrl() {
+  if(window.location.hash) {
+    input.value = window.location.hash.substr(1).split("#")[0].split("search?q=")[1];
+    search();
+  }
+})();
+
+window.addEventListener("popstate", function(e) {
+  if(window.location.hash) {                                   input.value = window.location.hash.substr(1).split("#")[0].split("search?q=")[1];
+    /* search(); */
+  }
+});
+
+</script>
+
+<style>
+#mensaje {
+  margin-bottom: 2em;
+}
+
+main {
+  text-align: center;
+}
+
+#goolgeSearch, #goolgeSearchLeft, #goolgeSearchRigth {
+  border: none;
+  background-color: #cecece;
+  outline: none;
+  margin: 0;
+  padding: 0;
+  display: inline; 
+}
+
+#goolgeSearchLeft {
+  border-radius: 100% 0 0 100%;
+  width: 10px;
+  border-right: none;
+}
+
+#goolgeSearchRigth {
+  border-radius: 0 100% 100% 0;
+  width: 10px;
+  border-left: none;
+}
+
+
+#goolge {
+  padding: 0 0 0 0;
+  margin: 0 0 0 0;
+}
+
+header {
+  font-size: 2.3em;
+  margin: 1em 0 6px 0;
+}
+
+.rojo {
+  color: red;
+}
+
+.azul {
+  color: blue;
+}
+
+.verde {
+  color: green;
+}
+
+.amarillo {
+  color: yellow;
+}
+</style>
+</body>
+</html>

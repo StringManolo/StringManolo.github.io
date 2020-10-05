@@ -1,0 +1,87 @@
+<html>
+<head>
+<meta charset="utf-8">
+</head>
+<body>
+<div id="mensaje">
+Esta página es vulnerable a Stored XSS.<br />
+</div>
+<header style="background-color:green">Bankonline Web Segura.</header>
+<main>
+<div>Regístra Nueva Cuenta:<br />
+<form>
+Usuario:<input id="noVulnerable" type="text" required><br />
+Contraseña:<input type="password" required><br />
+<button type="button" id="boton">Registrar</button> 
+<button type="button" id="borrar">Borrar</button>
+</form> 
+</div>
+<div class="left"><a href="#recarga" onclick="location.reload()">Tienes problemas?</a></div>
+</main>
+<div id="reflejado"></div>
+<script>
+var payload = (localStorage.payload || 0);
+var nonVuln = document.querySelector("#noVulnerable");
+var refl = document.querySelector("#reflejado");
+var boton = document.querySelector("#boton");
+var botonBorrarCuenta = document.querySelector("#borrar");
+
+if (payload) {
+  document.querySelector("body")
+	refl.innerHTML = `Bienvenido <span style="color:red">${localStorage.payload}</span> cuanto tiempo!<br />
+  Tu saldo es de <span style="color:green">1450$</span>.`;
+} else {
+  refl.innerHTML = `Registrate para ver tu saldo.`; 
+} 
+
+boton.addEventListener("click", function() {
+  if (!payload) {
+    localStorage.payload = nonVuln.value; 
+    refl.innerHTML = `Gracias por registrarte, danos un tiempo para crear tu cuenta.`;
+  }
+});
+
+botonBorrarCuenta.addEventListener("click", function() {
+  localStorage.payload = "";
+  location.reload();
+});
+</script>
+<style>
+body {
+  margin: 0 0 0 0;
+  padding: 0 0 0 0;
+}
+
+svg, img {
+  background-color: #333;
+}
+
+main {
+  text-align: center;
+  background-color: #eee;
+  margin 0;
+  padding: 2em;
+} 
+
+#mensaje {
+  background-color: #fff;
+  margin: 1em;
+}
+
+header {
+  font-size: 2em;
+  text-align: center;
+  color: #eee;
+  padding: 10px;
+}
+
+form > *, #reflejado {
+  margin: 8px;
+}
+
+.left {
+  text-align: left;
+}
+</style>
+</body>
+</html>
