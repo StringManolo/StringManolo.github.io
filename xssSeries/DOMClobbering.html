@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+</head>
+<body>
+Esta página es vulnerable a DOM Clobbering.<br />
+
+<a id=librarySecureLogin
+<a id=librarySecureLogin name=cat1PNG href=https://stringmanolo.ga/xssSeries/hacked.png>
+
+<script>
+
+librarySecureLogin = (librarySecureLogin || {});
+var image = document.createElement('img');
+image.src = librarySecureLogin.cat1PNG;
+document.body.appendChild(image);
+
+</script>
+</body>
+</html>
