@@ -6,8 +6,7 @@
 <body>Esta página es vulnerable a Dangling Html Injection<br /> 
 <input type="text"><br />
 <button id="b1" type="button">Enviar</button>
-<p>
-I'm really scared to get hacked so i banned a lot of tags and attributes i think can be dangerous.<br />
+<p>I'm really scared to get hacked so i banned a lot of tags and attributes i think can be dangerous.<br />
 Yes, images are dangerous. Sorry about that.</p>
 
 
@@ -19,17 +18,25 @@ var button1 = document.querySelector("#b1");
 var sCo = "<" + "!" + "--";
 var eCo = "--" + ">";
 
+if(location.hash.substring(1)) {
+  funcionality();
+}
+
 button1.addEventListener("click", function() {
+  funcionality();
+});
+
+function funcionality() {
   let secretCookie = Math.random().toString(36).substring(7);
 
-  var docuTemplate = `<div id="injectionPoint">${antiXSS(input.value)}</div> Secret Cookie (unique for each user):${secretCookie}<div id="breakpoint"></div>`;
+  var inputUrl = location.hash.substring(1);
+
+  var docuTemplate = `<div id="injectionPoint">${antiXSS((inputUrl || input.value))}</div> Secret Cookie (unique for each user):${secretCookie}<div id="breakpoint"></div>`;
 
   var div = document.createElement("div");
   div.innerHTML = docuTemplate;
   document.body.appendChild(div);
-});
-
-var docuTemplate = `<div id="injectionPoint">${thePayload}</div>Secret Info:${navigator.userAgent}<div id="breakpoint"></div>`;
+}
 
 
 function antiXSS(input) {
