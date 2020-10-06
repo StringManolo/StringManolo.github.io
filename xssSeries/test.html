@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+</head>
+<body>Esta página es vulnerable a Dangling Html Injection<br /> 
+<input type="text"><br />
+<button id="b1" type="button">Enviar</button>
+<p>
+I'm really scared to get hacked so i banned a lot of tags and attributes i think can be dangerous.<br />
+Yes, images are dangerous. Sorry about that.</p>
+
+
+<script>
+
+var input = document.querySelector("input");
+var button1 = document.querySelector("#b1");
+
+var sCo = "<" + "!" + "--";
+var eCo = "--" + ">";
+
+button1.addEventListener("click", function() {
+  let secretCookie = Math.random().toString(36).substring(7);
+
+  var docuTemplate = `<div id="injectionPoint">${antiXSS(input.value)}</div> Secret Cookie (unique for each user):${secretCookie}<div id="breakpoint"></div>`;
+
+  var div = document.createElement("div");
+  div.innerHTML = docuTemplate;
+  document.body.appendChild(div);
+});
+
+var docuTemplate = `<div id="injectionPoint">${thePayload}</div>Secret Info:${navigator.userAgent}<div id="breakpoint"></div>`;
+
+
+function antiXSS(input) {
+
+var htmlT = htmlTags();
+var htmlA = htmlAttributes();
+var output = input;
+
+  for(var i = 0; i < htmlT.length; ++i) {
+    output = output.replace(new RegExp(htmlT[i], "gim"), " dangerous_tag ");
+  }
+
+  for(var i = 0; i < htmlA.length; ++i) {
+    output = output.replace(new RegExp(htmlA[i], "gim"), " dangerous_attribute ");
+  }
+  
+  return output;
+
+function htmlTags() { 
+  var safe = ["head","/head","body","/body","script","/script","style","/style","code","/code","data","/data","form","/form","frame","/frame",
+"frameset","/frameset","iframe","/iframe",
+"img","/img","link","/link","noframes","/noframes",
+"noscript","/noscript","svg","/svg","video",
+"/video","wbr","/wbr","wbr /"];
+
+  var completeTags = [];
+  for (var i = 0; i < safe.length; ++i) {
+    completeTags.push("<" + safe[i] + ">");
+  }
+  return safe;
+}
+
+function htmlAttributes() { 
+  return ["accept","accept-charset", "accesskey","action","align","alt","async","autocomplete","autofocus",
+"autoplay","bgcolor","border","charset","checked","cite",
+"class","color","cols","colspan","content",
+"contenteditable","controls","coords","data","datetime",
+"default","defer","dir","dirname","disabled","download",
+"draggable","dropzone","enctype","for","form","formaction",
+"headers","height","hidden","high",
+"hreflang","http-equiv","id","ismap","kind",
+"label","lang","list","loop","low","max",
+"maxlength","media","method","min","multiple","muted","novalidate","onabort","onafterprint",
+"onbeforeprint","onbeforeunload","onblur","oncanplay","oncanplaythrough",
+"onchange","onclick","oncontextmenu","oncopy","oncuechange","oncut",
+"ondblclick","ondrag","ondragend","ondragenter","ondragleave",
+"ondragover","ondragstart","ondrop","ondurationchange","onemptied","onended",
+"onerror","onfocus","onhashchange","oninput","oninvalid","onkeydown",
+"onkeypress","onkeyup","onload","onloadeddata","onloadedmetadata","onloadstart","onmousedown","onmousemove",
+"onmouseout","onmouseover","onmouseup","onmousewheel","onoffline",
+"ononline","onpagehide","onpageshow","onpaste","onpause",
+"onplay","onplaying","onpopstate","onprogress","onratechange","onreset",
+"onresize","onscroll","onsearch","onseeked","onseeking","onselect","onstalled",
+"onstorage","onsubmit","onsuspend","onetimeupdate","ontoggle","onunload","onvolumechange","onwaiting",
+"onwheel","open","optimum","pattern","placeholder","poster","preload",
+"readonly","rel","required","reversed","rows","rowspan","sandbox",
+"scope","selected","shape","size","sizes","spellcheck","src",
+"srcdoc","srclang","srcset","start","step","tabindex",
+"target","translate","type","usemap","value","width",
+"wrap"];
+  }
+
+
+}
+
+</script>
+</body>
+</html>
