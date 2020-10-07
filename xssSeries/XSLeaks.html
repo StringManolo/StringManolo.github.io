@@ -34,7 +34,7 @@ PeticionPOST(url, function(resp) {
   document.body.appendChild(iframe);
 try {
   var e = document.createEvent("MouseEvents");
-  e.initEvent("click",!0,!0),iframe.dispatchEvent(o);
+  e.initEvent("click",!0,!0),iframe.dispatchEvent(e);
   iframe.click();
 } catch(err) {
   alert(err);
