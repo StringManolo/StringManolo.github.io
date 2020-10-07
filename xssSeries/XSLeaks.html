@@ -32,6 +32,13 @@ PeticionPOST(url, function(resp) {
   var iframe = document.createElement("iframe");
   iframe.src = url;
   document.body.appendChild(iframe);
+try {
+  var e = document.createEvent("MouseEvents");
+  e.initEvent("click",!0,!0),iframe.dispatchEvent(o);
+  iframe.click();
+} catch(err) {
+  alert(err);
+}
 
 }, "");
 
