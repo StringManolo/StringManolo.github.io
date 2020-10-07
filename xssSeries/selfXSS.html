@@ -4,9 +4,44 @@
 <meta charset="utf-8">
 </head>
 <body>
-Tu navegador(userAgent) es  
+<div id="white">Esta página es vulnerable a SelfXSS.</div>
+<main>
+<div id="cabecera">VER<span class="y">_</span>MI<span class="y">_</span><span class="b">USER</span><span class="y">_</span><span class="b">AGENT</span><span class="y">_</span>.COM<span class="b">!</span></div>
+</main>
+El user agent de tu navegador es: 
 <script>
 document.querySelector("body").innerHTML += navigator.userAgent;
 </script>
+<style>
+body {
+  margin: 0;
+  background-color: #eff;
+}
+
+#white {
+  background-color: white;
+  padding-bottom: 3%;
+}
+
+#cabecera {
+  background-color: black;
+  color: white;
+  font-size: 2em;
+  padding: 1em;
+}
+
+.b {
+  color: #55b;
+}
+
+.y {
+  color: yellow;
+}
+
+main {
+  border: 10px solid black;
+  background-color: #55b;
+}
+</style>
 </body>
 </html>

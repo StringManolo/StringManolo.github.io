@@ -3,11 +3,15 @@
 <head>
 <meta charset="utf-8">
 </head>
-<body>Esta página es vulnerable a Dangling Html Injection<br /> 
+<body>
+<div id="mensaje">Esta página es vulnerable a Dangling Html Injection</div>
+
+<div id="cabecera">Share Your Text Free!</div>
 <input type="text"><br />
-<button id="b1" type="button">Enviar</button>
-<p>I'm really scared to get hacked so i banned a lot of tags and attributes i think can be dangerous.<br />
-Yes, images are dangerous. Sorry about that.</p>
+<button id="b1" type="button">Send</button>
+<p>I'm really scared to get hacked again by J0hn_D03.<br />
+I banned a lot of tags and attributes i think can be dangerous.<br />
+Yes, images are dangerous, didn't knew. Sorry about that.</p>
 
 
 <script>
@@ -102,5 +106,25 @@ function htmlAttributes() {
 }
 
 </script>
+<style>
+body {
+  text-size-adjust: none;
+  margin: 0;
+  background-color: pink;
+  color: black;
+  text-align: center;
+}
+
+#mensaje {
+  background-color: white;
+  padding-bottom: 3%;
+  margin-bottom: 6%;
+  text-align: left;
+}
+
+#cabecera {
+  font-size: 2em;
+}
+</style>
 </body>
 </html>

@@ -70,23 +70,55 @@ localStorage.payload = antiXSS(decodeURIComponent(location.hash.substr(1)))
 </script>
 </head>
 <body>
-Esta página es vulnerable a DOM Clobbering.<br />
+<div id="mensaje">Esta página es vulnerable a DOM Clobbering.</div>
 
 <div id="injectionPoint"><script>document.write(localStorage.payload)</script></div>
+<main>
+<h1>Fast Framework</h1>
+Wed Oct 07 2020 15:37:28 GMT+0200 (hora de verano de Europa central)
 
+<div class="myMenu">
+<mymenu><section><article id="mainMenu"><a href="#home">HOME</a>
+<a href="#repo">REPO</a>
+<a href="#blog">BLOG</a>
+<a href="#spa">SPA</a></article></section></mymenu>
+</div>
 
-<script>
+<style>
+body {
+  margin: 0;
+  background-color: #333;
+  color: #bbb;
+}
+
+myMenu a {
+  display: flex;
+  color: mediumSlateBlue;
+  font-size: 3em;
+}
+
+#mensaje {
+  margin: 0 0 2% 0;
+  padding: 0 0 3% 0;
+  background-color: white;
+  color: black;
+}
+
+</style>
+<script type="module" src="https://fastframework.ga/main.js"></script>
+
+</main>
+
+<script>/* Código Vulnerable */
 var sScript = "<scri" + "pt>";
 var eScript = "</scr" + "ipt>";
 
 document.write(`
 ${sScript}
-  alert(document.querySelector("#injectionPoint").outerHTML);
   librarySecureLogin = (window.librarySecureLogin || {});
   var image = document.createElement('img');
   image.src = librarySecureLogin.login4PNG;
   document.body.appendChild(image);
-  alert(img.src);
 ${eScript}`);
 </script>
 </body>
