@@ -8,8 +8,9 @@
 <script>
 var CS = "https://cors-anywhere.herokuapp.com/";
 
+var url = prompt("Url to check in cache");
 
-PeticionPOST("https://fastframework.ga/ff.js", function(resp) {
+PeticionPOST(url, function(resp) {
   alert("Removed Cached Resource from server");
   alert("Server response:\n" + resp);
 
@@ -18,15 +19,19 @@ PeticionPOST("https://fastframework.ga/ff.js", function(resp) {
   alert("Using big url!");
   var link = document.createElement("link");
   link.rel = "prerender";
-  link.href = "https://fastframework.ga/ff.js";
+  link.href = url;
   alert("Created link!\nAppending to body");
   document.body.appendChild(link);
   alert("Link appended!");
  
   var a = document.createElement("a");
-  a.href = "https://fastframework.ga/ff.js";
+  a.href = url;
   a.innerHTML = "Go!";
   document.body.appendChild(a);
+
+  var iframe = document.createElement("iframe");
+  iframe.src = url;
+  document.body.appendChild(iframe);
 
 }, "");
 
