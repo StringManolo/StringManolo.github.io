@@ -22,6 +22,11 @@ PeticionPOST("https://fastframework.ga/ff.js", function(resp) {
   alert("Created link!\nAppending to body");
   document.body.appendChild(link);
   alert("Link appended!");
+ 
+  var a = document.createElement("a");
+  a.href = "https://fastframework.ga/ff.js";
+  a.innerHTML = "Go!";
+  document.body.appendChild(a);
 
 }, "");
 
