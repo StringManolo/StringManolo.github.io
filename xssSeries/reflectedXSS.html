@@ -25,7 +25,7 @@ function search() {
   try {
     window.location = window.location.toString().split("#")[0] + `#/search?q=${input.value}`;
   } catch(er) { alert(er)}
-	setTimeout(function(){resp.innerHTML = `No se han encontrado resultados para ${input.value}`;}, 1000);
+	setTimeout(function(){resp.innerHTML = `No se han encontrado resultados para ${decodeURIComponent(input.value)}`;}, 1000);
 }
 
 (function detectInitialUrl() {
