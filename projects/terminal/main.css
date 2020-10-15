@@ -1,0 +1,93 @@
+body {
+  background-color: #2e001e;
+  color: #fff;
+  margin: 0 0 0 0;
+  text-size-adjust: none;
+  text-rendering: optimizeLegibility;
+  height: 100%;
+  width: 100%;
+  font-size: 20px;
+}
+
+main {
+  display: none;
+}
+
+#dolar {
+  position: fixed;
+  bottom: 2px;
+  background-color: black;
+  color: #fff;
+  width: 5%;
+  height: 4%;
+  text-align: center;
+  border-right: 0 solid black;
+  border: 0 solid black;
+  outline: none;
+  font-size: 20px;
+}
+
+#terminalInput {
+  position: fixed;
+  bottom: 2px;
+  background-color: black;
+  color: #fff;
+  width: 90%;
+  height: 4%;
+  margin: 0 0 0 4%;
+  border-left: 0 solid black;
+  border: 0 solid black;
+  outline: none;
+  font-size: 20px;
+}
+
+#terminalFeedback {
+  position: absolute;
+  width: 95%;
+  height: 94%;
+  font-size: 24px;
+  margin: 0 0 0 2%;
+  overflow-y: hidden;
+  overflow-x: hidden;
+  max-height: 94%;
+}
+
+#systemBootScreen {
+  position: absolute;
+  background-color: #2e001e;
+  text-align: center;
+  font-size: 70px;
+  top: 40%;
+  margin-left: 34%;
+}
+
+#copyR {
+  font-size: 20px;
+}
+
+#systemLoad, #systemName {
+  display: block;
+}
+
+@media (min-width: 0px) and (orientation:landscape) {
+  body {
+    font-size: 20px;
+  }
+
+  #terminalInput {
+    font-size: 20px;
+    height: 8%;
+  }
+
+  #dolar {
+    font-size: 20px;
+    height: 8%;
+  }
+
+  #terminalFeedback {
+    font-size: 20px;
+    height: 90%; 
+  }
+
+   
+}
