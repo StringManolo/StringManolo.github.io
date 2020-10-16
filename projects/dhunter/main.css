@@ -1,0 +1,48 @@
+body {
+  margin: 0 0 0 0;
+  text-size-adjust: none;
+  text-rendering: optimizeSpeed; 
+}
+
+.title {
+  text-align: center;
+  font-size: 80px;
+}
+
+input, button {
+  width: 94%;
+  height: 10%;
+  margin: 0 0 0 0;
+}
+
+button {
+  margin: 0 4px 0 4px; 
+  width: 99%;
+}
+
+input {
+  border: 0 solid #fff;
+  font-size: 26px;
+  outline: none;
+}
+
+.group {
+  margin: 3px 4px 0 4px;
+  font-size: 24px;
+  border: 1px solid #000;
+}
+
+#logs {
+  width: 96%;
+  height: 200px;
+  font-size: 18px;
+  color: black;
+}
+
+#twohundred {
+  width: 96%;
+  height: 200px;
+  font-size: 18px;
+  color: green;
+}
+
