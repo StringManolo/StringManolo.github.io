@@ -5,6 +5,7 @@ ff.defineShortcut("_", alert);
 
 
 ael($("#noti"), "click", () => {
+  _("Asking for permission");
   let promise = Notification.requestPermission();
-})
+});
 
