@@ -1,4 +1,5 @@
 swReg.showNotification("StringManolo", {
-  body: `Your Date Is ${new Date()}`,
+  body: `Hello! xD`,
   icon: './notIcon.png'
 });
+
