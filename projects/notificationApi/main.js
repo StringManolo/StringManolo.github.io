@@ -11,13 +11,13 @@ ael($("#noti"), "click", () => {
   )
   .then(permission => {
     _(`Permission: ${permission}`);
-  /*
+  
     if(permission) {
       let n = new Notification("StringManolo", {
-        body: `Your Date Is ${new.date()}`,
+        body: `Your Date Is ${new Date()}`,
 	icon: './notIcon.png'
       }
-    }*/
+    }
   })
   .catch(error => {
     _(error)
