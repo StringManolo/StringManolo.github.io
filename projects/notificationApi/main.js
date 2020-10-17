@@ -17,9 +17,7 @@ ael($("#noti"), "click", () => {
       let n = new Notification("StringManolo", {
         body: `Your Date Is ${new Date()}`,
 	icon: './notIcon.png'
-      }
-      _(`Showing new notification`);
-      n.showNotification();
+      })
     }
   })
   .catch(error => {
