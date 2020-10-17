@@ -30,7 +30,7 @@ ael($("#noti"), "click", () => {
             .then(ev => {
               /* _(`ev = ${ev}`); */
             });
-          }, 60000);
+          }, 300);
         }).catch(function(error) {
          /* _('Registration failed with ' + error); */
         });
