@@ -6,7 +6,7 @@ ff.defineShortcut("_", alert);
 
 ael($("#noti"), "click", () => {
   _("Code is making custom notification...");
-  let nofication = new Notification("StringManolo", {
+  let notification = new Notification("StringManolo", {
     body: `Your Actual Date Is ${new.date()}`,
     icon: './notiIcon.png'
   });
