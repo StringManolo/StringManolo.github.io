@@ -14,11 +14,13 @@ ael($("#noti"), "click", () => {
     if(permission) {
       let n = new Notification("StringManolo", {
         body: `Your Date Is ${new.date()}`,
-	icon: './notIcon.png';
+	icon: './notIcon.png'
       }
     }
   })
-  
+  .catch(error => {
+    _(error)
+  })
 
 });
 
