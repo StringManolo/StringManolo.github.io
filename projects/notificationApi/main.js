@@ -15,7 +15,7 @@ ael($("#noti"), "click", () => {
     if (permission) {
       if ('serviceWorker' in navigator) {
 	_("New Service worker...");
-        navigator.serviceWorker.register('/serviceworker.js', {
+        navigator.serviceWorker.register('./serviceworker.js', {
           scope: '/projects/notificationApi/'
         })
         .then(function(reg) {
