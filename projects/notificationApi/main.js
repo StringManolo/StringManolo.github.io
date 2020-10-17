@@ -5,17 +5,18 @@ ff.defineShortcut("_", alert);
 
 
 ael($("#noti"), "click", () => {
-  _("Code is making custom notification...");
-  let notification = new Notification("StringManolo", {
-    body: `Your Actual Date Is ${new.date()}`,
-    icon: './notiIcon.png'
-  });
 
   _("Asking for permission");
   Notification.requestPermission(
   )
   .then(permission => {
     _(`Permission: ${permission}`);
+    if(permission) {
+      let n = new Notification("StringManolo", {
+        body: `Your Date Is ${new.date()}`,
+	icon: './notIcon.png';
+      }
+    }
   })
   
 
