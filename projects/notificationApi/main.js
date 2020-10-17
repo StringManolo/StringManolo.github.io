@@ -6,21 +6,21 @@ ff.defineShortcut("_", alert);
 
 ael($("#noti"), "click", () => {
 
-  _("Asking for permission");
+ /* _("Asking for permission"); */
   Notification.requestPermission(
   )
   .then(permission => {
-    _(`Permission: ${permission}`);
+   /*  _(`Permission: ${permission}`); */
   
     if (permission) {
       if ('serviceWorker' in navigator) {
-	_("New Service worker...");
+      /* _("New Service worker..."); */
         navigator.serviceWorker.register('./serviceworker.js', {
           scope: './'
         })
         .then(function(reg) {
           window.swReg = reg;
-          _('registration succeed');
+          /* _('registration succeed'); */
         var i = 0;
           setInterval(() => {
 	    swReg.showNotification(++i + " xD", {
@@ -32,13 +32,13 @@ ael($("#noti"), "click", () => {
             });
           }, 60000);
         }).catch(function(error) {
-          _('Registration failed with ' + error);
+         /* _('Registration failed with ' + error); */
         });
       }
     }
   })
   .catch(error => {
-    _(error)
+    /* _(error) */
   })
 
 });
