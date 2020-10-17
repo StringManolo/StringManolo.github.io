@@ -21,6 +21,16 @@ ael($("#noti"), "click", () => {
         .then(function(reg) {
           window.swReg = reg;
           _('registration succeed');
+        var i = 0;
+          setInterval(() => {
+	    swReg.showNotification(++i + " xD", {
+              body: "La fecha es "+new Date(),
+	      icon: './notiIcon.png'
+	    })
+            .then(ev => {
+              /* _(`ev = ${ev}`); */
+            });
+          }, 300);
         }).catch(function(error) {
           _('Registration failed with ' + error);
         });
