@@ -12,7 +12,7 @@ ael($("#noti"), "click", () => {
   });
 
   _("Asking for permission");
-  notification.requestPermission(
+  Notification.requestPermission(
   )
   .then(permission => {
     _(`Permission: ${permission}`);
