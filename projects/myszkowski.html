@@ -171,8 +171,10 @@ ${(""+grid).replace(/,/g,"\n")}
 }
 
 
-text.value = btoa("I'm hacking the world!I'm hacking the world!I'm hacking the world!I'm hacking the world!I'm hacking the world!");
-key.value = "stringmanolo";
+text.value = `proposed by Émile Victor Théodore Myszkowski in 1902, requires a keyword with recurrent letters. In usual practice, subsequent occurrences of a keyword letter are treated as if the next letter in alphabetical order, e.g., the keyword TOMATO yields a numeric keystring of "532164."
+
+In Myszkowski transposition, recurrent keyword letters are numbered identically, TOMATO yielding a keystring of "432143."`;
+key.value = "stringmanolo is the key!";
 
 start.addEventListener("click", function() {
   let doubleMyszkowski = Myszkowski(Myszkowski(text.value, key.value), key.value);
