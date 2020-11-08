@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Myszkowski - 20th century columnar transposition cipher</title>
+</head>
+<body>
+Myszkowski transposition cipher.<br />
+<input type="text" id="text" placeholder="Your Text"> <br />
+<input type="text" id="key" placeholder="Your key"> <br />
+<button type="button" id="start">Start</button>
+<div id="ciphertext"></div>
+
+<script>
+let text = document.querySelector("#text");
+let key = document.querySelector("#key");
+let cipherText = document.querySelector("#ciphertext");
+let start = document.querySelector("#start");
+
+function Myszkowski(text, key) {
+
+  "alert(`Text size: ${text.length}`);";
+  while( key.length < text.length / 12) {
+    key = btoa(key);
+    key.length - 2;
+  }
+
+
+  "Key to uppercase so i can get alphabetical order";
+  key = key.toUpperCase();
+
+  "plaintext to grid"
+  let grid = [];
+  let re = new RegExp(`.{1,${key.length}}`, "g");
+  grid.push(text.match(re));
+
+
+
+/* REMOVE THIS LINE: */
+  cipherText.innerText += `
+<GRID>
+${(""+grid).replace(/,/g,"\n")}
+</GRID>
+
+`;
+
+
+  "ascii code of each key element";
+  let keyOrder = [];
+  for(i in key) keyOrder.push(key.charCodeAt(i) - 64);
+
+  "get a copy of keyOrder values"
+  let ordKey = [...keyOrder];
+
+  "Same as Math.min(arr) but works with chars and requires a number";
+
+  function getMin(arr) {
+
+    "Check if at least 1 number in array (because i'm replacing numbers by characters so i don't get the same min in loop";
+    let numbers = 0;
+    for (i in arr) {
+      if(typeof(arr[i]) == "number") {
+        numbers = true;
+        break;
+      }
+    }
+
+    "If there is no numbers, don't change value and let recursion end by calling loop";
+    if (!numbers) {
+      return arr;
+    }
+
+    "Get the min from the array";
+    let min = 99999999999;
+    for (i in arr) {
+      if (+arr[i] < min) {
+        min = +arr[i];
+      }
+    }
+    return min;
+  }
+
+  "Replace the min by character in alphabetical order."
+  function replaceMinByChar(character) {
+    let sValue = getMin(ordKey);
+    for (i in ordKey) {
+      if (ordKey[i] == sValue) {
+        ordKey[i] = character;
+      }
+    }
+    return ordKey;
+  }
+
+  "Replace all numbers by alphabetical order";
+  for (let i = 0, a = 65; i < ordKey.length; ++i, ++a) {
+    ordKey = replaceMinByChar(String.fromCharCode(a));
+  }
+
+
+  "ascii code of each key element";
+  let keyValues = [];
+  for(i in ordKey) keyValues.push([...ordKey].join("")[i].charCodeAt(0)-64);
+
+
+
+  "You can delete this block and everything will work just fine"
+  "I add it because i feel it's hardest to get the block size this way when you add a simetric cipher on top."
+
+  "add csprng padding when possible based on plaintext charset"
+/* Currently has a small error i have to fix.
+  if (grid[0][grid[0][0].length].length < key.length) {
+    let missing = key.length - grid[0][grid[0][0].length].length;
+    let charset = (grid[0]+"").replace(/,/g,"");
+      for (let i = 0; i < missing; ++i) {
+        let randArr = new Uint8Array(1);
+        rand = window.crypto.getRandomValues(randArr) % charset.length;
+        grid[0][grid[0][0].length]+= charset[rand];
+      }
+    }
+*/
+
+  "get ocurrences"
+  function getAllIndexes(arr, val) {
+    let indexes = [];
+    for (i in arr) {
+      if (arr[i] == val) {
+        indexes.push(i);
+      }
+    }
+    return (indexes ? indexes : false)
+  }
+
+
+  let indexes = [];
+  let trans = [];
+  for (i in keyValues) {
+    indexes = getAllIndexes(keyValues, i);
+    if (indexes) {
+      if (indexes.length == 1) {
+        "start getting values from start";
+        trans.push(getColumn(indexes, grid[0]))
+      } else {
+        trans.push(getColumns(indexes, grid[0]))
+      }
+    }
+  }
+
+
+  function getColumn(column, grid) {
+    let aux = [];
+    for (i in grid) {
+      aux.push(grid[i][column])
+    }
+    return aux
+  }
+
+
+
+  function getColumns(columns, grid) {
+    let aux = [];
+    for (i in grid) {
+      for (j in columns) {
+        aux.push(grid[i][columns[j]])
+      }
+    }
+    return aux;
+  }
+
+'alert(`Res size: ${(""+trans).replace(/,/g,"").length}`);'
+  return (""+trans).replace(/,/g,"");
+}
+
+
+text.value = btoa("I'm hacking the world!I'm hacking the world!I'm hacking the world!I'm hacking the world!I'm hacking the world!");
+key.value = "stringmanolo";
+
+start.addEventListener("click", function() {
+  let doubleMyszkowski = Myszkowski(Myszkowski(text.value, key.value), key.value);
+
+  cipherText.innerText += "RES:" + doubleMyszkowski;
+});
+
+
+</script>
+</body>
+</html>
