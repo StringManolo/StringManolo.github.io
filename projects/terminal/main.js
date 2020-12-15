@@ -25,6 +25,9 @@ ael( $("#terminalInput"), "keydown", e => {
 
     let span2 = document.createElement("span");
     span2.innerText = system( aux.replace(new RegExp("▊", "g"), "") );
+    if (aux.replace(new RegExp("▊", "g"), "") == "rpg") {
+      alert("Rpg started!");
+    }
 
     $("#terminalFeedback").appendChild(span2);
     span2.scrollIntoView();
@@ -45,8 +48,17 @@ function system(param) {
     case "pwd":
       return `\n/example/`;
 
-    case "":
-      return "";
+    case "rpg":
+      return `
+
+          [ Rpg 1.0 ]
+
+    1. New Game
+    2. Continue
+    3. Options
+
+    0. Exit
+      `;
 
     default:
       return `\nbash: ${param}: command not found`; 
