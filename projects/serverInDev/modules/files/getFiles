@@ -1,0 +1,10 @@
+const fs = require("fs");
+exports.getFiles = (dir, files_) => {
+    files_ = files_ || [];
+    let files = fs.readdirSync(dir);
+    for (let i in files) {
+      let name = dir + (dir[dir.length] == "/" ? "" : "/") + files[i];
+      fs.statSync(name).isDirectory() ? exports.getFiles(name, files_) : files_.push(name);
+    }
+    return files_;
+}

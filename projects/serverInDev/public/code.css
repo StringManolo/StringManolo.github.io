@@ -1,0 +1,17 @@
+body {
+  margin: 0 0 0 0; /* Remove ugly left side border */
+  text-size-adjust: none; /* Fix Android Big Text */
+  text-rendering: optimizeLegibility; /* Improve text */
+}
+
+@media (min-width: 0px) and (orientation:landscape) {
+  body {
+    font-size: 1.1vw;
+  }
+}
+
+/*html {
+    font-family: 'Oxygen', serif;
+  } */
+
+  

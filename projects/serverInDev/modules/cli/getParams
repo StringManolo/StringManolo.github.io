@@ -1,0 +1,15 @@
+exports.getParams = () => {
+
+  const params = process.argv.splice(2);
+  let aux = {};
+  for (let i in params) {
+    if (params[i].substr(0, 1) == "-") {
+      if(params[i].substr(0, 2) == "--") {
+        aux[params[i].substring(2)] = params[+i+1];
+      } else {
+        aux[params[i].substring(1)] = params[+i+1];
+      }
+    }
+  }
+  return aux;
+}
