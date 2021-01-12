@@ -114,13 +114,19 @@ let obtenerHoraPorPais = pais => {
 
 let process = (text, username, chatId) => {
   let response = "";
+
+  let start = false;
+  if (text == "/start") {
+    start = true;
+  }
+
   if (text.substr(0,1) == "/") {
     let aux = obtenerHoraPorPais(text.substring(1));
     if (!aux) {
       return;
     }
    
-
+    console.log(`El usuario ${username} pidio ${text}`);
     response = `Hola ${username}, el pais ${text.substring(1)} tiene ${aux.length} uso/s horario/s.`;
     for (let i in aux) {
       response += `\n\n${aux[i].timezone}: ${aux[i].hora}:${aux[i].minuto}:${aux[i].segundo}\nLa diferencia horaria es de ${aux[i].offset} horas`;
@@ -133,6 +139,10 @@ let process = (text, username, chatId) => {
   }
 
   if (response) {
+    if (start) {
+      response = "Escribe /pais para ver la hora.\nPor ejemplo /spain";
+    }
+    console.log(`Respuesta: ${response}\n`);
     let aux = `https://api.telegram.org/bot${cli.token}/sendMessage?chat_id=${chatId}&text=${encodeURIComponent(response)}`;
     run(`curl "${aux}" --silent`);
   } 
@@ -160,10 +170,14 @@ let borrarMensajesApi = () => {
 }
 
 borrarMensajesApi();
+console.log("Bot process end");
 }
 
 /* Corre el bot cada 10 segundos */
+let i = 0;
 for (;;) {
+  console.log(`Running bot ${++i}`);
   bot();
-  os.sleep(10 * 1000);
+  os.sleep(60 * 1000);
+
 }
