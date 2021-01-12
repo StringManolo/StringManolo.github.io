@@ -12,12 +12,12 @@ let run = command => {
   return msg;
 }
 
-let cli = {};                                              for (let i in scriptArgs) {
+let cli = {};
+for (let i in scriptArgs) {
   switch(scriptArgs[i]) {
     case "-t":
     case "--token":
       cli.token = scriptArgs[+i + +1];
-      console.log(`Token: ${cli.token}`);
     break;
 
     case "-s":
@@ -38,10 +38,6 @@ let bot = () => {
 let api = run(`curl https://api.telegram.org/bot${cli.token}/getUpdates --silent`);
 
 let apiJson = JSON.parse(api);
-/*console.log(`API: ${api}`);
-console.log(`JSON: ${apiJson}`);
-console.log(`Formated JSON: ${JSON.stringify(apiJson, null, 3)}`);*/
-
 
 if (apiJson.ok !== true) {
   throw `Telegram Api Returning An Error:
@@ -63,12 +59,8 @@ let obtenerHoraPorPais = pais => {
   let zonasUsuario = [];
 
   for (let i in jsonTimezones) {
-    //console.log(`Name: ${jsonTimezones[i].name}`);
     if (new RegExp(pais, "gi").test(jsonTimezones[i].name)) {
       let usos = jsonTimezones[i].timezones;
-      console.log(`Los timezones para ${pais} son ${usos}`);
-      console.log(jsonTimezones[i].name);
-
       zonasUsuario = jsonTimezones[i].timezones;
 
     }
@@ -81,7 +73,7 @@ let obtenerHoraPorPais = pais => {
         if (new RegExp(zonasUsuario[i], "gi").test(jsonTimezones2[j].utc[k])) {
           tz.push({
             timezone: jsonTimezones2[j].utc[k],
-            offset: jsonTimezones2[j].offset
+            offset: +jsonTimezones2[j].offset - 1
           });
         }
       }
@@ -97,17 +89,9 @@ let obtenerHoraPorPais = pais => {
 
 
   if (tiempo.hora == 0) {
-    tiempo.hora = 22;
-  } else if (tiempo.hora == 1) {
     tiempo.hora = 23;
   } else {
-    tiempo.hora -= 2;
-  }
-
-  if ((tiempo.hora + 1) == 25) {
-    tiempo.hora = 1;
-  } else {
-    tiempo.hora + 1;
+    tiempo.hora -= 1;
   }
 
   let tiempoActual = {};
@@ -131,19 +115,18 @@ let obtenerHoraPorPais = pais => {
 let process = (text, username, chatId) => {
   let response = "";
   if (text.substr(0,1) == "/") {
-    //console.log(text.substring(1));
     let aux = obtenerHoraPorPais(text.substring(1));
     if (!aux) {
       return;
     }
-
+   
 
     response = `Hola ${username}, el pais ${text.substring(1)} tiene ${aux.length} uso/s horario/s.`;
     for (let i in aux) {
       response += `\n\n${aux[i].timezone}: ${aux[i].hora}:${aux[i].minuto}:${aux[i].segundo}\nLa diferencia horaria es de ${aux[i].offset} horas`;
     }
 
-    response += `\n\n\nLa fecha utc es ${new Date().getUTCDate()}`;
+    response += `\n\n\nLa Hora internacional es ${new Date().getUTCHours()}`;
     if (!obtenerHoraPorPais(text.substring(1))) {
       response = false;
     }
@@ -152,13 +135,13 @@ let process = (text, username, chatId) => {
   if (response) {
     let aux = `https://api.telegram.org/bot${cli.token}/sendMessage?chat_id=${chatId}&text=${encodeURIComponent(response)}`;
     run(`curl "${aux}" --silent`);
-  }
+  } 
 }
 
 
 let lastId = 0;
 for (let i in apiJson.result) {
-  if (apiJson.result[i].message &&
+  if (apiJson.result[i].message && 
   apiJson.result[i].message.text &&
   apiJson.result[i].update_id &&
   apiJson.result[i].message.from.username &&
