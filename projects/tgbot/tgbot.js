@@ -162,7 +162,6 @@ borrarMensajesApi();
 cli.v && console.log("Bot process end");
 }
 
-/* Corre el bot cada 10 segundos */
 let i = 0;
 for (;;) {
   cli.v && console.log(`Running bot for the ${++i}° time.`);
