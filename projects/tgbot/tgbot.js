@@ -53,7 +53,7 @@ usage: qjs tgbot.js [options]
 Examples:
 qjs tgbot.js -t 192829292:iqidkwiexampleunvalidtokeniwjwusjwis -s -v
 
-qjs tgbot.kz -l -v
+qjs tgbot.js -l -v
 
 qjsc -o ctgbot tgbot.js && cp tgbot ~/../usr/bin/
 tgbot -l -w 2 -v
