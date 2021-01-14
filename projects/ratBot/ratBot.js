@@ -6,7 +6,8 @@ let run = command => {
   msg = "",
   r = "";
 
-  while(( r = p.getline() ) != null) {                         msg += r + "\n";
+  while(( r = p.getline() ) != null) {
+    msg += r + "\n";
   }
   return msg;
 }
@@ -16,9 +17,11 @@ cli.COLORS = {
   RED: "\x1b[31m",
   RESET: "\x1b[0m",
   YELLOW:"\x1b[33m",
-  BLUE: "\x1b[34m",                                          GREEN: "\x1b[32m"
+  BLUE: "\x1b[34m",
+  GREEN: "\x1b[32m"
 };
-                                                           let javascriptBotFunctions = `import * as std from "std";
+
+let javascriptBotFunctions = `import * as std from "std";
 import * as os from "os";
 
 let run = command => {
@@ -64,7 +67,7 @@ usage: qjs tgbot [options]
   -l  --load             Use the saved token to start the bot.
   -h  --help             This message.
   -p  --password         Password to log from Telegram.
-  -v  --verbose          Show basic feedback to the command line interface.
+  -v  --verbose          Show basic feedback to the command line interface. 
   -w  --wait             Bot delay in seconds. (Can process multiple messages at once, so you don't need a really low number to don't fallback).
 
 Examples:
@@ -80,7 +83,7 @@ ctgbot -l -w 2 -v
     case "--password":
       cli.password = scriptArgs[+i + +1];
     break;
-
+		  
     case "-v":
     case "--verbose":
       cli.v = true;;
@@ -139,11 +142,11 @@ let process = (text, username, chatId) => {
       cli.v && console.log(`${username} requested login previously`);
       userRequestedLogin = true;
       if (cli.password == text) {
-        cli.v && console.log(`password match pushing user to loggedInUsersList`);
+	cli.v && console.log(`password match pushing user to loggedInUsersList`);
         loggedInUsers.push(username);
-        response = "Estás loggeado.";
+	response = "Estás loggeado.";
       } else {
-        cli.v && console.log(`${text} is not the password`);
+	cli.v && console.log(`${text} is not the password`);
         response = "Contraseña incorrecta";
       }
     }
@@ -159,41 +162,41 @@ let process = (text, username, chatId) => {
   if (!userRequestedLogin) {
     for (let i in loggedInUsers) {
       if (username == loggedInUsers[i]) {
-        userLogged = true;
+        userLogged = true; 
       }
     }
 
-
+    
     /* Process commands */
     if (text.substr(0,1) == "/") {
       let recv = text.substring(1).toLowerCase();
       if (userLogged) {
         cli.v && console.log(`Acceso a comandos especiales permitido para ${username}`);
         if (recv == "help") {
-          response = "Comandos Disponibles Para Usuario Loggeado:\n/help muestra este mensaje\n/run comando corre el comando en bash\n/js corre el código javascript en un motor quickjs\n/shutdown detiene permanentemente el bot";
-        } else if (recv.substr(0, 3) == "run") {
-          cli.v && console.log(`Running command $ ${text.substring(4)}`);
-          response = run(text.substring(4));
+	  response = "Comandos Disponibles Para Usuario Loggeado:\n/help muestra este mensaje\n/run comando corre el comando en bash\n/js corre el código javascript en un motor quickjs\n/shutdown detiene permanentemente el bot";
+	} else if (recv.substr(0, 3) == "run") {
+	  cli.v && console.log(`Running command $ ${text.substring(4)}`);
+          response = run(text.substring(4)); 
         } else if (recv.substr(0, 2) == "js") {
           cli.v && console.log(`Running javascript ${text.substring(3)}`);
-          try {
-            let fd = std.open(".evaling", "w+");
-            fd.puts(`${javascriptBotFunctions}${text.substring(3)}`);
-            fd.close();
+	  try {
+	    let fd = std.open(".evaling", "w+");
+	    fd.puts(`${javascriptBotFunctions}${text.substring(3)}`);
+	    fd.close();
             response = run(`qjs .evaling`);
-          } catch(err) {
+	  } catch(err) {
             response = `Error running the code: ${err}`;
-          }
+	  }
         } else if (recv.substr(0, 8) == "shutdown") {
-          throw "Shutdown order by " + username;
+          throw "Shutdown order by " + username; 	
         }
-      }
+      } 
 
       switch(recv) {
         case "start":
-        case "help":
-          response = "Comandos Disponibles:\n/login loggeate con tu contraseña\n";
-          userLogged && (response += "\nComandos Disponibles Para Usuario Loggeado: /1 /2 /3 ...\n");
+	case "help":
+  	  response = "Comandos Disponibles:\n/login loggeate con tu contraseña\n";
+	  userLogged && (response += "\nComandos Disponibles Para Usuario Loggeado: /1 /2 /3 ...\n");
         break;
 
         case "hola":
@@ -201,16 +204,16 @@ let process = (text, username, chatId) => {
         break;
 
         case "login":
-          cli.v && console.log(`${username} requested login`);
-          response = `Escribe tu contraseña por privado`;
+	  cli.v && console.log(`${username} requested login`);
+	  response = `Escribe tu contraseña por privado`;
           requestedLogin.push(username);
         break;
 
         default:
-          if (!response) {
+	  if (!response) {
             response = `No se que significa ${recv}...`;
-          } else {
-            console.log(`RESP:${response}]`);
+	  } else {
+	    console.log(`RESP:${response}]`);
           }
       }
     }
@@ -221,13 +224,13 @@ let process = (text, username, chatId) => {
     cli.v && console.log(`Respuesta: ${response}\n`);
     let aux = `https://api.telegram.org/bot${cli.token}/sendMessage?chat_id=${chatId}&text=${encodeURIComponent(response)}`;
     run(`curl "${aux}" --silent`);
-  }
+  } 
 }
 
 
 let lastId = 0;
 for (let i in apiJson.result) {
-  if (apiJson.result[i].message &&
+  if (apiJson.result[i].message && 
   apiJson.result[i].message.text &&
   apiJson.result[i].update_id &&
   apiJson.result[i].message.from.username &&
