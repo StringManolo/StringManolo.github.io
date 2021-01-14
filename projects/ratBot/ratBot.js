@@ -172,9 +172,7 @@ let process = (text, username, chatId) => {
       let recv = text.substring(1).toLowerCase();
       if (userLogged) {
         cli.v && console.log(`Acceso a comandos especiales permitido para ${username}`);
-        if (recv == "help") {
-	  response = "Comandos Disponibles Para Usuario Loggeado:\n/help muestra este mensaje\n/run comando corre el comando en bash\n/js corre el código javascript en un motor quickjs\n/shutdown detiene permanentemente el bot";
-	} else if (recv.substr(0, 3) == "run") {
+        if (recv.substr(0, 3) == "run") {
 	  cli.v && console.log(`Running command $ ${text.substring(4)}`);
           response = run(text.substring(4)); 
         } else if (recv.substr(0, 2) == "js") {
@@ -189,14 +187,20 @@ let process = (text, username, chatId) => {
 	  }
         } else if (recv.substr(0, 8) == "shutdown") {
           throw "Shutdown order by " + username; 	
+        } else if (recv.substr(0, 4) == "wait") {
+          cli.wait = +recv.substring(5);
+	  cli.v && console.log("Wait time changed to " + cli.wait);
+	  response = `Changed wait time to ${cli.wait} seconds`;
         }
       } 
 
       switch(recv) {
         case "start":
 	case "help":
-  	  response = "Comandos Disponibles:\n/login loggeate con tu contraseña\n";
-	  userLogged && (response += "\nComandos Disponibles Para Usuario Loggeado: /1 /2 /3 ...\n");
+  	  response = "Comandos Disponibles:\n/login loggeate con tu contraseña\n/help muestra este mensaje\n";
+	  if (userLogged) {
+	    response += "\nComandos Disponibles Para Usuario Loggeado:\n/help muestra este mensaje\n/run comando corre el comando en bash\n/js corre el código javascript en un motor quickjs\n/shutdown detiene permanentemente el bot";
+          }
         break;
 
         case "hola":
