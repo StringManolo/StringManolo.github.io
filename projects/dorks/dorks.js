@@ -201,6 +201,10 @@ else if (cli.publicDocuments) {
   checkResults(run(`lynx --dump 'https://www.google.com/search?q=site:${cli.target}+ext:doc+|+ext:docx+|+ext:odt+|+ext:rtf+|+ext:sxw+|+ext:psw+|+ext:ppt+|+ext:pptx+|+ext:pps+|+ext:csv'`));
 }
 
+else if (cli.pastes) {
+  checkResults(run(`lynx --dump 'https://www.google.com/search?q=${cli.target}+site:pastebin.com+|+site:paste2.org+|+site:pastehtml.com+|+site:slexy.org+|+site:snipplr.com+|+site:snipt.net+|+site:textsnip.com+|+site:bitpaste.app+|+site:justpaste.it+|+site:heypasteit.com+|+site:hastebin.com+|+site:dpaste.org+|+site:dpaste.com+|+site:codepad.org+|+site:jsitor.com+|+site:codepen.io+|+site:jsfiddle.net+|+site:dotnetfiddle.net+|+site:phpfiddle.org+|+site:ide.geeksforgeeks.org+|+site:repl.it+|+site:ideone.com+|+site:paste.debian.net+|+site:paste.org+|+site:paste.org.ru+|+site:codebeautify.org +|+site:codeshare.io+|+site:trello.com'`));
+}
+
 else if (cli.phpErrors) {
   checkResults(run(`lynx --dump 'https://www.google.com/search?q=site:${cli.target}+'"'"'PHP Parse error'"'"'+|+'"'"'PHP Warning'"'"'+|+'"'"'PHP Error'"'"''`));
 }
@@ -218,7 +222,7 @@ else if (cli.sqlErrors) {
 }
 
 else if (cli.stackoverflow) {
-  checkresults(run(`lynx --dump 'https://www.google.com/search?q=${cli.target}+site:stackoverflow.com'`));
+  checkResults(run(`lynx --dump 'https://www.google.com/search?q=${cli.target}+site:stackoverflow.com'`));
 }
 
 else if (cli.view) {
