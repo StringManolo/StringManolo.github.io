@@ -1,0 +1,116 @@
+package com.stringmanolo.elhrecent;
+
+import android.app.Activity;
+import android.os.Bundle;
+import android.webkit.WebView;
+import android.webkit.WebChromeClient;
+import android.webkit.JsResult;
+import android.os.Handler;
+import com.stringmanolo.elhrecent.R;
+
+/* 
+
+Este código ha sido desarrollado y probado en el siguiente entorno:
+
+Sistema: Android.
+
+IDE: Java N-IDE.
+
+Software adicional: Termux/netcat y google chrome.
+
+*/
+
+
+/*
+
+Como funciona? 
+Pones un servidor a la escucha y abres esta aplicación.
+
+Como compilar?
+Debes crear un nuevo proyecto para Android y añadir el codigo.
+
+Este es el MainActivity.java
+
+Añade también el permiso de acceso a internet en el manifest y añade un webview en el activity_main.xml con id navegador
+android:id="@+id/navegador"
+
+*/
+
+public class MainActivity extends Activity {
+  @Override
+  protected void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState); setContentView(R.layout.activity_main);
+
+/* id.navegador definido en activity_main.xml */
+    final WebView Navegador;
+    Navegador = (WebView)findViewById(R.id.navegador);
+   
+/* Habilita javascript */ Navegador.getSettings().setJavaScriptEnabled(true);
+
+/* Utiliza chrome de cliente HTTP. */
+    Navegador.setWebChromeClient(new WebChromeClient() {
+      @Override
+      public boolean onJsAlert(WebView view, String url, String message, JsResult result) {
+/* Habilita el alert */
+        return super.onJsAlert(view, url, message, result);
+      }   
+    });
+
+/* Cambia el userAgent para que no salga el confirm de tapatalk */ Navegador.getSettings().setUserAgentString("Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.149 Safari/537.36");
+    
+/* Carga la página con mensajes recientes del foro. */ Navegador.loadUrl("https://foro.elhacker.net/recent.html");
+
+/* Handler para zumbar el script en el contexto de la página del foro. Con espera asíncrona. */
+    final Handler jsh = new Handler();
+    jsh.postDelayed(new Runnable() {
+      @Override
+      public void run() {
+
+/* Código desglosado:
+
+javascript:
+Pseudoprotocolo. Permite ejecutar el script en el contexto de la página actual.
+
+document.querySelectorAll(\".bordercolor\");
+Obtiene todos los elementos de la página con la clase bordercolor.
+
+tags+=links[i].outerHTML;tags+=\"<p></p>\";
+Obtiene el código de todos los elementos en un string y los separa utilizando etiquetas <p>.
+
+return \"SFRUUC8xLjEgMjAwIE9LDQoNCg==\" +''+btoa(tags);
+En la llamada a la funcion Scrap() retorna un ok status 200 codificado en base64 y codifica a base64 el código de todos los elementos obtenidos de la página.
+
+r.open('GET','http://127.0.0.1:8080/q?codigo='+Scrap(), 1);
+Envia una petición GET a la dirección 127.0.0.1 puerto 8080 el parámetro y en la propia url el retorno de la función Scrap()
+
+*/
+ Navegador.loadUrl("javascript:document.write()");   
+      }
+    }, 3000); /* Esperar X segundos para conexiones lentas. */
+  }
+}
+/* Se debe poner a la escucha previamente un servidor en la dirección y puerto que asignes en el script.
+
+Yo utilizo el siguiente comando:
+
+$ netcat -l -v 127.0.0.1 8080 | grep -Po '(?<=(codigo=)).*(?=HTTP)' | base64 -d > codigoH.html | netcat -l -k 127.0.0.1 8081 < codigoH.html | echo -e "\r\n\r\n\r\n"
+
+Comando desglosado:
+
+netcat -l -v 127.0.0.1 8080 
+Pone a la escucha y logea la actividad en la ip 127.0.0.1 y puerto 8080. Según tu versión de netcat puede cambiar la sintaxis.
+
+| grep -Po '(?<=(codigo=)).*(?=HTTP)'
+Obtiene solo el string entre codigo= y HTTP. Es decir, solo el 200 ok status y el código extraido de la página codificado en base64.
+
+| base64 -d > codigoH.html
+Decodifica de base64 y guarda el stream en un archivo codigoH.html
+
+| netcat -l -k 127.0.0.1 8081 < codigoH.html
+Pone a la escucha el netcat también en la dirección 127.0.0.1 con puerto 8081 y responde con una petición y el contenido html. De esta forma netcat actual de servidor válido para el navegador. Al poner http://127.0.0.1:8081 recibes el código. Según tu navegador puede que necesites preformatear el documento en un html válido y añadirle algunas cabeceras o etiquetas meta para la codificación.
+
+echo -e "\r\n\r\n\r\n"
+Añade el fin de la petición para que el navegador carge la página y rompe el netcat.
+
+*/
+
