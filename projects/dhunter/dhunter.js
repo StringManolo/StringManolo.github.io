@@ -111,7 +111,7 @@ let results = [];
 console.log(`Can take a while. Please wait...`);
 for (let i in dictionary) {
   if (dictionary[i] !== "" && dictionary[i].substr(0,1) !== "#") {
-    if (/200/g.test(run(`curl --silent -I ${cli.target}${encodeURIComponent(dictionary[i])}`).split("\n"))) {
+    if (/200/g.test(run(`curl -X HEAD --silent -I ${cli.target}${encodeURIComponent(dictionary[i])}`).split("\n"))) {
       results.push(`${cli.target}${dictionary[i]}`);
     }
   }
