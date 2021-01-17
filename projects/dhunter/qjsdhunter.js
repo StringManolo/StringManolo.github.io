@@ -108,16 +108,16 @@ Write y to proceed.
 }
 
 let results = [];
-
+console.log(`Can take a while. Please wait...`);
 for (let i in dictionary) {
-  if (dicctionary[i] !== "" && dictionary[i].substr(0,1) !== "#") {
+  if (dictionary[i] !== "" && dictionary[i].substr(0,1) !== "#") {
     if (/200/g.test(run(`curl --silent -I ${cli.target}${dictionary[i]}`).split("\n"))) {
       results.push(`${cli.target}${dictionary[i]}`);
     }
   }
 }
 
-console.log(`${results.length) directories found:
+console.log(`${results.length} directories found:
 ${results}
 `);
 
