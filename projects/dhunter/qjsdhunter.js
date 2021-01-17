@@ -32,6 +32,11 @@ for (let i in scriptArgs) {
     case "--ignore":
       cli.ignore = true;
     break;
+    
+    case "-l":
+    case "--limit":
+      cli.limit = scriptArgs[+i + +1];
+    break;
 
     case "-s":
     case "--separator":
@@ -45,6 +50,7 @@ for (let i in scriptArgs) {
   -t  --target            Full url of the target
   -d  --dictionary        Full url lf dicctionary
   -s  --separator         String separator. Default is newline
+  -l  --limit             Number of words to use. Default all.
   -i  --ignore            Proceed without confirmation.
   -h  --help              This message.
 `);
@@ -75,7 +81,20 @@ try {
 } catch (err) {
   error(err);
 }
-console.log(`Splited finished. Using ${dictionary.length} keywords as subdirectories.`);
+if (!cli.limit) {
+  console.log(`Splited finished. Using ${dictionary.length} keywords as subdirectories.`);
+} else {
+  console.log(`Splited finished. Using ${cli.limit} of ${dictionary.length} keywords as subdirectories.`);
+  if (+cli.limit < dictionary.length) {
+    if (+cli.limit > 0) {
+      dictionary.length = +cli.limit;
+    } else {
+      error(`You can't use ${cli.limit}. Limit argument need to be higher than 0. Makes sense right?`);
+    }
+  }
+
+
+}
 
 if (!cli.ignore) {
   console.log(`Triying first key on host...
@@ -96,6 +115,6 @@ for (let i in dictionary) {
   }
 }
 
-console.log(`Results:
+console.log(`Directories Found:
 ${results}
 `);
