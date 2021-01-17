@@ -110,8 +110,10 @@ Write y to proceed.
 let results = [];
 
 for (let i in dictionary) {
-  if (/200/g.test(run(`curl --silent -I ${cli.target}${dictionary[i]}`).split("\n"))) {
-    results.push(`${cli.target}${dictionary[i]}`);
+  if (dicctionary[i] !== "" && dictionary[i].substr(0,1) !== "#") {
+    if (/200/g.test(run(`curl --silent -I ${cli.target}${dictionary[i]}`).split("\n"))) {
+      results.push(`${cli.target}${dictionary[i]}`);
+    }
   }
 }
 
