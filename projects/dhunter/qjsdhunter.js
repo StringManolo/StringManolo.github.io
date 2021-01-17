@@ -117,6 +117,9 @@ for (let i in dictionary) {
   }
 }
 
-console.log(`Directories Found:
+console.log(`${results.length) directories found:
 ${results}
 `);
+
+console.log(`
+Finished.`);
