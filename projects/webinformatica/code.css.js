@@ -176,7 +176,7 @@ section > article h1 {
     margin: 0 0 ${2*lR}% 0;
     font-size: ${2.15*lR}vw;
   }
-/*
+
   .icon_house {
     left: ${1*lR}%;
     height: ${12*lR}vw;
@@ -211,7 +211,7 @@ section > article h1 {
   img {
     
   }
-*/
+
 }
 `);
 
