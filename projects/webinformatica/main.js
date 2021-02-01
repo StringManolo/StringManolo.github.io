@@ -43,7 +43,7 @@ let loadListAvailableArticles = (path, maxArticles = 10) => {
   .then(data => {
     for (let i in data.list) {
       if (i < maxArticles) {
-        loadArticle(`articles/${data.list[i]}`)
+        loadArticle(`${location.href}/articles/${data.list[i]}`)
       } else {
         break;
       }
@@ -115,10 +115,7 @@ ael($("nav > input"), "input", e => {
 });
 
 
-try {
-  loadListAvailableArticles("/articles/articlesList.json", 10)
-} catch(er) {
-  alert(er);
-}
+
+  loadListAvailableArticles(`${location.href}/articles/articlesList.json`, 10)
     // loadArticle("/articles/termux.json");
 
