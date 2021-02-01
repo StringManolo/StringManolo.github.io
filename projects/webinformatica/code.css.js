@@ -174,8 +174,14 @@ section > article h1 {
 }
 
 @media (min-device-width: 413px) and (max-device-width: 415px) and (min-device-height: 895) and (max-device-height: 897) and (orientation:portrait) {
-  height: ${14*lR}vh; 
-}
+  .icon_house {
+    height: ${13*lR}vh;
+  }
+
+  html {
+    /* debug */
+    color: red;
+  }
 
 @media (min-width: 0px) and (orientation:landscape) {
 
