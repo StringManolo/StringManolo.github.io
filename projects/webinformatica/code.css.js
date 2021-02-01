@@ -88,9 +88,9 @@ header p {
   border-right: 1px solid ${mainColor};
   border-right: 0.9px solid ${mainColor};
   left: ${1*lR}%;
-  height: ${14.5*lR}vh;
+  height: ${14.4*lR}vh;
   width: auto;
-  top: -${0.4*lR}%;
+  top: -${0.1*lR}%;
 }
 
 .icon_house_path {
