@@ -192,7 +192,8 @@ section > article h1 {
   }
 
   nav > input {
-    font-size: ${3*lR}vw
+    /*font-size: ${3*lR}vw;*/
+    font-size: 16px;
   }
 
   nav > input, nav > a {
