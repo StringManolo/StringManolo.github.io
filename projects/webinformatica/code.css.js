@@ -173,14 +173,14 @@ section > article h1 {
   float: right;
 }
 
+.cli {
+  background-color: #000;
+  color: #fff;
+}
 
 @media (min-device-width: 400px) and (max-device-width: 500px) and (orientation:portrait) {
   .icon_house {
     height: ${13*lR}vh;
-  }
-
-  html {
-    background-color: yellow;
   }
 }
 
