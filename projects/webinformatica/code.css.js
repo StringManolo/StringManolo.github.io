@@ -60,7 +60,7 @@ header {
   display: flex;
   justify-content: center;
   border-bottom: 1px solid ${mainColor};
-  margin: 0 0 ${2*pR}% 0;
+  margin: 0 0 ${8*pR}% 0;
   font-size: ${2.15*pR}vw;
 }
 
