@@ -88,6 +88,7 @@ header p {
   border-right: 1px solid ${mainColor};
   left: ${1*pR}%;
   height: ${5*pR}%;
+  width: ${8*pR}%;
   top: ${1*pR}%;
 }
 
@@ -170,7 +171,6 @@ section > article h1 {
   color: ${mainColor};
   float: right;
 }
-
 
 @media (min-width: 0px) and (orientation:landscape) {
 
