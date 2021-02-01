@@ -84,7 +84,8 @@ let loadArticle = path => {
 	  display: pst.display
 	};
 
-	e.target.innerText = "❌";
+	e.target.innerText = "⨉";
+	st.color = mainColor;
         pst.padding = "0";
         pst.paddingLeft = "1%";
         pst.margin = "0";
