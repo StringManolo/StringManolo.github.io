@@ -87,7 +87,7 @@ header p {
   position: absolute;
   border-right: 1px solid ${mainColor};
   left: ${1*pR}%;
-  height: ${9*pR}vw;
+  height: ${5*pR}%;
   top: ${1*pR}%;
 }
 
