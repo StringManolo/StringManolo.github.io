@@ -16,6 +16,7 @@ Element.prototype.add = function(child, retChild) {
 };
 /* End shortcuts */
 
+let originalStyles = {};
 
 ael($("#icon_house_wrapper"), "change", e => {
   if(e.target.checked) {
@@ -73,17 +74,40 @@ let loadArticle = path => {
       let st = e.target.style;
       let pst = e.target.parentNode.style;
       
-      pst.padding = "0";
-      pst.paddingLeft = "1%";
-      pst.margin = "0";
-      pst.width = "98%";
-      pst.border = "none";
-      pst.boxShadow = "none";
-      $$("section > article").forEach(art => art.style.display = "none");
-      $("header").style.display = "none";
-      $("nav").style.display = "none";
-      pst.display = "block";
-      //e.target.parentNode.style.backgroundColor = "green";
+      if (pst.boxShadow != "none") {
+        originalStyles.fullScreen = {
+	  padding: pst.padding,
+	  margin: pst.margin,
+	  width: pst.width,
+	  border: pst.border,
+	  boxShadow: pst.boxShadow,
+	  display: pst.display
+	};
+
+	e.target.innerText = "❌";
+        pst.padding = "0";
+        pst.paddingLeft = "1%";
+        pst.margin = "0";
+        pst.width = "98%";
+        pst.border = "none";
+        pst.boxShadow = "none";
+        $$("section > article").forEach(art => art.style.display = "none");
+        $("header").style.display = "none";
+        $("nav").style.display = "none";
+        pst.display = "block";
+      } else {
+	e.target.innerText = "⛶"; 
+	let os = originalStyles.fullScreen;
+        pst.padding = os.padding;
+        pst.margin = os.margin;
+        pst.width = os.width;
+        pst.border = os.border;
+        pst.boxShadow = os.boxShadow;
+        $$("section > article").forEach(art => art.style.display = "block");
+        $("header").style.display = "flex";
+       // $("nav").style.display = "block";
+       // pst.display = "block";  
+      }
     });
 
     let title = make("h1", { innerText: data.title });
