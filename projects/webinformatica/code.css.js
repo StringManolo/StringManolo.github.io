@@ -206,11 +206,10 @@ section > article h1 {
     padding: ${2.5*lR}%;
     font-size: ${4.4*lR}vw;
   }
-/*
+
   .fullScreenButton {
-    font-size: ${4*5lR}vw;
+    font-size: ${8*lR}vw;
   }
-*/
 
   img {
     
