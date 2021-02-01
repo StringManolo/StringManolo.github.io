@@ -90,7 +90,7 @@ header p {
   left: ${1*lR}%;
   height: ${14.5*lR}vh;
   width: auto;
-  top: -${0.2*lR}%;
+  top: -${0.4*lR}%;
 }
 
 .icon_house_path {
