@@ -148,7 +148,7 @@ section {
 
 main > section > article {
   margin-top: ${2*pR}%;
-  width: 90%;
+  width: 80%;
   border: 0.5px solid #999;
   padding: ${2.5*pR}%;
   border-radius: 10px;
@@ -171,20 +171,17 @@ section > article h1 {
 
 
 @media (min-width: 0px) and (orientation:landscape) {
+
   header {
     margin: 0 0 ${2*lR}% 0;
     font-size: ${2.15*lR}vw;
   }
-
+/*
   .icon_house {
     left: ${1*lR}%;
     height: ${12*lR}vw;
     top: -${2*lR}%;
   }
-
-  /*section > article img {
-    margin-top: 40%;
-  }*/
 
   nav {
     font-size: ${4*lR}vw;
@@ -192,7 +189,7 @@ section > article h1 {
   }
 
   nav > input {
-    /*font-size: ${3*lR}vw;*/
+    font-size: ${3*lR}vw;
     font-size: 18px;
   }
 
@@ -214,7 +211,7 @@ section > article h1 {
   img {
     
   }
-
+*/
 }
 `);
 
