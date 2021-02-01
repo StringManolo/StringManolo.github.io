@@ -62,6 +62,25 @@ let loadArticle = path => {
     let sect = make("section");
     let art = make("article");
 
+    let fullScreen = ael(make("span", { className: "fullScreenButton", innerText: "⛶" }), e => {
+      /* TODO: 
+       * Animate the fullscreen 
+       * Dark mode */
+      let st = e.target.style;
+      let pst = e.target.parentNode.style;
+      
+      pst.padding = "0";
+      pst.paddingLeft = "1%";
+      pst.margin = "0";
+      pst.width = "98%";
+      pst.border = "none";
+      pst.boxShadow = "none";
+      $$("section > article").forEach(art => art.style.display = "none");
+      $("header").style.display = "none";
+      pst.display = "block";
+      //e.target.parentNode.style.backgroundColor = "green";
+    });
+
     let title = make("h1", { innerText: data.title });
     let author = make("span", { innerHTML: data.author });
     let description = make("p", { className: "desc", innerHTML: data.desc });
@@ -91,6 +110,7 @@ let loadArticle = path => {
     $("body > main")
     .add(sect, 1)
     .add(art, 1)
+    .add(fullScreen)
     .add(tags)
     .add(title)
     .add(author)
@@ -113,7 +133,6 @@ ael($("nav > input"), "input", e => {
     }
   });
 });
-
 
 
   loadListAvailableArticles(`${location.href}/articles/articlesList.json`, 10)

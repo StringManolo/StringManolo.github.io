@@ -26,6 +26,8 @@ const rDeg = "450deg";                                                const aDur
 const mainColor = "brown";
 const bgColor = "#fefeff";
 
+const pR = 1; /* Portrait Ratio Used to modify all webpage size from just one place */
+
 css(`
 * {
   -webkit-tap-highlight-color: transparent;
@@ -45,9 +47,8 @@ header {
   display: flex;
   justify-content: center;
   border-bottom: 1px solid ${mainColor};
-  height: 105px;
-  margin: 0 0 10px 0;
-  font-size: 1.3em;
+  margin: 0 0 ${2*pR}% 0;
+  font-size: ${2.15*pR}vw;
 }
 
 header p {
@@ -71,7 +72,7 @@ header p {
 
 .icon_house {
   position: absolute;
-  left: 1%;
+  left: ${1*pR}%;
   border-right: 1px solid ${mainColor};
 }
 
@@ -108,12 +109,12 @@ nav {
   display: none; 
   flex-wrap: wrap;
   flex-direction: column;
-  font-size: 3em;
-  padding-bottom: 3%;
+  font-size: ${4*pR}vw;
+  padding-bottom: ${3*pR}%;
 }
 
 nav > input {
-  font-size: 0.8em;
+  font-size: ${3*pR}vw;
   outline-color: ${mainColor};
 }
 
@@ -123,8 +124,8 @@ nav > a {
 }
 
 nav > input, nav > a {
-  padding-left: 4%;
-  margin-top: 2%;
+  padding-left: ${4*pR}%;
+  margin-top: ${2*pR}%;
 }
 
 section {
@@ -133,13 +134,13 @@ section {
 }
 
 main > section > article {
-  margin-top: 2%;
+  margin-top: ${2*pR}%;
   width: 90%;
   border: 0.5px solid #999;
-  padding: 2%;
+  padding: ${2.5*pR}%;
   border-radius: 10px;
   box-shadow: 2px 0 10px #ccc;
-  font-size: 3em;
+  font-size: ${4.5*pR}vw;
 }
 
 section > article img {
@@ -149,6 +150,16 @@ section > article img {
 section > article h1 {
   display: grid;
 }
-.
+
+.fullScreenButton {
+  color: ${mainColor};
+  float: right;
+}
+
+
+@media (min-width: 0px) and (orientation:landscape) {
+  header {
+    
+  }
 `);
 
