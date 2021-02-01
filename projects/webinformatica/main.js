@@ -114,6 +114,11 @@ ael($("nav > input"), "input", e => {
   });
 });
 
-loadListAvailableArticles("/articles/articlesList.json", 10);
+
+try {
+  loadListAvailableArticles("/articles/articlesList.json", 10)
+} catch(er) {
+  alert(er);
+}
     // loadArticle("/articles/termux.json");
 
