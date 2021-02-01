@@ -179,7 +179,7 @@ section > article h1 {
   .icon_house {
     left: ${1*lR}%;
     height: ${12*lR}vw;
-    top: -${10*lR}%;
+    top: -${2*lR}%;
   }
 
   /*section > article img {
