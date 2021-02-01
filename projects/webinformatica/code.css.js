@@ -173,13 +173,14 @@ section > article h1 {
   float: right;
 }
 
+
 @media (min-device-width: 400px) and (max-device-width: 500px) and (orientation:portrait) {
   .icon_house {
     height: ${13*lR}vh;
   }
 
   html {
-    color: yellow;
+    background-color: yellow;
   }
 }
 
