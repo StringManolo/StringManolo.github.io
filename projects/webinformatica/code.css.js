@@ -28,6 +28,7 @@ const mainColor = "#cd212a"
 const bgColor = "#fefeff";
 
 const pR = 1; /* Portrait Ratio Used to modify all webpage size from just one place */
+const lR = 0.3; /* Landscape Ratio Used to modify all webpage size from just one place */
 
 css(`
 * {
@@ -171,7 +172,44 @@ section > article h1 {
 
 @media (min-width: 0px) and (orientation:landscape) {
   header {
+    margin: 0 0 ${2*lR}% 0;
+    font-size: ${2.15*lR}vw;
+  }
+
+  .icon_house {
+    left: ${1*lR}%;
+    height: ${12*lR}vw;
+    top: -${10*lR}%;
+  }
+
+  /*section > article img {
+    margin-top: 40%;
+  }*/
+
+  nav {
+    font-size: ${4*lR}vw;
+    padding-bottom: ${3*lR}%;
+  }
+
+  nav > input {
+    font-size: ${3*lR}vw
+  }
+
+  nav > input, nav > a {
+    padding-left: ${4*lR}%;
+    margin-top: ${2*lR}%;
+  }
+
+  main > section > article {
+    margin-top: ${2*lR}%;
+    padding: ${2.5*lR}%;
+    font-size: ${4.4*lR}vw;
+  }
+
+  img {
     
   }
+
+}
 `);
 
