@@ -28,7 +28,7 @@ const mainColor = "#cd212a"
 const bgColor = "#fefeff";
 
 const pR = 1; /* Portrait Ratio Used to modify all webpage size from just one place */
-const lR = 0.3; /* Landscape Ratio Used to modify all webpage size from just one place */
+const lR = 0.4; /* Landscape Ratio Used to modify all webpage size from just one place */
 
 css(`
 * {
@@ -193,7 +193,7 @@ section > article h1 {
 
   nav > input {
     /*font-size: ${3*lR}vw;*/
-    font-size: 16px;
+    font-size: 18px;
   }
 
   nav > input, nav > a {
@@ -206,6 +206,11 @@ section > article h1 {
     padding: ${2.5*lR}%;
     font-size: ${4.4*lR}vw;
   }
+/*
+  .fullScreenButton {
+    font-size: ${4*5lR}vw;
+  }
+*/
 
   img {
     
