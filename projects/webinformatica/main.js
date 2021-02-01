@@ -16,6 +16,17 @@ Element.prototype.add = function(child, retChild) {
 };
 /* End shortcuts */
 
+$$("nav > a").forEach(url => {
+  url.href = "javascript:void(0)";
+  ael(url, () => {
+    $("nav > input").value = url.innerText;
+    let evt = new Event("input");
+    $("nav > input").dispatchEvent(evt);
+  });
+});
+
+add($("head"), make("meta", { name: "theme-color", content: mainColor}));
+
 let originalStyles = {};
 
 ael($("#icon_house_wrapper"), "change", e => {
@@ -157,7 +168,11 @@ ael($("nav > input"), "input", e => {
   let search = new RegExp(actualSearch, "gi");
   $$(".tags").forEach( aSpan => {
     if (search.test(aSpan.innerText)) {
-      aSpan.parentNode.style.display = "block";
+      if (actualSearch.length > 0) {
+        aSpan.parentNode.style.display = "block"
+      } else {
+        aSpan.parentNode.style.display = "none";
+      }
     } else {
       aSpan.parentNode.style.display = "none";
     }

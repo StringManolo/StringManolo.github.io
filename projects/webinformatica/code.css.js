@@ -21,9 +21,10 @@ let css = code => add(document.querySelector("head"), make("style", { className:
 
 
 const atf = "ease-out";
-const rDeg = "450deg";                                                const aDur = "100ms";
+const rDeg = "180deg";
+const aDur = "50ms";
 
-const mainColor = "brown";
+const mainColor = "#cd212a"
 const bgColor = "#fefeff";
 
 const pR = 1; /* Portrait Ratio Used to modify all webpage size from just one place */
@@ -31,6 +32,17 @@ const pR = 1; /* Portrait Ratio Used to modify all webpage size from just one pl
 css(`
 * {
   -webkit-tap-highlight-color: transparent;
+}
+
+a {
+  color: 34568b;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+a:visited {
+  color: #6b5b95;
+
 }
 
 body {
