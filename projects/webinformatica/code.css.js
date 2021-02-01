@@ -177,6 +177,10 @@ section > article h1 {
   .icon_house {
     height: ${13*lR}vh;
   }
+
+  html {
+    color: yellow;
+  }
 }
 
 @media (min-width: 0px) and (orientation:landscape) {
