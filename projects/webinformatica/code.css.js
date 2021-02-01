@@ -87,8 +87,8 @@ header p {
   position: absolute;
   border-right: 1px solid ${mainColor};
   border-right: 0.9px solid ${mainColor};
-  left: ${1*lR}%;
-  height: ${14.4*lR}vh;
+  left: ${1.4*lR}%;
+  height: ${14*lR}vh;
   width: auto;
   top: -${0.1*lR}%;
 }
