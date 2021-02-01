@@ -64,8 +64,12 @@ let loadArticle = path => {
 
     let fullScreen = ael(make("span", { className: "fullScreenButton", innerText: "⛶" }), e => {
       /* TODO: 
-       * Animate the fullscreen 
-       * Dark mode */
+       * Animate the fullscreen
+       * Button to back to top.
+       * Share Button.
+       * Urls to load articles when shared.
+       * Dark mode 
+       * */
       let st = e.target.style;
       let pst = e.target.parentNode.style;
       
@@ -77,6 +81,7 @@ let loadArticle = path => {
       pst.boxShadow = "none";
       $$("section > article").forEach(art => art.style.display = "none");
       $("header").style.display = "none";
+      $("nav").style.display = "none";
       pst.display = "block";
       //e.target.parentNode.style.backgroundColor = "green";
     });
