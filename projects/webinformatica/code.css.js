@@ -86,10 +86,11 @@ header p {
 .icon_house {
   position: absolute;
   border-right: 1px solid ${mainColor};
+  border-right: 0.9px solid ${mainColor};
   left: ${1*lR}%;
   height: ${14.5*lR}vh;
   width: auto;
-  top: -${1*lR}%;
+  top: -${0.2*lR}%;
 }
 
 .icon_house_path {
