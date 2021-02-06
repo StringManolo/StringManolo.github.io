@@ -1,0 +1,88 @@
+import * as std from "std";
+import * as os from "os";
+
+let sm = {}
+sm.log = (msg, delay = 0) => {
+  for (let i in msg) {
+    if (delay) {
+      os.sleep(delay)
+    }
+    std.out.puts(msg[i])
+    std.out.flush();
+  }
+}
+
+
+let COLORS = {
+  RED: "\x1b[31m",
+  RESET: "\x1b[0m",
+  YELLOW:"\x1b[33m",
+  BLUE: "\x1b[34m",
+  GREEN: "\x1b[32m"
+};
+
+let checkPass = (usr, pass) => {
+  let x = 1;
+  for(let i in pass) {
+    if(usr[i] != String.fromCharCode(pass[i].toString().charCodeAt(0) - x++)) {
+      return true;
+    }
+  }
+}
+
+
+const vig = std.urlGet("https://stringmanolo.ga/pass").substr(14, 6);
+if (!vig) {
+  console.log("You need internet conexion to hack remote systems. Sorry hacker.");
+  std.exit(1);
+}
+
+
+console.log("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n");
+sm.log("                              ");
+sm.log("Dpñfdubñep", 100);
+sm.log("...\n", 1000);
+
+console.log(`\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n`);
+
+sm.log("                              ");
+sm.log("Dpññfdufe", 100);
+sm.log(".", 50);
+os.sleep(500);
+
+
+console.log(`\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n
+                  ${COLORS.RED}×××××${COLORS.RESET}${COLORS.GREEN}Tfdsfu Ñvdmfbs Qsphsbn${COLORS.RESET}${COLORS.RED}×××××${COLORS.RESET}\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n`);
+
+let usr = "";
+const rateLimit = "3";
+let i = 0;
+do {
+  if (i++ == rateLimit) {
+    sm.log(`\n${COLORS.YELLOW}XBSÑJÑH! JÑUSUVTJPÑ EFUFDUFE${COLORS.YELLOW}`);
+    std.exit(1);
+  }
+  sm.log("> ");
+  usr = std.in.getline();
+} while (checkPass(usr, vig));
+
+
+sm.log("S", 190);
+sm.log("i", 180);
+sm.log("s", 170);
+sm.log("t", 160);
+sm.log("e", 150);
+sm.log("m", 140);
+sm.log("a", 130);
+sm.log(" ", 120);
+sm.log("d", 110);
+sm.log("e", 100);
+sm.log("s", 90);
+sm.log("c", 80);
+sm.log("i", 70);
+sm.log("f", 60);
+sm.log("r", 50);
+sm.log("a", 40);
+sm.log("d", 30);
+sm.log("o", 20);
+sm.log(".", 10);
