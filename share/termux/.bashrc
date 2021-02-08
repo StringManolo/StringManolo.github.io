@@ -3,6 +3,9 @@
 JSENGINE="qjs"
 #JSENGINE="node"
 
+#Run js as defualt when command not found. Comment next line to diable.
+RUNASJSIFERROR="YES"
+
 if [ -x /data/data/com.termux/files/usr/libexec/termux/command-not-found ]; then
 	command_not_found_handle() {
 		if [ "$RUNASJSIFERROR" == "YES" ]
