@@ -1,0 +1,340 @@
+# Bash Shell Extension by @StringManolo
+
+# If not running interactively, don't do anything
+case $- in
+    *i*) ;;
+      *) return;;
+esac
+
+# don't put duplicate lines or lines starting with space in the history.
+HISTCONTROL=ignoreboth
+
+# append to the history file, don't overwrite it
+shopt -s histappend
+# share history between shell sessions
+PROMPT_COMMAND='history -a'
+
+# history length
+HISTSIZE=10000
+HISTFILESIZE=20000
+
+# check the window size after each command and, if necessary,
+# update the values of LINES and COLUMNS.
+shopt -s checkwinsize
+
+# Set enviroment variables
+SMBSE="$HOME/SMBSE"
+SMBSE_BIN="$SMBSE/bin"
+SMBSE_TMP="$SMBSE/.tmp"
+
+# create folders without throwing warnings
+createFolder() {
+  mkdir "$1" 2> /dev/null
+}
+
+createFolder $SMBSE;
+createFolder $SMBSE_BIN;
+createFolder $SMBSE_TMP;
+
+# add custom path to search commands
+addPath() {
+  if [ -d "$1" ] && [[ ":$PATH:" != *":$1:"* ]]; then
+    PATH="${PATH:+"$PATH:"}$1"
+  fi
+}
+
+addPath $SMBSE_BIN;
+
+# Add colors before alias
+alias ls='ls --color=auto'
+alias dir='dir --color=auto'
+alias vdir='vdir --color=auto'
+alias grep='grep --color=auto'
+alias fgrep='fgrep --color=auto'
+alias egrep='egrep --color=auto'
+
+# Import alias from the file
+if [ -f "$SMBSE/alias" ]; then
+  . "$SMBSE/alias";
+else
+  # Create file for alias
+  # touch "$SMBSE/alias" 2>&1 > /dev/null
+
+  # If you want to add alias, do it in the alias file unless -
+  # you actually want to add those alias persistenly.
+  echo '# Alias file.
+
+alias l='"'"'ls'"'"';
+alias la='"'"'ls -a'"'"';
+alias v='"'"'vim'"'"'; # ^X ^E to open command in $EDITOR
+alias c='"'"'clear'"'"' # ^L if you have a command already writen
+alias cl='"'"'clear && ls'"'"'
+alias ..='"'"'cd ..'"'"'
+alias ...='"'"'cd ../..'"'"'
+alias ....='"'"'cd ../../..'"'"'
+alias .....='"'"'cd ../../../..'"'"'
+alias pserv='"'"'python -m http.server'"'"'
+alias gitc='"'"'git clone'"'"'
+alias 775='"'"'chmod +775'"'"'
+alias folder='"'"'du -h --max-depth=1'"'"'
+alias h='"'"'history'"'"'
+alias irc='"'"'weechat'"'"'
+alias myip='"'"'curl http://ifconfig.me/ip'"'"'
+alias quit='"'"'exit'"'"'
+alias q='"'"'exit'"'"'
+alias update='"'"'apt-get update && apt-get upgrade'"'"'
+
+# Functions works the same as aliases:
+
+# Upload to github
+gacp() {
+  git add --all && git commit -m "$1" && git push
+}
+
+# Extracts any archive(s) (if unp isn'"'"'t installed)
+extract () {
+  for archive in $*; do
+    if [ -f $archive ] ; then
+      case $archive in
+        *.tar.bz2) tar xvjf $archive ;;
+        *.tar.gz) tar xvzf $archive ;;
+        *.bz2) bunzip2 $archive ;;
+        *.rar) rar x $archive ;;
+        *.gz) gunzip $archive ;;
+        *.tar) tar xvf $archive ;;
+        *.tbz2) tar xvjf $archive ;;
+        *.tgz) tar xvzf $archive ;;
+        *.zip) unzip $archive ;;
+        *.Z) uncompress $archive ;;
+        *.7z) 7z x $archive ;;
+        *) echo "don'"'"'t know how to extract '"'"'$archive'"'"'..." ;;
+      esac
+    else
+      echo "'"'"'$archive'"'"' is not a valid file!"
+    fi
+  done
+}
+
+  ' > "$SMBSE/alias";
+  . "$SMBSE/alias";
+fi
+
+
+# Import logout from the file
+if [ -f "$SMBSE/logout" ]; then
+  . "$SMBSE/logout";
+else
+  # Create file for logout
+  # touch "$SMBSE/logout" 2>&1 > /dev/null
+  echo 'logout() {
+  echo ${green};
+  clear;
+  typewrite '"'"'Closing shell'"'"' 1;
+  typewrite '"'"'...'"'"' 400;
+  typewrite '"'"'.'"'"' 1000
+  echo ${endc}
+  clear;
+}
+
+trap logout EXIT;' > "$SMBSE/logout";
+  . "$SMBSE/logout";
+fi
+
+
+
+# Set qjs as javascript main engine to run some scripts
+SMBSE_JSENGINE='qjs'
+
+# Test if qjs exists, else download and install it
+testIfJsEngineAvailable() {
+  qjs -q 2>&1 > /dev/null || (echo "Downloading quickjs, wait please..."; curl --silent 'https://bellard.org/quickjs/binary_releases/quickjs-linux-x86_64-2020-11-08.zip' -o "$SMBSE_TMP/qjs_zip_first_install" 2>&1 1> /dev/null && unzip "$SMBSE_TMP/qjs_zip_first_install" -d "$SMBSE_TMP" 2>&1 1> /dev/null && cp "$SMBSE_TMP/qjs" "$SMBSE_BIN/qjs" 2>&1 1> /dev/null && rm -r "$SMBSE_TMP" 2>&1 1> /dev/null && createFolder "$SMBSE_TMP")
+}
+
+testIfJsEngineAvailable;
+
+
+# Set the defualt editor
+export EDITOR='vim'
+
+# Set auto cd
+shopt -s autocd
+
+# define colors
+
+export red=$'\e[1;31m'
+export green=$'\e[1;32m'
+export yellow=$'\e[1;33m'
+export blue=$'\e[1;34m'
+export cyan=$'\e[1;35m'
+export white=$'\e[1;37m'
+export endc=$'\e[0m'
+export lightgray=$'\e[0;37m'
+export black=$'\e[0;30m'
+export darkgray=$'\e[1;30m'
+export darkred=$'\e[0;31m'
+export darkgreen=$'\e[0;32m'
+export brown=$'\e[0;33m'
+export darkblue=$'\e[0;34m'
+export magenta=$'\e[0;35m'
+export darkcyan=$'\e[0;36m'
+export underlinedarkgray=$'\e[0;30m'
+
+# Custom Console
+PS1='\n\n${underlinedarkgray}${darkgray}(${blue}$(date +%H${darkgray}:${blue}%M${darkgray}:${blue}%S${darkgray}:${blue}%4N)${darkgray}) ${green}$(pwd)${endc}\n> '
+
+#PS1='\n\n[${blue}$(date +%H${endc}:${blue}%M${endc}:${blue}%S${endc}:${blue}%4N)${endc}] ${green}$(pwd)${endc}\n${blue}>${endc} '
+PS2='${blue}.${endc}  '
+
+# Extra binaries file
+if [ -f "$SMBSE/extras" ]; then
+  . "$SMBSE/extras";
+else
+  echo '# This file have some extra binaries that dosn'"'"'t fit into /bin
+
+# Run javascript using js command
+echo '"'"'import * as std from "std";
+import * as os from "os";
+
+let run = command => {
+  let p = std.popen(command, "r"),
+  msg = "",
+  r = "";
+  while(( r = p.getline() ) != null) {
+    msg += r + "\n";
+  }
+  return msg;
+}
+
+let javascriptFunctions = `import * as std from "std";
+import * as os from "os";
+
+let run = command => {
+  let p = std.popen(command, "r"),
+  msg = "",
+  r = "";
+  while(( r = p.getline() ) != null) {
+    msg += r + "\\n";
+  }
+  return msg;
+}
+`;
+
+let result ="";
+try {
+  let fd = std.open(".internalJsEvaling", "w+");
+  fd.puts(`${javascriptFunctions}${scriptArgs.splice(1,1)}`);
+  fd.close();
+  result = run(`qjs .internalJsEvaling 2>&1`);
+  run("rm .internalJsEvaling");
+
+} catch(err) {
+  result = `Error running the code: ${err}`;
+}
+
+console.log(result);'"'"' > "$SMBSE_BIN/.js";
+js() {
+  qjs "$SMBSE_BIN/.js" "$1";
+}
+
+
+
+# Enable typewriter effect
+
+echo '"'"'import * as std from "std";
+import * as os from "os";
+
+let sm = {};
+sm.log = (msg, delay = 100) => {
+  for (let i in msg) {
+    if (delay) {
+      os.sleep(delay)
+    }
+  std.out.puts(msg[i]);
+  std.out.flush();
+  }
+}
+
+sm.log(scriptArgs[1], scriptArgs[2]);
+
+'"'"' > "$SMBSE_BIN/.typewrite.js";
+typewrite() {
+  qjs "$SMBSE_BIN/.typewrite.js" "$1" "$2";
+}' > "$SMBSE/extras";
+  . "$SMBSE/extras";
+fi
+
+# Custom Welcome Msg
+if [ -f "$SMBSE/motd" ]; then
+  if [ -f "$PREFIX/etc/motd" ]; then
+    cp "$PREFIX/etc/motd" "$PREFIX/etc/motd~" 2>&1 > /dev/null && rm "$PREFIX/etc/motd" 2>&1 > /dev/null;
+  fi
+  . "$SMBSE/motd"
+  SMBSE_FUNCTION_MOTD;
+else
+  # If you want to edit the welcome message, change the generated motd file.
+  echo '# This file is the function outputing the welcome message.
+
+SMBSE_FUNCTION_MOTD() {
+  echo "
+
+
+
+
+
+      ${green}.------------------------------------------------------.${endc}
+      ${green}¦                                                      ¦${endc}
+      ${green}¦${endc}     Welcome to Linux ${blue}SMBSE${endc} edition!                  ${green}¦${endc}
+      ¦                                                      ${green}¦${endc}
+      ¦     This version include:                            ${green}¦${endc}
+      ¦      - Extra packages     - Predefined Alias         ¦
+      ¦      - Custom Settings    - Programming Languages    ¦
+      ¦                                                      |
+      ¦     Extra packages:                                  |
+      ¦      - Logger                                        ¦
+      ¦                                                      ¦
+      ¦     Predefined Alias:                                ¦
+      ¦      * c:   clear         * ..:    cd ..             ¦
+      ¦      * l:   ls            * ...:   cd ../..          ¦
+      ¦      * v:   vim           * ....:  cd ../../..       ¦
+      ¦                                                      ¦
+      ¦     Custom Settings:                                 ¦
+      ¦      - Extended History Length    - Autocd           ¦
+      ¦      - Auto colors                - Custom PS1       ¦
+      ¦                                                      ¦
+      ¦     Programming Languages:                           ¦
+      ¦                                                      ¦
+      ¦     $ js '"'"'console.log(new Date())'"'"';                  ¦
+      ¦                                                      ¦"
+    #.------------------------------------------------------."
+  typewrite '"'"'      .------------------------------------------------------.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+'"'"' 5;
+
+}' > "$SMBSE/motd";
+  . "$SMBSE/motd";
+  SMBSE_FUNCTION_MOTD;
+fi
+
+
+ # Color for manpages
+   export LESS_TERMCAP_mb=${green};
+   export LESS_TERMCAP_md=${green};
+   # export LESS_TERMCAP_me=${white};
+   # export LESS_TERMCAP_se=${blue};
+   # export LESS_TERMCAP_so=${blue};
