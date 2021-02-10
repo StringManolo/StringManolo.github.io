@@ -26,10 +26,13 @@ shopt -s checkwinsize
 SMBSE="$HOME/SMBSE"
 SMBSE_BIN="$SMBSE/bin"
 SMBSE_TMP="$SMBSE/.tmp"
+SMBSE_VERSION="0.1"
+export SMBSE_VERSION_LONG="SMBSE $SMBSE_VERSION"
+export SMBSE_BASH_VERSION="$(help | head -n 1)";
 
-# create folders without throwing warnings
+# create folders without warnings
 createFolder() {
-  mkdir "$1" 2> /dev/null
+  [ ! -d "$1" ] && mkdir "$1";
 }
 
 createFolder $SMBSE;
@@ -44,6 +47,8 @@ addPath() {
 }
 
 addPath $SMBSE_BIN;
+
+# term true color
 
 # Add colors before alias
 alias ls='ls --color=auto'
@@ -82,17 +87,44 @@ alias irc='"'"'weechat'"'"'
 alias myip='"'"'curl http://ifconfig.me/ip'"'"'
 alias quit='"'"'exit'"'"'
 alias q='"'"'exit'"'"'
+alias sb='"'"'source ~/.bashrc'"'"'
 alias update='"'"'apt-get update && apt-get upgrade'"'"'
+alias gacp='"'"'SMBSEGACP'"'"'
+alias @help='"'"'SMBSEHELP'"'"'
+alias sysinfo='"'"'SMBSESYSINFO'"'"'
 
 # Functions works the same as aliases:
 
+# Help message.  Change by js runnable.
+SMBSEHELP() {
+  echo "$(help | head -n 1) $SMBSE_VERSION_LONG";
+  echo '"'"'These shell commands are defined internally.  Type `@help` to see this list.
+Type `@help name` to find out more about the function `name`.'"'"'
+} 
+# alias @help='"'"'SMBSEHELP'"'"';
+
 # Upload to github
-gacp() {
+SMBSEGACP() {
   git add --all && git commit -m "$1" && git push
+} 
+
+# Show system information
+SMBSESYSINFO() {
+  echo '"'"'.------------------------------------------------.
+  OS: '"'"'$(uname -o)'"'"'
+  Ker.V: '"'"'$(uname -r)'"'"'
+  CPU: '"'"'$(js '"'"'let obj = JSON.parse(run("lscpu --json")).lscpu;
+  for (let i in obj) {                                                     if(/model name/gi.test(obj[i].field)) {
+    console.log(obj[i].data);
+  }
+}'"'"') '"'"'
+
+.------------------------------------------------.'"'"'
 }
 
+
 # Extracts any archive(s) (if unp isn'"'"'t installed)
-extract () {
+extract() {
   for archive in $*; do
     if [ -f $archive ] ; then
       case $archive in
