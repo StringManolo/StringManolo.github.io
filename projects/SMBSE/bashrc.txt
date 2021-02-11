@@ -110,7 +110,7 @@ SMBSEGACP() {
 
 # Show system information
 SMBSESYSINFO() {
-  echo '"'"'.------------------ LINUX -----------------------.
+  echo '"'"'.------------------- LINUX ----------------------.
   SMBSE Version:         '"'"'$(echo "$SMBSE_VERSION")'"'"'
   Operative System:      '"'"'$(uname -o)'"'"'
   Kernel Version:        '"'"'$(uname -r)'"'"'
@@ -173,9 +173,15 @@ for (let i in memory) {
 
 '"'"'
   if [ -f "/system/bin/getprop" ]; then 
-    echo '"'"'.----------------- ANDROID ----------------------.'"'"'
-    js '"'"'let apn = run("/system/bin/getprop | grep default.apn");
+    echo '"'"'.------------------- ANDROID --------------------.'"'"'
+    js '"'"'let apn = run("/system/bin/getprop | grep default.apn | head -n 1");
     let baseband = run("/system/bin/getprop | grep version.baseband | head -n 1");
+    let networkType = run("/system/bin/getprop | grep network.type | head -n 1");
+    let operatorAlpha = run("/system/bin/getprop | grep operator.alpha | head -n 1");
+    let ril = run("/system/bin/getprop | grep version.ril | head -n 1");
+    let hostname = run("/system/bin/getprop | grep net.hostname | head -n 1")
+    let dns1 = run("/system/bin/getprop | grep .dns1 | head -n 1");
+    let dns2 = run("/system/bin/getprop | grep .dns2 | head -n 1");
     if (apn) {
       console.log(`  APN:                   ${apn.split(":")[1]
 	.replaceAll("[", "")
@@ -184,10 +190,62 @@ for (let i in memory) {
 	.replaceAll("\n", "")
       }`);
     } if (baseband) {
-      console.log(`  BASEBAND:              ${baseband.split(":")[1]
+      let basebandParsed = baseband.split(":")[1]
         .replaceAll("[", "")
         .replaceAll(" ", "")
         .replaceAll("]", "")
+	.replaceAll("\n", "");
+      let bbs = basebandParsed.split(",");
+      if (bbs.length > 1) {
+	if (bbs[0] === bbs[1]) {
+	  console.log(`  Baseband:              ${bbs[0]}`);
+	}
+      } else {
+        console.log(`  Baseband:              ${basebandParsed}`);
+      }
+    } if (networkType) {
+      console.log(`  Network Type:          ${networkType.split(":")[1]
+        .replaceAll("[", "")
+	.replaceAll(" ", "")
+	.replaceAll("]", "")
+	.replaceAll(/unknown,/gi, "")
+	.replaceAll("\n", "")
+      }`);
+    } if (operatorAlpha) {
+      let opAlphaParsed = operatorAlpha.split(":")[1];
+      opAlphaParsed = (opAlphaParsed.substr(2,1) == "," ? opAlphaParsed.substring(3) : opAlphaParsed);
+      console.log(`  Operator:              ${opAlphaParsed
+        .replaceAll("[", "")
+        .replaceAll(" ", "")
+        .replaceAll("]", "")
+        .replaceAll("\n", "")
+      }`);
+    } if (ril) {
+      console.log(`  RIL(radio):            ${ril.split(":")[1]
+        .replaceAll("[", "")
+	.replace(" ", "")
+	.replaceAll("]", "")
+	.replaceAll("\n", "")
+      }`);
+    } if (hostname) {
+      console.log(`  Hostname:              ${hostname.split(":")[1]
+        .replaceAll("[", "")
+	.replace(" ", "")
+	.replaceAll("]", "")
+	.replaceAll("\n", "")
+      }`);
+    } if (dns1) { 
+      console.log(`  DNS1:                  ${dns1.split(":")[1]
+        .replaceAll("[", "")
+	.replace(" ", "")
+	.replaceAll("]", "")
+	.replaceAll("\n", "")
+      }`);
+    } if (dns2) {
+      console.log(`  DNS2:                  ${dns2.split(":")[1]
+        .replaceAll("[", "")
+	.replace(" ", "")
+	.replaceAll("]", "")
 	.replaceAll("\n", "")
       }`);
     }
