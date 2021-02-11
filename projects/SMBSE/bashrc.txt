@@ -190,10 +190,18 @@ for (let i in memory) {
     secPatch = run("/system/bin/getprop | grep version.security_patch | head -n 1"),
     verInc = run("/system/bin/getprop | grep version.incre | head -n 1"),
     sdkMinVer = run("/system/bin/getprop | grep version.min_supported_target_sdk | head -n 1"),
-    sdkVer = run("/system/bin/getprop | grep version.sdk | head -n 1");
+    sdkVer = run("/system/bin/getprop | grep version.sdk | head -n 1"),
+    model = run("/system/bin/getprop | grep .marketing_name | head -n 1");
 
     /* TODO: replace .replaces by a function to reduce code size. */
-    if (verInc) {
+    if (model) {
+      console.log(`  Model:                 ${model.split(":").splice(1).toString()
+        .replaceAll("[", "")
+	.replace(" ", "")
+	.replaceAll("]", "")
+	.replaceAll("\n", "")
+      }`);
+    } if (verInc) {
       console.log(`  Version:               ${verInc.split(":").splice(1).toString()
         .replaceAll("[", "")
 	.replace(" ", "")
