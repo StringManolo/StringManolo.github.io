@@ -377,8 +377,8 @@ else
   echo ${green};
   clear;
   typewrite '"'"'Closing shell'"'"' 1;
-  typewrite '"'"'...'"'"' 400;
-  typewrite '"'"'.'"'"' 1000
+  typewrite '"'"'..'"'"' 180;
+  typewrite '"'"'.'"'"' 300;
   echo ${endc}
   clear;
 }
