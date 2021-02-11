@@ -186,10 +186,21 @@ for (let i in memory) {
     timezone = run("/system/bin/getprop | grep .timezone | head -n 1"),
     boardname = run("/system/bin/getprop | grep .boardname | head -n 1"),
     boardPlatform = run("/system/bin/getprop | grep .platform | head -n 1"),
-    buildDate = run("/system/bin/getprop | grep build.date | head -n 1");
+    buildDate = run("/system/bin/getprop | grep build.date | head -n 1"),
+    secPatch = run("/system/bin/getprop | grep version.security_patch | head -n 1"),
+    verInc = run("/system/bin/getprop | grep version.incre | head -n 1"),
+    sdkMinVer = run("/system/bin/getprop | grep version.min_supported_target_sdk | head -n 1"),
+    sdkVer = run("/system/bin/getprop | grep version.sdk | head -n 1");
 
     /* TODO: replace .replaces by a function to reduce code size. */
-    if (apn) {
+    if (verInc) {
+      console.log(`  Version:               ${verInc.split(":").splice(1).toString()
+        .replaceAll("[", "")
+	.replace(" ", "")
+	.replaceAll("]", "")
+	.replaceAll("\n", "")
+      }`);
+    }  if (apn) {
       console.log(`  APN:                   ${apn.split(":").splice(1).toString()
 	.replaceAll("[", "")
 	.replaceAll(" ","")
@@ -284,13 +295,35 @@ for (let i in memory) {
 	.replaceAll("\n", "")
       }`);
     } if (buildDate) {
-    console.log(`  Build Date:            ${buildDate.split(":").splice(1).toString()
+      console.log(`  Build Date:            ${buildDate.split(":").splice(1).toString()
         .replaceAll("[", "")
 	.replace(" ", "")
 	.replaceAll("]", "")
 	.replaceAll("\n", "")
       }`);
-    }
+    } if (secPatch) {
+      console.log(`  Security Patch:        ${secPatch.split(":").splice(1).toString()
+        .replaceAll("[", "")
+	.replace(" ", "")
+	.replaceAll("]", "")
+	.replaceAll("\n", "")
+      }`);
+    } if (sdkVer) {
+      console.log(`  SDK Ver:               ${sdkVer.split(":").splice(1).toString()
+        .replaceAll("[", "")
+        .replace(" ", "")
+        .replaceAll("]", "")
+        .replaceAll("\n", "")
+      }`);
+    } if (sdkMinVer) {
+      console.log(`  SDK Min-Ver:           ${sdkMinVer.split(":").splice(1).toString()
+        .replaceAll("[", "")
+	.replace(" ", "")
+	.replaceAll("]", "")
+	.replaceAll("\n", "")
+      }`);
+    } 
+
 
 '"'"'
   fi
