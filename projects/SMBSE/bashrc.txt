@@ -110,16 +110,90 @@ SMBSEGACP() {
 
 # Show system information
 SMBSESYSINFO() {
-  echo '"'"'.------------------------------------------------.
-  OS: '"'"'$(uname -o)'"'"'
-  Ker.V: '"'"'$(uname -r)'"'"'
-  CPU: '"'"'$(js '"'"'let obj = JSON.parse(run("lscpu --json")).lscpu;
+  echo '"'"'.------------------ LINUX -----------------------.
+  SMBSE Version:         '"'"'$(echo "$SMBSE_VERSION")'"'"'
+  Operative System:      '"'"'$(uname -o)'"'"'
+  Kernel Version:        '"'"'$(uname -r)'"'"'
+  CPU:                   '"'"'$(js '"'"'let obj = JSON.parse(run("lscpu --json")).lscpu;
   for (let i in obj) {                                                     if(/model name/gi.test(obj[i].field)) {
     console.log(obj[i].data);
   }
 }'"'"') '"'"'
+  Architecture:          '"'"'$(js '"'"'let obj = JSON.parse(run("lscpu --json")).lscpu;
+  for (let i in obj) {                                                     if(/architecture/gi.test(obj[i].field)) {
+    console.log(obj[i].data);
+  }
+}'"'"') '"'"' 
+  Vendor:                '"'"'$(js '"'"'let obj = JSON.parse(run("lscpu --json")).lscpu;
+  for (let i in obj) {                                                     if(/vendor/gi.test(obj[i].field)) {
+    console.log(obj[i].data);
+  }
+}'"'"') '"'"'
+  CPU MAX MHz:           '"'"'$(js '"'"'let obj = JSON.parse(run("lscpu --json")).lscpu;
+  for (let i in obj) {                                                     if(/max mhz/gi.test(obj[i].field)) {
+    console.log(obj[i].data);
+  }
+}'"'"') '"'"'
+  CPU MIN MHz:           '"'"'$(js '"'"'let obj = JSON.parse(run("lscpu --json")).lscpu;
+  for (let i in obj) {                                                     if(/min mhz/gi.test(obj[i].field)) {
+    console.log(obj[i].data);
+  }
+}'"'"') '"'"'
+  CPU Operation:         '"'"'$(js '"'"'let obj = JSON.parse(run("lscpu --json")).lscpu;
+  for (let i in obj) {                                                     if(/cpu op/gi.test(obj[i].field)) {
+    console.log(obj[i].data);
+  }
+}'"'"') '"'"'
+  CPU Cores:             '"'"'$(js '"'"'let obj = JSON.parse(run("lscpu --json")).lscpu;
+  for (let i in obj) {                                                     if(/CPU\(S\)\:/gi.test(obj[i].field)) {
+    console.log(obj[i].data);
+  }
+}'"'"') '"'"'
+  RAM Total:             '"'"'$(js '"'"'const memory = run("cat /proc/meminfo").split("\n");
+for (let i in memory) {
+  if(/memtotal/gi.test(memory[i])) {
+    while(/  /.test(memory[i])) {
+      memory[i] = memory[i].replaceAll("  ", " ");
+    }
+      console.log((+memory[i].split(" ")[1] / 1024 / 1024).toString().substr(0, 5));
+  }
+}'"'"') '"'"'
+  RAM Available:         '"'"'$(js '"'"'const memory = run("cat /proc/meminfo").split("\n");
+for (let i in memory) {
+  if(/memavailable/gi.test(memory[i])) {
+    while(/  /.test(memory[i])) {
+      memory[i] = memory[i].replaceAll("  ", " ");
+    }
+      console.log((+memory[i].split(" ")[1] / 1024 / 1024).toString().substr(0, 5));
+  }
+}'"'"') '"'"'
+  Packages Installed:    '"'"'$(apt list --installed 2> /dev/null | wc -l)'"'"'
+  Packages Upgradable:   '"'"'$(apt list --upgradable 2> /dev/null | wc -l)'"'"'
+  System Started:        '"'"'$(uptime -s)'"'"'
 
-.------------------------------------------------.'"'"'
+'"'"'
+  if [ -f "/system/bin/getprop" ]; then 
+    echo '"'"'.----------------- ANDROID ----------------------.'"'"'
+    js '"'"'let apn = run("/system/bin/getprop | grep default.apn");
+    let baseband = run("/system/bin/getprop | grep version.baseband | head -n 1");
+    if (apn) {
+      console.log(`  APN:                   ${apn.split(":")[1]
+	.replaceAll("[", "")
+	.replaceAll(" ","")
+	.replaceAll("]", "")
+	.replaceAll("\n", "")
+      }`);
+    } if (baseband) {
+      console.log(`  BASEBAND:              ${baseband.split(":")[1]
+        .replaceAll("[", "")
+        .replaceAll(" ", "")
+        .replaceAll("]", "")
+	.replaceAll("\n", "")
+      }`);
+    }
+
+'"'"'
+  fi
 }
 
 
@@ -296,6 +370,7 @@ typewrite() {
 fi
 
 # Custom Welcome Msg
+clear;
 if [ -f "$SMBSE/motd" ]; then
   if [ -f "$PREFIX/etc/motd" ]; then
     cp "$PREFIX/etc/motd" "$PREFIX/etc/motd~" 2>&1 > /dev/null && rm "$PREFIX/etc/motd" 2>&1 > /dev/null;
