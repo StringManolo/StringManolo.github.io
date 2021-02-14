@@ -169,6 +169,7 @@ for (let i in memory) {
 }'"'"') '"'"'
   Packages Installed:    '"'"'$(apt list --installed 2> /dev/null | wc -l)'"'"'
   Packages Upgradable:   '"'"'$(apt list --upgradable 2> /dev/null | wc -l)'"'"'
+  Public IP:             '"'"'$(curl http://ifconfig.me/ip --silent)'"'"'
   System Started:        '"'"'$(uptime -s)'"'"'
 
 '"'"'
