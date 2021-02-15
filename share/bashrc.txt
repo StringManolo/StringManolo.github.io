@@ -11,8 +11,7 @@ HISTCONTROL=ignoreboth
 
 # append to the history file, don't overwrite it
 shopt -s histappend
-# share history between shell sessions
-PROMPT_COMMAND='history -a'
+# share history between shell sessions                                 PROMPT_COMMAND='history -a'
 
 # history length
 HISTSIZE=10000
@@ -41,7 +40,8 @@ createFolder $SMBSE_TMP;
 
 # Base structure to share between devices
 SMBSE_USER="$SMBSE/user"
-                                                                       # programming
+
+# programming
 # add manuals and links to resources
 SMBSE_PROGRAMMING="$SMBSE_USER/programming" # programming examples
 SMBSE_PROGRAMMING_ASSEMBLER="$SMBSE_PROGRAMMING/assembler"
