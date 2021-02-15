@@ -1,0 +1,750 @@
+# Bash Shell Extension by @StringManolo
+
+# If not running interactively, don't do anything
+case $- in
+    *i*) ;;
+      *) return;;
+esac
+
+# don't put duplicate lines or lines starting with space in the history.
+HISTCONTROL=ignoreboth                                                 
+# append to the history file, don't overwrite it
+shopt -s histappend
+# share history between shell sessions
+PROMPT_COMMAND='history -a'
+
+# history length
+HISTSIZE=10000
+HISTFILESIZE=20000
+
+# check the window size after each command and, if necessary,
+# update the values of LINES and COLUMNS.
+shopt -s checkwinsize
+
+# Set enviroment variables
+SMBSE="$HOME/SMBSE"
+SMBSE_BIN="$SMBSE/bin"
+SMBSE_TMP="$SMBSE/.tmp"
+SMBSE_VERSION="0.1"
+export SMBSE_VERSION_LONG="SMBSE $SMBSE_VERSION"                       export SMBSE_BASH_VERSION="$(help | head -n 1)";
+
+# create folders without warnings
+createFolder() {
+  [ ! -d "$1" ] && mkdir "$1";
+}
+
+createFolder $SMBSE;
+createFolder $SMBSE_BIN;
+createFolder $SMBSE_TMP;
+
+# Base structure to share between devices
+SMBSE_USER="$SMBSE/user"
+
+# programming
+# add manuals and links to resources
+SMBSE_PROGRAMMING="$SMBSE_USER/programming" # programming examples
+SMBSE_PROGRAMMING_ASSEMBLER="$SMBSE_PROGRAMMING/assembler"
+SMBSE_PROGRAMMING_BASH="$SMBSE_PROGRAMMING/bash"
+SMBSE_PROGRAMMING_C="$SMBSE_PROGRAMMING/c"
+SMBSE_PROGRAMMING_C++="$SMBSE_PROGRAMMING/c++"
+SMBSE_PROGRAMMING_CSS="$SMBSE_PROGRAMMING/css"
+SMBSE_PROGRAMMING_GO="$SMBSE_PROGRAMMING/go"
+SMBSE_PROGRAMMING_HTML="$SMBSE_PROGRAMMING/html"
+SMBSE_PROGRAMMING_JAVA="$SMBSE_PROGRAMMING/java"
+SMBSE_PROGRAMMING_JAVASCRIPT="$SMBSE_PROGRAMMING/javascript"
+SMBSE_PROGRAMMING_JAVASCRIPT_BROWSER="$SMBSE_PROGRAMMING_JAVASCRIPT/browser"
+SMBSE_PROGRAMMING_JAVASCRIPT_NODE="$SMBSE_PROGRAMMING_JAVASCRIPT/node"
+SMBSE_PROGRAMMING_JAVASCRIPT_QJS="$SMBSE_PROGRAMMING_JAVASCRIPT/qjs"
+SMBSE_PROGRAMMING_LUA="$SMBSE_PROGRAMMING/lua"
+SMBSE_PROGRAMMING_PERL="$SMBSE_PROGRAMMING/perl"
+SMBSE_PROGRAMMING_PHP="$SMBSE_PROGRAMMING/php"
+SMBSE_PROGRAMMING_PYTHON="$SMBSE_PROGRAMMING/python"
+SMBSE_PROGRAMMING_PYTHON2="$SMBSE_PROGRAMMING/python2"
+SMBSE_PROGRAMMING_RUBY="$SMBSE_PROGRAMMING/ruby"
+SMBSE_PROGRAMMING_SQL="$SMBSE_PROGRAMMING/sql"
+SMBSE_PROGRAMMING_PROJECTS="$SMBSE_PROGRAMMING/projects"
+
+# hacking
+SMBSE_HACKING="$SMBSE_USER/hacking"
+SMBSE_HACKING_TOOLS="$SMBSE_HACKING/tools"
+SMBSE_HACKING_TOOLS_INFOGATHERING="$SMBSE_HACKING_TOOLS/infogathering"
+SMBSE_HACKING_TOOLS_EXPLOITS="$SMBSE_HACKING_TOOLS/exploits"
+SMBSE_HACKING_TOOLS_POSTEXPLOITATAION="$SMBSE_HACKING_TOOLS/postexploitation"
+SMBSE_HACKING_TOOLS_PERSISTENCE="$SMBSE_HACKING_TOOLS/persistence"
+SMBSE_HACKING_TOOLS_BRUTEFORCE="$SMBSE_HACKING_TOOLS/bruteforce"
+SMBSE_HACKING_TOOLS_REVERSING="$SMBSE_HACKING_TOOLS/reversing"
+SMBSE_HACKING_TOOLS_WIRELESS="$SMBSE_HACKING_TOOLS/wireless"
+SMBSE_HACKING_TOOLS_BLACKSEO="$SMBSE_HACKING_TOOLS/blackseo"
+SMBSE_HACKING_TOOLS_ANALYSIS="$SMBSE_HACKING_TOOLS/analysis"
+SMBSE_HACKING_TOOLS_NOTES="$SMBSE_HACKING_TOOLS/notes"
+SMBSE_HACKING_TOOLS_REPORTS="$SMBSE_HACKING_TOOLS/reports"
+
+# sysadmin
+SMBSE_SYSADMIN="$SMBSE_USER/sysadmin"
+SMBSE_SYSADMIN_LOGS="$SMBSE_SYSADMIN/logs"
+
+# storage
+SMBSE_RECYCLEBIN="$SMBSE_USER/recycleBin" # move here before
+SMBSE_NSTORAGE="$SMBSE_USER/nStorage" # normal storage
+SMBSE_TSTORAGE="$SMBSE_USER/tStorage" # temporal storage 24h flf
+SMBSE_SSTORAGE="$SMBSE_USER/sStorage" # secure storage
+SMBSE_OSTORAGE="$SMBSE_USER/oStorage" # online hard drive
+SMBSE_BSTORAGE="$SMBSE_USER/bStorage" # backup storage
+createFolderStructure() {
+  createFolder $SMBSE_USER;
+  createFolder $SMBSE_RECYCLEBIN; # add alias to rm del
+  createFolder $SMBSE_NSTORAGE;
+  createFolder $SMBSE_TSTORAGE;
+  createFolder $SMBSE_SSTORAGE;
+  createFolder $SMBSE_OSTORAGE;
+  createFolder $SMBSE_BSTORAGE;
+
+  createFolder $SMBSE_PROGRAMMING
+  createFolder $SMBSE_PROGRAMMING_ASSEMBLER
+  createFolder $SMBSE_PROGRAMMING_BASH
+  createFolder $SMBSE_PROGRAMMING_C
+  createFolder $SMBSE_PROGRAMMING_C++
+  createFolder $SMBSE_PROGRAMMING_CSS
+  createFolder $SMBSE_PROGRAMMING_GO
+  createFolder $SMBSE_PROGRAMMING_HTML
+  createFolder $SMBSE_PROGRAMMING_JAVA
+  createFolder $SMBSE_PROGRAMMING_JAVASCRIPT
+  createFolder $SMBSE_PROGRAMMING_JAVASCRIPT_BROWSER
+  createFolder $SMBSE_PROGRAMMING_JAVASCRIPT_NODE
+  createFolder $SMBSE_PROGRAMMING_JAVASCRIPT_QJS
+  createFolder $SMBSE_PROGRAMMING_LUA
+  createFolder $SMBSE_PROGRAMMING_PERL
+  createFolder $SMBSE_PROGRAMMING_PHP
+  createFolder $SMBSE_PROGRAMMING_PYTHON
+  createFolder $SMBSE_PROGRAMMING_PYTHON2
+  createFolder $SMBSE_PROGRAMMING_RUBY
+  createFolder $SMBSE_PROGRAMMING_SQL
+  createFolder $SMBSE_PROGRAMMING_PROJECTS
+
+  createFolder $SMBSE_HACKING
+  createFolder $SMBSE_HACKING_TOOLS
+  createFolder $SMBSE_HACKING_TOOLS_ANALYSIS
+  createFolder $SMBSE_HACKING_TOOLS_NOTES
+  createFolder $SMBSE_HACKING_TOOLS_REPORTS
+  createFolder $SMBSE_HACKING_TOOLS_INFOGATHERING
+  createFolder $SMBSE_HACKING_TOOLS_EXPLOITS
+  createFolder $SMBSE_HACKING_TOOLS_POSTEXPLOITATAION
+  createFolder $SMBSE_HACKING_TOOLS_PERSISTENCE
+  createFolder $SMBSE_HACKING_TOOLS_BRUTEFORCE
+  createFolder $SMBSE_HACKING_TOOLS_REVERSING
+  createFolder $SMBSE_HACKING_TOOLS_WIRELESS
+  createFolder $SMBSE_HACKING_TOOLS_BLACKSEO
+
+  createFolder $SMBSE_SYSADMIN
+  createFolder $SMBSE_SYSADMIN_LOGS
+}
+
+createFolderStructure;
+
+# add custom path to search commands
+addPath() {
+  if [ -d "$1" ] && [[ ":$PATH:" != *":$1:"* ]]; then
+    PATH="${PATH:+"$PATH:"}$1"
+  fi
+}
+
+addPath $SMBSE_BIN;
+
+# term true color
+
+# Add colors before alias
+alias ls='ls --color=auto'
+alias dir='dir --color=auto'
+alias vdir='vdir --color=auto'
+alias grep='grep --color=auto'
+alias fgrep='fgrep --color=auto'
+alias egrep='egrep --color=auto'
+
+# make variables cdable.
+shopt -s cdable_vars
+
+
+# Import alias from the file
+if [ -f "$SMBSE/alias" ]; then
+  . "$SMBSE/alias";
+else
+  # Create file for alias
+  # touch "$SMBSE/alias" 2>&1 > /dev/null
+
+  # If you want to add alias, do it in the alias file unless -
+  # you actually want to add those alias persistenly.
+  echo '# Alias file.
+
+alias l='"'"'ls'"'"';
+alias la='"'"'ls -a'"'"';
+alias v='"'"'vim'"'"'; # ^X ^E to open command in $EDITOR
+alias c='"'"'clear'"'"' # ^L if you have a command already writen
+alias cl='"'"'clear && ls'"'"'
+alias ..='"'"'cd ..'"'"'
+alias ...='"'"'cd ../..'"'"'
+alias ....='"'"'cd ../../..'"'"'
+alias .....='"'"'cd ../../../..'"'"'
+alias pserv='"'"'python -m http.server'"'"'
+alias gitc='"'"'git clone'"'"'
+alias 775='"'"'chmod +775'"'"'
+alias folder='"'"'du -h --max-depth=1'"'"'
+alias h='"'"'history'"'"'
+alias irc='"'"'weechat'"'"'
+alias myip='"'"'curl http://ifconfig.me/ip'"'"'
+alias quit='"'"'exit'"'"'
+alias q='"'"'exit'"'"'
+alias sb='"'"'source ~/.bashrc'"'"'
+alias update='"'"'apt-get update && apt-get upgrade'"'"'
+alias gacp='"'"'SMBSEGACP'"'"'
+alias @help='"'"'SMBSEHELP'"'"'
+alias sysinfo='"'"'SMBSESYSINFO'"'"'
+
+# paths, you need shopt -s cdable-vars in .bashrc
+_smbse='"'"''"$SMBSE"''"'"'
+_user='"'"''"$SMBSE_USER"''"'"'
+_rb='"'"''"$SMBSE_RECYCLEBIN"''"'"'
+_ns='"'"''"$SMBSE_NSTORAGE"''"'"'
+_ts='"'"''"$SMBSE_TSTORAGE"''"'"'
+_ss='"'"''"$SMBSE_SSTORAGE"''"'"'
+_os='"'"''"$SMBSE_OSTORAGE"''"'"'
+_bs='"'"''"$SMBSE_BSTORAGE"''"'"'
+_p='"'"''"$SMBSE_PROGRAMMING"''"'"'
+_a='"'"''"$SMBSE_PROGRAMMING_ASSEMBLER"''"'"'
+_b='"'"''"$SMBSE_PROGRAMMING_BASH"''"'"'
+_c='"'"''"$SMBSE_PROGRAMMING_C"''"'"'
+_c++='"'"''"$SMBSE_PROGRAMMING_C++"''"'"'
+_css='"'"''"$SMBSE_PROGRAMMING_CSS"''"'"'
+_go='"'"''"$SMBSE_PROGRAMMING_GO"''"'"'
+_html='"'"''"$SMBSE_PROGRAMMING_HTML"''"'"'
+_java='"'"''"$SMBSE_PROGRAMMING_JAVA"''"'"'
+_javascript='"'"''"$SMBSE_PROGRAMMING_JAVASCRIPT"''"'"'
+_js='"'"''"$SMBSE_PROGRAMMING_JAVASCRIPT"''"'"'
+_browser='"'"''"$SMBSE_PROGRAMMING_JAVASCRIPT_BROWSER"''"'"'
+_node='"'"''"$SMBSE_PROGRAMMING_JAVASCRIPT_NODE"''"'"'
+_qjs='"'"''"$SMBSE_PROGRAMMING_JAVASCRIPT_QJS"''"'"'
+_lua='"'"''"$SMBSE_PROGRAMMING_LUA"''"'"'
+_perl='"'"''"$SMBSE_PROGRAMMING_PERL"''"'"'
+_php='"'"''"$SMBSE_PROGRAMMING_PHP"''"'"'
+_python='"'"''"$SMBSE_PROGRAMMING_PYTHON"''"'"'
+_python2='"'"''"$SMBSE_PROGRAMMING_PYTHON2"''"'"'
+_ruby='"'"''"$SMBSE_PROGRAMMING_RUBY"''"'"'
+_sql='"'"''"$SMBSE_PROGRAMMING_SQL"''"'"'
+_pp='"'"''"$SMBSE_PROGRAMMING_PROJECTS"''"'"'
+_projects='"'"''"$SMBSE_PROGRAMMING_PROJECTS"''"'"'
+_h='"'"''"$SMBSE_HACKING"''"'"'
+_ht='"'"''"$SMBSE_HACKING_TOOLS"''"'"'
+_htoolS='"'"''"$SMBSE_HACKING_TOOLS"''"'"'
+_hanalysis='"'"''"$SMBSE_HACKING_TOOLS_ANALYSIS"''"'"'
+_hnotes='"'"''"$SMBSE_HACKING_TOOLS_NOTES"''"'"'
+_hreports='"'"''"$SMBSE_HACKING_TOOLS_REPORTS"''"'"'
+_hig='"'"''"$SMBSE_HACKING_TOOLS_INFOGATHERING"''"'"'
+_hinfo='"'"''"$SMBSE_HACKING_TOOLS_INFOGATHERING"''"'"'
+_hexploits='"'"''"$SMBSE_HACKING_TOOLS_EXPLOITS"''"'"'
+_hpostexploit='"'"''"$SMBSE_HACKING_TOOLS_POSTEXPLOITATAION"''"'"'
+_hpersistence='"'"''"$SMBSE_HACKING_TOOLS_PERSISTENCE"''"'"'
+_hbruteforce='"'"''"$SMBSE_HACKING_TOOLS_BRUTEFORCE"''"'"'
+_hreversing='"'"''"$SMBSE_HACKING_TOOLS_REVERSING"''"'"'
+_hwireless='"'"''"$SMBSE_HACKING_TOOLS_WIRELESS"''"'"'
+_hbalckseo='"'"''"$SMBSE_HACKING_TOOLS_BLACKSEO"''"'"'
+
+_sysadmin='"'"''"$SMBSE_SYSADMIN"''"'"'
+_logs='"'"''"$SMBSE_SYSADMIN_LOGS"''"'"'
+
+
+
+
+
+# Functions works the same as aliases:
+
+# Help message.  Change by js runnable.
+SMBSEHELP() {
+  echo "$(help | head -n 1) $SMBSE_VERSION_LONG";
+  echo '"'"'These shell commands are defined internally.  Type `@help` to see this list.
+Type `@help name` to find out more about the function `name`.'"'"'
+}
+# alias @help='"'"'SMBSEHELP'"'"';
+
+# Upload to github
+SMBSEGACP() {
+  git add --all && git commit -m "$1" && git push
+}
+
+# Show system information
+SMBSESYSINFO() {
+  echo '"'"'.------------------- LINUX ----------------------.
+  SMBSE Version:         '"'"'$(echo "$SMBSE_VERSION")'"'"'
+  Operative System:      '"'"'$(uname -o)'"'"'
+  Kernel Version:        '"'"'$(uname -r)'"'"'
+  CPU:                   '"'"'$(js '"'"'let obj = JSON.parse(run("lscpu --json")).lscpu;
+  for (let i in obj) {                                                     if(/model name/gi.test(obj[i].field)) {
+    console.log(obj[i].data);
+  }
+}'"'"') '"'"'
+  Architecture:          '"'"'$(js '"'"'let obj = JSON.parse(run("lscpu --json")).lscpu;
+  for (let i in obj) {                                                     if(/architecture/gi.test(obj[i].field)) {
+    console.log(obj[i].data);
+  }
+}'"'"') '"'"'
+  Vendor:                '"'"'$(js '"'"'let obj = JSON.parse(run("lscpu --json")).lscpu;
+  for (let i in obj) {                                                     if(/vendor/gi.test(obj[i].field)) {
+    console.log(obj[i].data);
+  }
+}'"'"') '"'"'
+  CPU MAX MHz:           '"'"'$(js '"'"'let obj = JSON.parse(run("lscpu --json")).lscpu;
+  for (let i in obj) {                                                     if(/max mhz/gi.test(obj[i].field)) {
+    console.log(obj[i].data);
+  }
+}'"'"') '"'"'
+  CPU MIN MHz:           '"'"'$(js '"'"'let obj = JSON.parse(run("lscpu --json")).lscpu;
+  for (let i in obj) {                                                     if(/min mhz/gi.test(obj[i].field)) {
+    console.log(obj[i].data);
+  }
+}'"'"') '"'"'
+  CPU Operation:         '"'"'$(js '"'"'let obj = JSON.parse(run("lscpu --json")).lscpu;
+  for (let i in obj) {                                                     if(/cpu op/gi.test(obj[i].field)) {
+    console.log(obj[i].data);
+  }
+}'"'"') '"'"'
+  CPU Cores:             '"'"'$(js '"'"'let obj = JSON.parse(run("lscpu --json")).lscpu;
+  for (let i in obj) {                                                     if(/CPU\(S\)\:/gi.test(obj[i].field)) {
+    console.log(obj[i].data);
+  }
+}'"'"') '"'"'
+  RAM Total:             '"'"'$(js '"'"'const memory = run("cat /proc/meminfo").split("\n");
+for (let i in memory) {
+  if(/memtotal/gi.test(memory[i])) {
+    while(/  /.test(memory[i])) {
+      memory[i] = memory[i].replaceAll("  ", " ");
+    }
+      console.log((+memory[i].split(" ")[1] / 1024 / 1024).toString().substr(0, 5));
+  }
+}'"'"') '"'"'
+  RAM Available:         '"'"'$(js '"'"'const memory = run("cat /proc/meminfo").split("\n");
+for (let i in memory) {
+  if(/memavailable/gi.test(memory[i])) {
+    while(/  /.test(memory[i])) {
+      memory[i] = memory[i].replaceAll("  ", " ");
+    }
+      console.log((+memory[i].split(" ")[1] / 1024 / 1024).toString().substr(0, 5));
+  }
+}'"'"') '"'"'
+  Packages Installed:    '"'"'$(apt list --installed 2> /dev/null | wc -l)'"'"'
+  Packages Upgradable:   '"'"'$(apt list --upgradable 2> /dev/null | wc -l)'"'"'
+  Public IP:             '"'"'$(curl http://ifconfig.me/ip --silent)'"'"'
+  System Started:        '"'"'$(uptime -s)'"'"'
+
+'"'"'
+  if [ -f "/system/bin/getprop" ]; then
+    echo '"'"'.------------------- ANDROID --------------------.'"'"'
+    js '"'"'let apn = run("/system/bin/getprop | grep default.apn | head -n 1"),
+    baseband = run("/system/bin/getprop | grep version.baseband | head -n 1"),
+    networkType = run("/system/bin/getprop | grep network.type | head -n 1"),
+    operatorAlpha = run("/system/bin/getprop | grep operator.alpha | head -n 1"),
+    ril = run("/system/bin/getprop | grep version.ril | head -n 1"),
+    hostname = run("/system/bin/getprop | grep net.hostname | head -n 1"),
+    dns1 = run("/system/bin/getprop | grep .dns1 | head -n 1"),
+    dns2 = run("/system/bin/getprop | grep .dns2 | head -n 1"),
+    dpi = run("/system/bin/getprop | grep .dpi | head -n 1"),
+    timezone = run("/system/bin/getprop | grep .timezone | head -n 1"),
+    boardname = run("/system/bin/getprop | grep .boardname | head -n 1"),
+    boardPlatform = run("/system/bin/getprop | grep .platform | head -n 1"),
+    buildDate = run("/system/bin/getprop | grep build.date | head -n 1"),
+    secPatch = run("/system/bin/getprop | grep version.security_patch | head -n 1"),
+    verInc = run("/system/bin/getprop | grep version.incre | head -n 1"),
+    sdkMinVer = run("/system/bin/getprop | grep version.min_supported_target_sdk | head -n 1"),
+    sdkVer = run("/system/bin/getprop | grep version.sdk | head -n 1"),
+    model = run("/system/bin/getprop | grep .marketing_name | head -n 1");
+
+    /* TODO: replace .replaces by a function to reduce code size. */
+    if (model) {
+      console.log(`  Model:                 ${model.split(":").splice(1).toString()
+        .replaceAll("[", "")
+        .replace(" ", "")
+        .replaceAll("]", "")
+        .replaceAll("\n", "")
+      }`);
+    } if (verInc) {
+      console.log(`  Version:               ${verInc.split(":").splice(1).toString()
+        .replaceAll("[", "")
+        .replace(" ", "")
+        .replaceAll("]", "")
+        .replaceAll("\n", "")
+      }`);
+    }  if (apn) {
+      console.log(`  APN:                   ${apn.split(":").splice(1).toString()
+        .replaceAll("[", "")
+        .replaceAll(" ","")
+        .replaceAll("]", "")
+        .replaceAll("\n", "")
+      }`);
+    } if (baseband) {
+      let basebandParsed = baseband.split(":")[1]
+        .replaceAll("[", "")
+        .replaceAll(" ", "")
+        .replaceAll("]", "")
+        .replaceAll("\n", "");
+      let bbs = basebandParsed.split(",");
+      if (bbs.length > 1) {
+        if (bbs[0] === bbs[1]) {
+          console.log(`  Baseband:              ${bbs[0]}`);
+        }
+      } else {
+        console.log(`  Baseband:              ${basebandParsed}`);
+      }
+    } if (networkType) {
+      console.log(`  Network Type:          ${networkType.split(":").splice(1).toString()
+        .replaceAll("[", "")
+        .replaceAll(" ", "")
+        .replaceAll("]", "")
+        .replaceAll(/unknown,/gi, "")
+        .replaceAll("\n", "")
+      }`);
+    } if (operatorAlpha) {
+      let opAlphaParsed = operatorAlpha.split(":").splice(1).toString();
+      opAlphaParsed = (opAlphaParsed.substr(2,1) == "," ? opAlphaParsed.substring(3) : opAlphaParsed);
+      console.log(`  Operator:              ${opAlphaParsed
+        .replaceAll("[", "")
+        .replaceAll(" ", "")
+        .replaceAll("]", "")
+        .replaceAll("\n", "")
+      }`);
+    } if (ril) {
+      console.log(`  RIL(radio):            ${ril.split(":").splice(1).toString()
+        .replaceAll("[", "")
+        .replace(" ", "")
+        .replaceAll("]", "")
+        .replaceAll("\n", "")
+      }`);
+    } if (hostname) {
+      console.log(`  Wi-fi Device Name:     ${hostname.split(":").splice(1).toString()
+        .replaceAll("[", "")
+        .replace(" ", "")
+        .replaceAll("]", "")
+        .replaceAll("\n", "")
+      }`);
+    } if (dns1) {
+      console.log(`  DNS1:                  ${dns1.split(":").splice(1).toString()
+        .replaceAll("[", "")
+        .replace(" ", "")
+        .replaceAll("]", "")
+        .replaceAll("\n", "")
+      }`);
+    } if (dns2) {
+      console.log(`  DNS2:                  ${dns2.split(":").splice(1).toString()
+        .replaceAll("[", "")
+        .replace(" ", "")
+        .replaceAll("]", "")
+        .replaceAll("\n", "")
+      }`);
+    } if (dpi) {
+      console.log(`  DPI:                   ${dpi.split(":").splice(1).toString()
+        .replaceAll("[", "")
+        .replace(" ", "")
+        .replaceAll("]", "")
+        .replaceAll("\n", "")
+      }`);
+    } if (timezone) {
+      console.log(`  Timezone:              ${timezone.split(":").splice(1).toString()
+        .replaceAll("[", "")
+        .replace(" ", "")
+        .replaceAll("]", "")
+        .replaceAll("\n", "")
+      }`);
+    } if (boardname) {
+      console.log(`  Board:                 ${boardname.split(":").splice(1).toString()
+        .replaceAll("[", "")
+        .replace(" ", "")
+        .replaceAll("]", "")
+        .replaceAll("\n", "")
+      }`);
+    } if (boardPlatform) {
+      console.log(`  Platform:              ${boardPlatform.split(":").splice(1).toString()
+        .replaceAll("[", "")
+        .replace(" ", "")
+        .replaceAll("]", "")
+        .replaceAll("\n", "")
+      }`);
+    } if (buildDate) {
+      console.log(`  Build Date:            ${buildDate.split(":").splice(1).toString()
+        .replaceAll("[", "")
+        .replace(" ", "")
+        .replaceAll("]", "")
+        .replaceAll("\n", "")
+      }`);
+    } if (secPatch) {
+      console.log(`  Security Patch:        ${secPatch.split(":").splice(1).toString()
+        .replaceAll("[", "")
+        .replace(" ", "")
+        .replaceAll("]", "")
+        .replaceAll("\n", "")
+      }`);
+    } if (sdkVer) {
+      console.log(`  SDK Ver:               ${sdkVer.split(":").splice(1).toString()
+        .replaceAll("[", "")
+        .replace(" ", "")
+        .replaceAll("]", "")
+        .replaceAll("\n", "")
+      }`);
+    } if (sdkMinVer) {
+      console.log(`  SDK Min-Ver:           ${sdkMinVer.split(":").splice(1).toString()
+        .replaceAll("[", "")
+        .replace(" ", "")
+        .replaceAll("]", "")
+        .replaceAll("\n", "")
+      }`);
+    }
+
+
+'"'"'
+  fi
+}
+
+
+# Extracts any archive(s) (if unp isn'"'"'t installed)
+extract() {
+  for archive in $*; do
+    if [ -f $archive ] ; then
+      case $archive in
+        *.tar.bz2) tar xvjf $archive ;;
+        *.tar.gz) tar xvzf $archive ;;
+        *.bz2) bunzip2 $archive ;;
+        *.rar) rar x $archive ;;
+        *.gz) gunzip $archive ;;
+        *.tar) tar xvf $archive ;;
+        *.tbz2) tar xvjf $archive ;;
+        *.tgz) tar xvzf $archive ;;
+        *.zip) unzip $archive ;;
+        *.Z) uncompress $archive ;;
+        *.7z) 7z x $archive ;;
+        *) echo "don'"'"'t know how to extract '"'"'$archive'"'"'..." ;;
+      esac
+    else
+      echo "'"'"'$archive'"'"' is not a valid file!"
+    fi
+  done
+}
+
+  ' > "$SMBSE/alias";
+  . "$SMBSE/alias";
+fi
+
+
+# Import logout from the file
+if [ -f "$SMBSE/logout" ]; then
+  . "$SMBSE/logout";
+else
+  # Create file for logout
+  # touch "$SMBSE/logout" 2>&1 > /dev/null
+  echo 'logout() {
+  echo ${green};
+  clear;
+  typewrite '"'"'Closing shell'"'"' 1;
+  typewrite '"'"'..'"'"' 180;
+  typewrite '"'"'.'"'"' 300;
+  echo ${endc}
+  clear;
+}
+
+trap logout EXIT;' > "$SMBSE/logout";
+  . "$SMBSE/logout";
+fi
+
+
+
+# Set qjs as javascript main engine to run some scripts
+SMBSE_JSENGINE='qjs'
+
+# Test if qjs exists, else download and install it
+testIfJsEngineAvailable() {
+  qjs -q 2>&1 > /dev/null || (echo "Downloading quickjs, wait please..."; curl --silent 'https://bellard.org/quickjs/binary_releases/quickjs-linux-x86_64-2020-11-08.zip' -o "$SMBSE_TMP/qjs_zip_first_install" 2>&1 1> /dev/null && unzip "$SMBSE_TMP/qjs_zip_first_install" -d "$SMBSE_TMP" 2>&1 1> /dev/null && cp "$SMBSE_TMP/qjs" "$SMBSE_BIN/qjs" 2>&1 1> /dev/null && rm -r "$SMBSE_TMP" 2>&1 1> /dev/null && createFolder "$SMBSE_TMP")
+}
+
+testIfJsEngineAvailable;
+
+
+# Set the defualt editor
+export EDITOR='vim'
+
+# Set auto cd
+shopt -s autocd
+
+# define colors
+
+export red=$'\e[1;31m'
+export green=$'\e[1;32m'
+export yellow=$'\e[1;33m'
+export blue=$'\e[1;34m'
+export cyan=$'\e[1;35m'
+export white=$'\e[1;37m'
+export endc=$'\e[0m'
+export lightgray=$'\e[0;37m'
+export black=$'\e[0;30m'
+export darkgray=$'\e[1;30m'
+export darkred=$'\e[0;31m'
+export darkgreen=$'\e[0;32m'
+export brown=$'\e[0;33m'
+export darkblue=$'\e[0;34m'
+export magenta=$'\e[0;35m'
+export darkcyan=$'\e[0;36m'
+export underlinedarkgray=$'\e[0;30m'
+
+# Custom Console
+PS1='\n\n${underlinedarkgray}${darkgray}(${blue}$(date +%H${darkgray}:${blue}%M${darkgray}:${blue}%S${darkgray}:${blue}%4N)${darkgray}) ${green}$(pwd)${endc}\n> '
+
+#PS1='\n\n[${blue}$(date +%H${endc}:${blue}%M${endc}:${blue}%S${endc}:${blue}%4N)${endc}] ${green}$(pwd)${endc}\n${blue}>${endc} '
+PS2='${blue}.${endc}  '
+
+# Extra binaries file
+if [ -f "$SMBSE/extras" ]; then
+  . "$SMBSE/extras";
+else
+  echo '# This file have some extra binaries that dosn'"'"'t fit into /bin
+
+# Run javascript using js command
+echo '"'"'import * as std from "std";
+import * as os from "os";
+
+let run = command => {
+  let p = std.popen(command, "r"),
+  msg = "",
+  r = "";
+  while(( r = p.getline() ) != null) {
+    msg += r + "\n";
+  }
+  return msg;
+}
+
+let javascriptFunctions = `import * as std from "std";
+import * as os from "os";
+
+let run = command => {
+  let p = std.popen(command, "r"),
+  msg = "",
+  r = "";
+  while(( r = p.getline() ) != null) {
+    msg += r + "\\n";
+  }
+  return msg;
+}
+`;
+
+let result ="";
+try {
+  let fd = std.open(".internalJsEvaling", "w+");
+  fd.puts(`${javascriptFunctions}${scriptArgs.splice(1,1)}`);
+  fd.close();
+  result = run(`qjs .internalJsEvaling 2>&1`);
+  run("rm .internalJsEvaling");
+
+} catch(err) {
+  result = `Error running the code: ${err}`;
+}
+
+console.log(result);'"'"' > "$SMBSE_BIN/.js";
+js() {
+  qjs "$SMBSE_BIN/.js" "$1";
+}
+
+
+
+# Enable typewriter effect
+
+echo '"'"'import * as std from "std";
+import * as os from "os";
+
+let sm = {};
+sm.log = (msg, delay = 100) => {
+  for (let i in msg) {
+    if (delay) {
+      os.sleep(delay)
+    }
+  std.out.puts(msg[i]);
+  std.out.flush();
+  }
+}
+
+sm.log(scriptArgs[1], scriptArgs[2]);
+
+'"'"' > "$SMBSE_BIN/.typewrite.js";
+typewrite() {
+  qjs "$SMBSE_BIN/.typewrite.js" "$1" "$2";
+}' > "$SMBSE/extras";
+  . "$SMBSE/extras";
+fi
+
+# Custom Welcome Msg
+clear;
+if [ -f "$SMBSE/motd" ]; then
+  if [ -f "$PREFIX/etc/motd" ]; then
+    cp "$PREFIX/etc/motd" "$PREFIX/etc/motd~" 2>&1 > /dev/null && rm "$PREFIX/etc/motd" 2>&1 > /dev/null;
+  fi
+  . "$SMBSE/motd"
+  SMBSE_FUNCTION_MOTD;
+else
+  # If you want to edit the welcome message, change the generated motd file.
+  echo '# This file is the function outputing the welcome message.
+
+SMBSE_FUNCTION_MOTD() {
+  echo "
+
+
+
+
+
+      ${green}.------------------------------------------------------.${endc}
+      ${green}¦                                                      ¦${endc}
+      ${green}¦${endc}     Welcome to Linux ${blue}SMBSE${endc} edition!                  ${green}¦${endc}
+      ¦                                                      ${green}¦${endc}
+      ¦     This version include:                            ${green}¦${endc}
+      ¦      - Extra packages     - Predefined Alias         ¦
+      ¦      - Custom Settings    - Programming Languages    ¦
+      ¦                                                      |
+      ¦     Extra packages:                                  |
+      ¦      - Logger                                        ¦
+      ¦                                                      ¦
+      ¦     Predefined Alias:                                ¦
+      ¦      * c:   clear         * ..:    cd ..             ¦
+      ¦      * l:   ls            * ...:   cd ../..          ¦
+      ¦      * v:   vim           * ....:  cd ../../..       ¦
+      ¦                                                      ¦
+      ¦     Custom Settings:                                 ¦
+      ¦      - Extended History Length    - Autocd           ¦
+      ¦      - Auto colors                - Custom PS1       ¦
+      ¦                                                      ¦
+      ¦     Programming Languages:                           ¦
+      ¦                                                      ¦
+      ¦     $ js '"'"'console.log(new Date())'"'"';                  ¦
+      ¦                                                      ¦"
+    #.------------------------------------------------------."
+  typewrite '"'"'      .------------------------------------------------------.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+'"'"' 5;
+
+}' > "$SMBSE/motd";
+  . "$SMBSE/motd";
+  SMBSE_FUNCTION_MOTD;
+fi
+
+
+ # Color for manpages
+   export LESS_TERMCAP_mb=${green};
+   export LESS_TERMCAP_md=${green};
+   # export LESS_TERMCAP_me=${white};
+   # export LESS_TERMCAP_se=${blue};
+   # export LESS_TERMCAP_so=${blue};
