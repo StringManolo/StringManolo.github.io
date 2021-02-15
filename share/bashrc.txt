@@ -11,7 +11,8 @@ HISTCONTROL=ignoreboth
 
 # append to the history file, don't overwrite it
 shopt -s histappend
-# share history between shell sessions                                 PROMPT_COMMAND='history -a'
+# share history between shell sessions
+PROMPT_COMMAND='history -a'
 
 # history length
 HISTSIZE=10000
@@ -784,7 +785,7 @@ This file exists in case you want to modify it and include your own logout text,
 
 This file exists in case you want to modify it and include your own welcome text, command or bash code to do something when you open a shell.
 `);
-
+      std.exit();
     case "sysinfo":
       console.log(`sysinfo command show you information from the system. If your system is Android, show also extra information.`);
       std.exit();
