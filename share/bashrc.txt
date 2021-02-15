@@ -1,13 +1,13 @@
 # Bash Shell Extension by @StringManolo
 
 # If not running interactively, don't do anything
-case $- in
-    *i*) ;;
+case $- in                                                                 *i*) ;;
       *) return;;
 esac
 
 # don't put duplicate lines or lines starting with space in the history.
-HISTCONTROL=ignoreboth                                                 
+HISTCONTROL=ignoreboth
+
 # append to the history file, don't overwrite it
 shopt -s histappend
 # share history between shell sessions
@@ -26,7 +26,8 @@ SMBSE="$HOME/SMBSE"
 SMBSE_BIN="$SMBSE/bin"
 SMBSE_TMP="$SMBSE/.tmp"
 SMBSE_VERSION="0.1"
-export SMBSE_VERSION_LONG="SMBSE $SMBSE_VERSION"                       export SMBSE_BASH_VERSION="$(help | head -n 1)";
+export SMBSE_VERSION_LONG="SMBSE $SMBSE_VERSION"
+export SMBSE_BASH_VERSION="$(help | head -n 1)";
 
 # create folders without warnings
 createFolder() {
@@ -39,8 +40,7 @@ createFolder $SMBSE_TMP;
 
 # Base structure to share between devices
 SMBSE_USER="$SMBSE/user"
-
-# programming
+                                                                       # programming
 # add manuals and links to resources
 SMBSE_PROGRAMMING="$SMBSE_USER/programming" # programming examples
 SMBSE_PROGRAMMING_ASSEMBLER="$SMBSE_PROGRAMMING/assembler"
@@ -257,12 +257,6 @@ _logs='"'"''"$SMBSE_SYSADMIN_LOGS"''"'"'
 # Functions works the same as aliases:
 
 # Help message.  Change by js runnable.
-SMBSEHELP() {
-  echo "$(help | head -n 1) $SMBSE_VERSION_LONG";
-  echo '"'"'These shell commands are defined internally.  Type `@help` to see this list.
-Type `@help name` to find out more about the function `name`.'"'"'
-}
-# alias @help='"'"'SMBSEHELP'"'"';
 
 # Upload to github
 SMBSEGACP() {
@@ -668,7 +662,170 @@ sm.log(scriptArgs[1], scriptArgs[2]);
 '"'"' > "$SMBSE_BIN/.typewrite.js";
 typewrite() {
   qjs "$SMBSE_BIN/.typewrite.js" "$1" "$2";
-}' > "$SMBSE/extras";
+}
+
+# Help function
+echo '"'"'import * as std from "std";
+import * as os from "os";
+
+let run = command => {
+  let p = std.popen(command, "r"),
+  msg = "",
+  r = "";
+  while(( r = p.getline() ) != null) {
+    msg += r + "\n";
+  }
+  return msg;
+}
+
+let cli = {};
+const C = {
+  RED: "\x1b[31m",
+  RESET: "\x1b[0m",
+  YELLOW:"\x1b[33m",
+  BLUE: "\x1b[1;34m",
+  GREEN: "\x1b[32m"
+};
+
+
+for(let i in scriptArgs) {
+  let arg = scriptArgs[i];
+  let nArg = scriptArgs[+i + 1];
+  switch(arg) {
+    case "alias":
+      console.log(`l      ls
+la      ls -a
+v       vim
+c       clear
+cl      clear && ls
+..      cd ..
+...     cd ../..
+....    cd ../../..
+.....   cd ../../../..
+pserv   python -m http.server
+gitc    git clone
+775     chmod +775
+folder  du -h --max-depth=1
+h       history
+irc     weechat
+myip    curl http://ifconfig.me/ip
+quit    exit
+q       exit
+sb      source ~/.bashrc
+update  apt-get update && apt-get upgrade
+gacp    git add --all && git commit $1 && git push
+
+_smbse         _user           _rb            _ns
+_ts            _ss             _os            _bs
+_p             _a              _b             _c
+_c++           _css            _go            _html
+_java          _javascript     _js            _browser
+_node          _qjs            _lua           _perl
+_php           _python         _python2       _ruby
+_sql           _pp             _projects      _h
+_ht            _htoolS         _hanalysis     _hnotes
+_hreports      _hig            _hinfo         _hexploits
+_hpostexploit  _hpersistence   _hbruteforce   _hreversing
+_hwireless     _hbalckseo      _sysadmin      _logs
+
+      `);
+    std.exit();
+
+    case "autocd":
+      console.log(`You can omit cd if the argument is a folder and not a command or an alias.
+
+before: cd ~/SMBSE
+after: ~/SMBSE`);
+      std.exit();
+
+    case "bin":
+      console.log(`There is an extra bin folder under the path ~/SMBSE/bin
+Bin folder is there for you to add your commands, scripts and binaries. Intended to split system binaries from user defined binaries. You can use binaries in the bin folder same as if they where inside ~/../usr/bin`);
+      std.exit();
+
+    case "extract":
+      console.log(`Extract from common files (based on file extension),
+tar.bz2, tar.gz, bz2, rar, .gz, tar, tbz2, tgz, zip, Z, 7z`);
+      std.exit();
+
+    case "js":
+      console.log(`Run javascript code. Underliying engine is quickjs.
+std and os modules are imported by defualt.
+Extra run funcion to run commands in a bash subshell.
+Examples:
+js '"'\"'\"'"'console.log(7 *7);'"'\"'\"'"'
+
+js '"'\"'\"'"'let hello = "hello world";
+for (let i in hello) {
+  console.log(hello[i]);
+}'"'\"'\"'"'
+
+js '"'\"'\"'"'let httpHeaders = run("curl --silent https://example.com -I");
+console.log(httpHeaders)'"'\"'\"'"' | grep -i server
+
+js '"'\"'\"'"'let homeFiles = run("ls ~").split("\\n");
+homeFiles.splice(homeFiles.length - 1);
+console.log("Home files in json:\\n" + JSON.stringify(homeFiles, null, 2));'"'\"'\"'"'
+`);
+      std.exit();
+
+    case "logout":
+      console.log(`SMBSE/logout file have a logout bash funcion that is being called when you start a shell setting a trap.
+
+The trap is thrown when you logout from the shell. For example writting exit.
+
+This file exists in case you want to modify it and include your own logout text, command or bash code to do something before logout.
+`);
+      std.exit();
+
+    case "motd":
+      console.log(`SMBSE/motd file have a SMBSE_FUNCTION_MOTD() bash funcion that is being called when you start a shell.
+
+This file exists in case you want to modify it and include your own welcome text, command or bash code to do something when you open a shell.
+`);
+
+    case "sysinfo":
+      console.log(`sysinfo command show you information from the system. If your system is Android, show also extra information.`);
+      std.exit();
+
+    case "typewrite":
+      console.log(`typewrite command printf each character with specified delay.
+
+Examples:
+typewrite '"'\"'\"'"'Hello!'"'\"'\"'"' 100
+
+headers=$(curl https://example.com --silent -I) && typewrite "$headers" 200                                                                   `);
+      std.exit();
+
+  }
+}
+
+
+
+if (!Object.keys(cli).length) {
+  console.log(`${std.getenv("SMBSE_BASH_VERSION").replace("unknown", `${C.BLUE}smbse${C.RESET}`)} ${std.getenv("SMBSE_VERSION_LONG")}
+These shell commands are defined internally.  Type '"'\"'\"'"'@help'"'\"'\"'"' to see this list.
+Type '"'\"'\"'"'@help name'"'\"'\"'"' to find out more about the function '"'\"'\"'"'name'"'\"'\"'"'.
+
+  alias              autocd
+  bin                extract
+  js                 logout
+  motd               sysinfo
+  typewrite
+
+`);
+  std.exit(0);
+}
+
+
+
+'"'"' > "$SMBSE_BIN/.help.js";
+@help() {
+  qjs "$SMBSE_BIN/.help.js" "$1" "$2";
+}
+
+
+' > "$SMBSE/extras";
   . "$SMBSE/extras";
 fi
 
