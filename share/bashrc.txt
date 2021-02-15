@@ -1,7 +1,8 @@
 # Bash Shell Extension by @StringManolo
 
 # If not running interactively, don't do anything
-case $- in                                                                 *i*) ;;
+case $- in
+    *i*) ;;
       *) return;;
 esac
 
@@ -821,7 +822,7 @@ Type '"'\"'\"'"'@help name'"'\"'\"'"' to find out more about the function '"'\"'
 
 '"'"' > "$SMBSE_BIN/.help.js";
 @help() {
-  qjs "$SMBSE_BIN/.help.js" "$1" "$2";
+  qjs "$SMBSE_BIN/.help.js" $1 $2;
 }
 
 
@@ -857,7 +858,7 @@ SMBSE_FUNCTION_MOTD() {
       ¦      - Custom Settings    - Programming Languages    ¦
       ¦                                                      |
       ¦     Extra packages:                                  |
-      ¦      - Logger                                        ¦
+      ¦      - typewrite                                     ¦
       ¦                                                      ¦
       ¦     Predefined Alias:                                ¦
       ¦      * c:   clear         * ..:    cd ..             ¦
@@ -890,9 +891,8 @@ SMBSE_FUNCTION_MOTD() {
 
 
 
-
 '"'"' 5;
-
+  echo "  use ${green}@help${endc} command!"
 }' > "$SMBSE/motd";
   . "$SMBSE/motd";
   SMBSE_FUNCTION_MOTD;
