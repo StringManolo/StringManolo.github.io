@@ -41,14 +41,13 @@ createFolder $SMBSE_TMP;
 
 # Base structure to share between devices
 SMBSE_USER="$SMBSE/user"
-
-# programming
+                                                                       # programming
 # add manuals and links to resources
 SMBSE_PROGRAMMING="$SMBSE_USER/programming" # programming examples
 SMBSE_PROGRAMMING_ASSEMBLER="$SMBSE_PROGRAMMING/assembler"
 SMBSE_PROGRAMMING_BASH="$SMBSE_PROGRAMMING/bash"
 SMBSE_PROGRAMMING_C="$SMBSE_PROGRAMMING/c"
-SMBSE_PROGRAMMING_C++="$SMBSE_PROGRAMMING/c++"
+SMBSE_PROGRAMMING_Cpp="$SMBSE_PROGRAMMING/cpp"
 SMBSE_PROGRAMMING_CSS="$SMBSE_PROGRAMMING/css"
 SMBSE_PROGRAMMING_GO="$SMBSE_PROGRAMMING/go"
 SMBSE_PROGRAMMING_HTML="$SMBSE_PROGRAMMING/html"
@@ -87,6 +86,7 @@ SMBSE_SYSADMIN_LOGS="$SMBSE_SYSADMIN/logs"
 
 # storage
 SMBSE_RECYCLEBIN="$SMBSE_USER/recycleBin" # move here before
+SMBSE_RECOVERED="$SMBSE_USER/recovered"
 SMBSE_NSTORAGE="$SMBSE_USER/nStorage" # normal storage
 SMBSE_TSTORAGE="$SMBSE_USER/tStorage" # temporal storage 24h flf
 SMBSE_SSTORAGE="$SMBSE_USER/sStorage" # secure storage
@@ -95,6 +95,7 @@ SMBSE_BSTORAGE="$SMBSE_USER/bStorage" # backup storage
 createFolderStructure() {
   createFolder $SMBSE_USER;
   createFolder $SMBSE_RECYCLEBIN; # add alias to rm del
+  createFolder $SMBSE_RECOVERED;
   createFolder $SMBSE_NSTORAGE;
   createFolder $SMBSE_TSTORAGE;
   createFolder $SMBSE_SSTORAGE;
@@ -105,7 +106,7 @@ createFolderStructure() {
   createFolder $SMBSE_PROGRAMMING_ASSEMBLER
   createFolder $SMBSE_PROGRAMMING_BASH
   createFolder $SMBSE_PROGRAMMING_C
-  createFolder $SMBSE_PROGRAMMING_C++
+  createFolder $SMBSE_PROGRAMMING_Cpp
   createFolder $SMBSE_PROGRAMMING_CSS
   createFolder $SMBSE_PROGRAMMING_GO
   createFolder $SMBSE_PROGRAMMING_HTML
@@ -200,6 +201,10 @@ alias update='"'"'apt-get update && apt-get upgrade'"'"'
 alias gacp='"'"'SMBSEGACP'"'"'
 alias @help='"'"'SMBSEHELP'"'"'
 alias sysinfo='"'"'SMBSESYSINFO'"'"'
+alias del='"'"'SMBSEDEL'"'"'
+alias delete='"'"'SMBSDEL'"'"'
+alias recycle='"'"'SMBSERECYCLE'"'"'
+alias recover='"'"'SMBSERECOVER'"'"'
 
 # paths, you need shopt -s cdable-vars in .bashrc
 _smbse='"'"''"$SMBSE"''"'"'
@@ -214,7 +219,7 @@ _p='"'"''"$SMBSE_PROGRAMMING"''"'"'
 _a='"'"''"$SMBSE_PROGRAMMING_ASSEMBLER"''"'"'
 _b='"'"''"$SMBSE_PROGRAMMING_BASH"''"'"'
 _c='"'"''"$SMBSE_PROGRAMMING_C"''"'"'
-_c++='"'"''"$SMBSE_PROGRAMMING_C++"''"'"'
+_cpp='"'"''"$SMBSE_PROGRAMMING_CPP"''"'"'
 _css='"'"''"$SMBSE_PROGRAMMING_CSS"''"'"'
 _go='"'"''"$SMBSE_PROGRAMMING_GO"''"'"'
 _html='"'"''"$SMBSE_PROGRAMMING_HTML"''"'"'
@@ -263,6 +268,22 @@ _logs='"'"''"$SMBSE_SYSADMIN_LOGS"''"'"'
 # Upload to github
 SMBSEGACP() {
   git add --all && git commit -m "$1" && git push
+}
+
+# remove files from recyclebin
+SMBSERECYCLE() {
+  rm -r "$SMBSE_RECYCLEBIN" && createFolder $SMBSE_RECYCLEBIN;
+}
+
+# recover file from recyclebin
+SMBSERECOVER() {
+  echo "TODO:Add 7zip extract to specified file or all files if not specified"
+}
+
+# Compress and move files to recyclebin
+SMBSEDEL() {
+  7z a "$1".7z "$1" -sdel 2>&1 > /dev/null && mv "$1".7z "$SMBSE_RECYCLEBIN" 2>&1 > /dev/null;
+  js '"'"'std.out.puts("\n" + new Date() + " deleted from " + os.getcwd()[0])'"'"' >> "$SMBSE_RECYCLEBIN/register.txt" && echo "$1" >> "$SMBSE_RECYCLEBIN/register.txt"
 }
 
 # Show system information
