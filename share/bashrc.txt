@@ -41,7 +41,8 @@ createFolder $SMBSE_TMP;
 
 # Base structure to share between devices
 SMBSE_USER="$SMBSE/user"
-                                                                       # programming
+
+# programming
 # add manuals and links to resources
 SMBSE_PROGRAMMING="$SMBSE_USER/programming" # programming examples
 SMBSE_PROGRAMMING_ASSEMBLER="$SMBSE_PROGRAMMING/assembler"
@@ -272,12 +273,12 @@ SMBSEGACP() {
 
 # remove files from recyclebin
 SMBSERECYCLE() {
-  rm -r "$SMBSE_RECYCLEBIN" && createFolder $SMBSE_RECYCLEBIN;
+  rm -r "$SMBSE_RECYCLEBIN/*" 2>&1 > /dev/null;
 }
 
 # recover file from recyclebin
 SMBSERECOVER() {
-  echo "TODO:Add 7zip extract to specified file or all files if not specified"
+    7z x "$SMBSE_RECYCLEBIN/*.7z" -o"$SMBSE_RECOVERED" 2>&1 > /dev/null && rm -r *.7z 2>&1 > /dev/null;
 }
 
 # Compress and move files to recyclebin
@@ -716,27 +717,31 @@ for(let i in scriptArgs) {
   let nArg = scriptArgs[+i + 1];
   switch(arg) {
     case "alias":
-      console.log(`l      ls
-la      ls -a
-v       vim
-c       clear
-cl      clear && ls
-..      cd ..
-...     cd ../..
-....    cd ../../..
-.....   cd ../../../..
-pserv   python -m http.server
-gitc    git clone
-775     chmod +775
-folder  du -h --max-depth=1
-h       history
-irc     weechat
-myip    curl http://ifconfig.me/ip
-quit    exit
-q       exit
-sb      source ~/.bashrc
-update  apt-get update && apt-get upgrade
-gacp    git add --all && git commit $1 && git push
+      console.log(`l          ls
+la         ls -a
+v          vim
+c          clear
+cl         clear && ls
+..         cd ..
+...        cd ../..
+....       cd ../../..
+.....      cd ../../../..
+pserv      python -m http.server
+gitc       git clone
+775        chmod +775
+folder     du -h --max-depth=1
+h          history
+irc        weechat
+myip       curl http://ifconfig.me/ip
+quit       exit
+q          exit
+sb         source ~/.bashrc
+update     apt-get update && apt-get upgrade
+gacp       git add --all && git commit $1 && git push
+del        compress and move a file to recyclebin
+delete     same as del
+recycle    delete files inside /recyclebin
+recover    recover deleted files and move them to /recovered
 
 _smbse         _user           _rb            _ns
 _ts            _ss             _os            _bs
@@ -879,8 +884,8 @@ SMBSE_FUNCTION_MOTD() {
       ¦      - Extra packages     - Predefined Alias         ¦
       ¦      - Custom Settings    - Programming Languages    ¦
       ¦                                                      |
-      ¦     Extra packages:                                  |
-      ¦      - typewrite                                     ¦
+      ¦     Custom filesystem:                               |
+      ¦      - Recyclebin                                    ¦
       ¦                                                      ¦
       ¦     Predefined Alias:                                ¦
       ¦      * c:   clear         * ..:    cd ..             ¦
