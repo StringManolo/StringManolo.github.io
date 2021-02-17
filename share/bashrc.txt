@@ -11,8 +11,7 @@ HISTCONTROL=ignoreboth
 
 # append to the history file, don't overwrite it
 shopt -s histappend
-# share history between shell sessions
-PROMPT_COMMAND='history -a'
+# share history between shell sessions                                 PROMPT_COMMAND='history -a'
 
 # history length
 HISTSIZE=10000
@@ -29,6 +28,8 @@ SMBSE_TMP="$SMBSE/.tmp"
 SMBSE_VERSION="0.1"
 export SMBSE_VERSION_LONG="SMBSE $SMBSE_VERSION"
 export SMBSE_BASH_VERSION="$(help | head -n 1)";
+export SMBSE_TTL_TSTORAGE="1" #Time to delete temporalStorage
+
 
 # create folders without warnings
 createFolder() {
@@ -264,12 +265,61 @@ _logs='"'"''"$SMBSE_SYSADMIN_LOGS"''"'"'
 
 # Functions works the same as aliases:
 
-# Help message.  Change by js runnable.
+# Help message.
 
 # Upload to github
 SMBSEGACP() {
   git add --all && git commit -m "$1" && git push
 }
+
+# get last file date inside storage
+SMBSEINTERNALTSTORAGEDATE() {
+  js '"'"'console.log("Running js...");
+  let dToMins = date => {
+    let [h, m] = date.split(":")
+    return +m + (+h * 60);
+  }
+
+  let removeDuplicatedSpaces = str => {
+    while (/  /g.test(str) ) {
+      str = str.replaceAll("  ", " ");
+    }
+    return str;
+  }
+
+let numberOfFiles = run(`ls -A '"'"''"$SMBSE_TSTORAGE"''"'"' | wc -l`);
+  let last2 = run(`ls -Artl '"'"''"$SMBSE_TSTORAGE"''"'"' | tail -n 2`).split("\n");
+  if (numberOfFiles > 1) {
+    let fileToCheck = removeDuplicatedSpaces(last2[0]).split(" ");
+    let fileToCompare = removeDuplicatedSpaces(last2[1]).split(" ");
+    if (fileToCheck[5] != fileToCompare[5]) {
+console.log("MONTH MISSMATCH");
+console.log(`${fileToCheck}
+${fileToCompare}
+files 6° element is not the same`);
+            console.log(run(`echo '"'"''"$SMBSE_TSTORAGE/*"''"'"'`));
+    } else if (fileToCheck[6] != fileToCompare[6]) {
+console.log("DAY MISSMATCH");
+        console.log(run(`echo "'"'"''"$SMBSE_TSTORAGE/*"''"'"'`))
+    } else {
+      if ( dToMins(fileToCompare[7]) - dToMins(fileToCheck[7]) > std.getenv("SMBSE_TTL_TSTORAGE") ) {
+console.log("MORE TIME THAN SPECIFIED BY USER CONFIG")
+              console.log(run(`echo '"'"''"$SMBSE_TSTORAGE/*"''"'"'`));
+        console.log(`${dToMins(fileToCompare[7])} - ${dToMins(fileToCheck[7])} > ${std.getenv("SMBSE_TTL_TSTORAGE")}
+        ${fileToCompare} - ${fileToCheck} > 1`);
+
+      } else {
+console.log("NOT ENOUGHT TIME TO DELETE ALL. DELETING LAST.")
+console.log(`${dToMins(fileToCompare[7])} - ${dToMins(fileToCheck[7])} > ${std.getenv("SMBSE_TTL_TSTORAGE")}
+        ${fileToCompare} - ${fileToCheck} > 1`);
+
+      }
+    }
+
+  }
+  '"'"'
+}
+
 
 # remove files from recyclebin
 SMBSERECYCLE() {
@@ -663,7 +713,45 @@ js() {
   qjs "$SMBSE_BIN/.js" "$1";
 }
 
+# run c++ using c++ command
+echo '"'"'import * as std from "std";
+import * as os from "os";
 
+let run = command => {
+  let p = std.popen(command, "r"),
+  msg = "",
+  r = "";
+  while(( r = p.getline() ) != null) {
+    msg += r + "\n";
+  }
+  return msg;
+}
+
+const cppFunctions = `#include <iostream>
+using namespace std;
+
+int main(int argv, char *argc[]) {
+
+`;
+
+let result ="";
+try {
+  let fd = std.open(".internalCppEvaling.cpp", "w+");
+  fd.puts(`${cppFunctions}${scriptArgs.splice(1,1)}
+return 0;
+}`);
+  fd.close();
+  result = run(`g++ -o .internalCppEvaling.cpp .internalCppEvaling.cpp 2>&1 > /dev/null && chmod +775 .internalCppEvaling.cpp 2>&1 > /dev/null && ./.internalCppEvaling.cpp 2>&1 `);
+  run("rm .internalCppEvaling.cpp && 2>&1 > /dev/null");
+
+} catch(err) {
+  result = `Error running the code: ${err}`;
+}
+
+console.log(result);'"'"' > "$SMBSE_BIN/.cpp";
+c++() {
+  qjs "$SMBSE_BIN/.cpp" "$1";
+}
 
 # Enable typewriter effect
 
@@ -898,7 +986,9 @@ SMBSE_FUNCTION_MOTD() {
       ¦                                                      ¦
       ¦     Programming Languages:                           ¦
       ¦                                                      ¦
-      ¦     $ js '"'"'console.log(new Date())'"'"';                  ¦
+      ¦     > js '"'"'console.log(new Date())'"'"';                  ¦
+      ¦     > c++ '"'"'#include <stdio.h>                        ¦
+      ¦            printf("Hell%c", 'o');'"'"'                       ¦
       ¦                                                      ¦"
     #.------------------------------------------------------."
   typewrite '"'"'      .------------------------------------------------------.
