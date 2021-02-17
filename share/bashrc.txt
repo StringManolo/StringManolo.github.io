@@ -7,11 +7,11 @@ case $- in
 esac
 
 # don't put duplicate lines or lines starting with space in the history.
-HISTCONTROL=ignoreboth
-
+HISTCONTROL=ignoreboth                                                 
 # append to the history file, don't overwrite it
 shopt -s histappend
-# share history between shell sessions                                 PROMPT_COMMAND='history -a'
+# share history between shell sessions
+PROMPT_COMMAND='history -a'
 
 # history length
 HISTSIZE=10000
@@ -28,18 +28,16 @@ SMBSE_TMP="$SMBSE/.tmp"
 SMBSE_VERSION="0.1"
 export SMBSE_VERSION_LONG="SMBSE $SMBSE_VERSION"
 export SMBSE_BASH_VERSION="$(help | head -n 1)";
-export SMBSE_TTL_TSTORAGE="1" #Time to delete temporalStorage
+export SMBSE_TTL_TSTORAGE="1" #Time in minutes to delete temporalStorage
 
 
 # create folders without warnings
 createFolder() {
   [ ! -d "$1" ] && mkdir "$1";
 }
-
-createFolder $SMBSE;
+                                                                       createFolder $SMBSE;
 createFolder $SMBSE_BIN;
-createFolder $SMBSE_TMP;
-
+createFolder $SMBSE_TMP;                                               
 # Base structure to share between devices
 SMBSE_USER="$SMBSE/user"
 
@@ -274,8 +272,7 @@ SMBSEGACP() {
 
 # get last file date inside storage
 SMBSEINTERNALTSTORAGEDATE() {
-  js '"'"'console.log("Running js...");
-  let dToMins = date => {
+  js '"'"'let dToMins = date => {
     let [h, m] = date.split(":")
     return +m + (+h * 60);
   }
@@ -293,26 +290,12 @@ let numberOfFiles = run(`ls -A '"'"''"$SMBSE_TSTORAGE"''"'"' | wc -l`);
     let fileToCheck = removeDuplicatedSpaces(last2[0]).split(" ");
     let fileToCompare = removeDuplicatedSpaces(last2[1]).split(" ");
     if (fileToCheck[5] != fileToCompare[5]) {
-console.log("MONTH MISSMATCH");
-console.log(`${fileToCheck}
-${fileToCompare}
-files 6° element is not the same`);
-            console.log(run(`echo '"'"''"$SMBSE_TSTORAGE/*"''"'"'`));
+      run(`rm '"'"''"$SMBSE_TSTORAGE/*"''"'"'`);
     } else if (fileToCheck[6] != fileToCompare[6]) {
-console.log("DAY MISSMATCH");
-        console.log(run(`echo "'"'"''"$SMBSE_TSTORAGE/*"''"'"'`))
+      run(`rm "'"'"''"$SMBSE_TSTORAGE/*"''"'"'`);
     } else {
       if ( dToMins(fileToCompare[7]) - dToMins(fileToCheck[7]) > std.getenv("SMBSE_TTL_TSTORAGE") ) {
-console.log("MORE TIME THAN SPECIFIED BY USER CONFIG")
-              console.log(run(`echo '"'"''"$SMBSE_TSTORAGE/*"''"'"'`));
-        console.log(`${dToMins(fileToCompare[7])} - ${dToMins(fileToCheck[7])} > ${std.getenv("SMBSE_TTL_TSTORAGE")}
-        ${fileToCompare} - ${fileToCheck} > 1`);
-
-      } else {
-console.log("NOT ENOUGHT TIME TO DELETE ALL. DELETING LAST.")
-console.log(`${dToMins(fileToCompare[7])} - ${dToMins(fileToCheck[7])} > ${std.getenv("SMBSE_TTL_TSTORAGE")}
-        ${fileToCompare} - ${fileToCheck} > 1`);
-
+        run(`rm '"'"''"$SMBSE_TSTORAGE/*"''"'"'`);
       }
     }
 
@@ -1022,3 +1005,6 @@ fi
    # export LESS_TERMCAP_me=${white};
    # export LESS_TERMCAP_se=${blue};
    # export LESS_TERMCAP_so=${blue};
+
+ # Delete the files inside TSTORAGE if enought time passed by from last file modification inside the folder.
+SMBSEINTERNALTSTORAGEDATE;
