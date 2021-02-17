@@ -1,38 +1,57 @@
 # Bash Shell Extension by @StringManolo
 
+# Log activity. Options are CONSOLE, FILE, BOTH, NONE.
+#export SMBSE_INTERNAL_LOG="CONSOLE"
+export SMBSE_INTERNAL_LOG="NONE"
+SMBSE_LOGME() {
+  if [ "$SMBSE_INTERNAL_LOG" == "CONSOLE" ]; then
+    echo -e "[$(date +%H:%M:%S:%4N)]" "\e[1;32m" $1 "\e[0m";             fi
+}
+
+SMBSE_LOGME "Running \e[1;34mSMBSE 1.0\e[0m\e[1;32m from ~/.bashrc ...";
+
 # If not running interactively, don't do anything
-case $- in
+SMBSE_LOGME 'Check if terminal is running interactively.';             case $- in
     *i*) ;;
       *) return;;
 esac
 
+SMBSE_LOGME "Running .bashrc"
+
 # don't put duplicate lines or lines starting with space in the history.
+SMBSE_LOGME 'Setting history to ignore duplicated lines and lines starting with space'
 HISTCONTROL=ignoreboth
 
 # append to the history file, don't overwrite it
-shopt -s histappend
-# share history between shell sessions
+SMBSE_LOGME 'Append to history setted up'
+shopt -s histappend                                                    # share history between shell sessions
+SMBSE_LOGME 'Sharing history between terminals'
 PROMPT_COMMAND='history -a'
 
 # history length
+SMBSE_LOGME 'History size is 10000, file size is 20000'
 HISTSIZE=10000
-HISTFILESIZE=20000
-
+HISTFILESIZE=20000                                                     
 # check the window size after each command and, if necessary,
 # update the values of LINES and COLUMNS.
+SMBSE_LOGME 'Resize setted up'
 shopt -s checkwinsize
 
 # Set enviroment variables
-SMBSE="$HOME/SMBSE"
+SMBSE_LOGME 'Creating enviroment variables...'                         SMBSE="$HOME/SMBSE"
+SMBSE_LOGME 'SMBSE, SMBSE_BIN, SMBSE_TMP, SMBSE_VERSION.'
 SMBSE_BIN="$SMBSE/bin"
 SMBSE_TMP="$SMBSE/.tmp"
 SMBSE_VERSION="0.1"
+SMBSE_LOGME 'Exporting long SMBSE version and bash version for internal usage';
 export SMBSE_VERSION_LONG="SMBSE $SMBSE_VERSION"
 export SMBSE_BASH_VERSION="$(help | head -n 1)";
+SMBSE_LOGME 'Exporting time to live to temporal storage'
 export SMBSE_TTL_TSTORAGE="1" #Time in minutes to delete temporalStorage
 
 
 # create folders without warnings
+SMBSE_LOGME 'Defined createFolder bash function'
 createFolder() {
   [ ! -d "$1" ] && mkdir "$1";
 }
@@ -40,8 +59,10 @@ createFolder() {
 createFolder $SMBSE;
 createFolder $SMBSE_BIN;
 createFolder $SMBSE_TMP;
+SMBSE_LOGME 'Created enviroment folders'
 
 # Base structure to share between devices
+SMBSE_LOGME 'Setting up all file structure variables'
 SMBSE_USER="$SMBSE/user"
 
 # programming
@@ -67,6 +88,7 @@ SMBSE_PROGRAMMING_PYTHON2="$SMBSE_PROGRAMMING/python2"
 SMBSE_PROGRAMMING_RUBY="$SMBSE_PROGRAMMING/ruby"
 SMBSE_PROGRAMMING_SQL="$SMBSE_PROGRAMMING/sql"
 SMBSE_PROGRAMMING_PROJECTS="$SMBSE_PROGRAMMING/projects"
+SMBSE_LOGME 'All programming folders DONE'
 
 # hacking
 SMBSE_HACKING="$SMBSE_USER/hacking"
@@ -82,10 +104,14 @@ SMBSE_HACKING_TOOLS_BLACKSEO="$SMBSE_HACKING_TOOLS/blackseo"
 SMBSE_HACKING_TOOLS_ANALYSIS="$SMBSE_HACKING_TOOLS/analysis"
 SMBSE_HACKING_TOOLS_NOTES="$SMBSE_HACKING_TOOLS/notes"
 SMBSE_HACKING_TOOLS_REPORTS="$SMBSE_HACKING_TOOLS/reports"
+SMBSE_LOGME 'All hacking folders DONE'
+
 
 # sysadmin
 SMBSE_SYSADMIN="$SMBSE_USER/sysadmin"
 SMBSE_SYSADMIN_LOGS="$SMBSE_SYSADMIN/logs"
+SMBSE_LOGME 'All sysadmin folders DONE'
+
 
 # storage
 SMBSE_RECYCLEBIN="$SMBSE_USER/recycleBin" # move here before
@@ -95,6 +121,9 @@ SMBSE_TSTORAGE="$SMBSE_USER/tStorage" # temporal storage 24h flf
 SMBSE_SSTORAGE="$SMBSE_USER/sStorage" # secure storage
 SMBSE_OSTORAGE="$SMBSE_USER/oStorage" # online hard drive
 SMBSE_BSTORAGE="$SMBSE_USER/bStorage" # backup storage
+SMBSE_LOGME 'Recycle Bin and Storage DONE'
+
+SMBSE_LOGME 'Creating all folders...'
 createFolderStructure() {
   createFolder $SMBSE_USER;
   createFolder $SMBSE_RECYCLEBIN; # add alias to rm del
@@ -146,6 +175,7 @@ createFolderStructure() {
 }
 
 createFolderStructure;
+SMBSE_LOGME 'All filesystem DONE'
 
 # add custom path to search commands
 addPath() {
@@ -154,10 +184,11 @@ addPath() {
   fi
 }
 
+SMBSE_LOGME 'Adding new bin folder to $PATH DONE'
 addPath $SMBSE_BIN;
 
 # term true color
-
+SMBSE_LOGME 'Color auto for [ls,dir,vdir,grep,fgrep,egrep] DONE'
 # Add colors before alias
 alias ls='ls --color=auto'
 alias dir='dir --color=auto'
@@ -167,13 +198,17 @@ alias fgrep='fgrep --color=auto'
 alias egrep='egrep --color=auto'
 
 # make variables cdable.
+SMBSE_LOGME 'Variables are cdable TRUE'
 shopt -s cdable_vars
 
 
 # Import alias from the file
+SMBSE_LOGME 'Checking if SMBSE alias file already exists'
 if [ -f "$SMBSE/alias" ]; then
+  SMBSE_LOGME 'Alias file found, importing it...'
   . "$SMBSE/alias";
 else
+  SMBSE_LOGME 'Creating alias file'
   # Create file for alias
   # touch "$SMBSE/alias" 2>&1 > /dev/null
 
@@ -579,15 +614,20 @@ extract() {
 }
 
   ' > "$SMBSE/alias";
+  SMBSE_LOGME 'Alias file created sucesfully. Importing alias...'
   . "$SMBSE/alias";
 fi
-
+  SMBSE_LOGME 'Alias import DONE';
 
 # Import logout from the file
+SMBSE_LOGME 'Checking if SMBSE logout file already exists';
 if [ -f "$SMBSE/logout" ]; then
+  SMBSE_LOGME 'Logout file found, importing it';
   . "$SMBSE/logout";
+  SMBSE_LOGME 'Logout import DONE';
 else
   # Create file for logout
+  SMBSE_LOGME 'Creating logout file';
   # touch "$SMBSE/logout" 2>&1 > /dev/null
   echo 'logout() {
   echo ${green};
@@ -600,12 +640,14 @@ else
 }
 
 trap logout EXIT;' > "$SMBSE/logout";
+  SMBSE_LOGME 'Logout file created sucesfully. Importing logout...';
   . "$SMBSE/logout";
+  SMBSE_LOGME 'Logout import DONE';
 fi
 
 
-
 # Set qjs as javascript main engine to run some scripts
+SMBSE_LOGME 'Setting quickjs as javascript engine';
 SMBSE_JSENGINE='qjs'
 
 # Test if qjs exists, else download and install it
@@ -613,13 +655,16 @@ testIfJsEngineAvailable() {
   qjs -q 2>&1 > /dev/null || (echo "Downloading quickjs, wait please..."; curl --silent 'https://bellard.org/quickjs/binary_releases/quickjs-linux-x86_64-2020-11-08.zip' -o "$SMBSE_TMP/qjs_zip_first_install" 2>&1 1> /dev/null && unzip "$SMBSE_TMP/qjs_zip_first_install" -d "$SMBSE_TMP" 2>&1 1> /dev/null && cp "$SMBSE_TMP/qjs" "$SMBSE_BIN/qjs" 2>&1 1> /dev/null && rm -r "$SMBSE_TMP" 2>&1 1> /dev/null && createFolder "$SMBSE_TMP")
 }
 
+SMBSE_LOGME 'Test if qjs exists, else, download and install it.';
 testIfJsEngineAvailable;
 
 
 # Set the defualt editor
+SMBSE_LOGME 'Setting vim as default text editor.';
 export EDITOR='vim'
 
 # Set auto cd
+SMBSE_LOGME 'Setting autocd';
 shopt -s autocd
 
 # define colors
@@ -636,22 +681,29 @@ export black=$'\e[0;30m'
 export darkgray=$'\e[1;30m'
 export darkred=$'\e[0;31m'
 export darkgreen=$'\e[0;32m'
-export brown=$'\e[0;33m'
+export darkyellow=$'\e[0;33m'
 export darkblue=$'\e[0;34m'
 export magenta=$'\e[0;35m'
 export darkcyan=$'\e[0;36m'
 export underlinedarkgray=$'\e[0;30m'
 
+SMBSE_LOGME "Exporting [${red}red${endc}, ${green}green${endc}, ${yellow}yellow${endc}, ${blue}blue${endc}, ${cyan}cyan${endc}, ${white}white${endc}, ${lightgray}lightgray${endc}, ${black}black${endc}, ${darkgray}darkgray${endc}, ${darkred}darkred${endc}, ${darkgreen}darkgreen${endc}, ${darkyellow}darkyellow${endc}, ${darkblue}darkblue${endc}, ${magenta}magenta${endc}, ${darkcyan}darkcyan${endc}, ${underlinedarkgray}underlinedarkgray${endc}${green}] colors to terminal";
+
 # Custom Console
+SMBSE_LOGME 'Setting PS1 and PS2 terminal indicators'
 PS1='\n\n${underlinedarkgray}${darkgray}(${blue}$(date +%H${darkgray}:${blue}%M${darkgray}:${blue}%S${darkgray}:${blue}%4N)${darkgray}) ${green}$(pwd)${endc}\n> '
 
 #PS1='\n\n[${blue}$(date +%H${endc}:${blue}%M${endc}:${blue}%S${endc}:${blue}%4N)${endc}] ${green}$(pwd)${endc}\n${blue}>${endc} '
 PS2='${blue}.${endc}  '
 
 # Extra binaries file
+SMBSE_LOGME 'Testing if SMBSE extra binaries file exists'
 if [ -f "$SMBSE/extras" ]; then
+  SMBSE_LOGME 'Extras file found, importing it'
   . "$SMBSE/extras";
+  SMBSE_LOGME 'Extra file import DONE'
 else
+  SMBSE_LOGME 'Creating extra file'
   echo '# This file have some extra binaries that dosn'"'"'t fit into /bin
 
 # Run javascript using js command
@@ -1011,17 +1063,46 @@ Type '"'\"'\"'"'@help name'"'\"'\"'"' to find out more about the function '"'\"'
 
 
 ' > "$SMBSE/extras";
+  SMBSE_LOGME 'Extras file created sucefully, importing...'
   . "$SMBSE/extras";
+  SMBSE_LOGME 'Extras file import DONE'
 fi
 
+SMBSE_LOGME 'Exporting color green to man'
+# Color for manpages
+   export LESS_TERMCAP_mb=${green};
+   export LESS_TERMCAP_md=${green};
+   # export LESS_TERMCAP_me=${white};
+   # export LESS_TERMCAP_se=${blue};
+   # export LESS_TERMCAP_so=${blue};
+
+ # Delete the files inside TSTORAGE if enought time passed by from last file modification inside the folder.
+SMBSE_LOGME 'Checking temporal files under TSTORAGE'
+SMBSEINTERNALTSTORAGEDATE;
+
+
+
 # Custom Welcome Msg
-clear;
+SMBSE_LOGME 'Checking if internal logging is set to NONE'
+if [ "$SMBSE_INTERNAL_LOG" == "NONE" ]; then
+  SMBSE_LOGME 'Clearing console'
+  clear
+fi
+
+SMBSE_LOGME 'Checking if SMBSE motd file exists'
 if [ -f "$SMBSE/motd" ]; then
+  SMBSE_LOGME 'SMBSE motd found'
+  SMBSE_LOGME 'Checking if $PREFIX/etc/motd file exists'
   if [ -f "$PREFIX/etc/motd" ]; then
+    SMBSE_LOGME '$PREFIX/etc/motd file found';
+    SMBSE_LOGME 'Making backup and removing original...'
     cp "$PREFIX/etc/motd" "$PREFIX/etc/motd~" 2>&1 > /dev/null && rm "$PREFIX/etc/motd" 2>&1 > /dev/null;
   fi
+  SMBSE_LOGME 'Importing SMBSE motd file'
   . "$SMBSE/motd"
+  SMBSE_LOGME 'Calling SMBSE motd function'
   SMBSE_FUNCTION_MOTD;
+
 else
   # If you want to edit the welcome message, change the generated motd file.
   echo '# This file is the function outputing the welcome message.
@@ -1083,14 +1164,3 @@ SMBSE_FUNCTION_MOTD() {
   . "$SMBSE/motd";
   SMBSE_FUNCTION_MOTD;
 fi
-
-
- # Color for manpages
-   export LESS_TERMCAP_mb=${green};
-   export LESS_TERMCAP_md=${green};
-   # export LESS_TERMCAP_me=${white};
-   # export LESS_TERMCAP_se=${blue};
-   # export LESS_TERMCAP_so=${blue};
-
- # Delete the files inside TSTORAGE if enought time passed by from last file modification inside the folder.
-SMBSEINTERNALTSTORAGEDATE;
