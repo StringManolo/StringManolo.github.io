@@ -6,17 +6,16 @@ export SMBSE_INTERNAL_LOG="CONSOLE"
 SMBSE_LOGME() {
   if [ "$SMBSE_INTERNAL_LOG" == "CONSOLE" ]; then
     echo -e "[$(date +%H:%M:%S:%4N)]" "\e[1;32m" $1 "\e[0m";
-  fi
-}
+  fi                                                            }
+                                                                SMBSE_LOGME "Running \e[1;34mSMBSE 1.0\e[0m\e[1;32m from ~/.bashrc ...";
 
-SMBSE_LOGME "Running \e[1;34mSMBSE 1.0\e[0m\e[1;32m from ~/.bashrc ...";
-
-# If not running interactively, don't do anything
+# if not running interactively, don't do anything
 SMBSE_LOGME 'Check if terminal is running interactively.';
 case $- in
   *i*) ;;
     *) return;;
 esac
+
 
 SMBSE_LOGME "Running .bashrc";
 
@@ -837,4 +836,334 @@ const C = {
   RED: "\x1b[31m",
   RESET: "\x1b[0m",
   YELLOW:"\x1b[33m",
-  BLUE: "\x1b[
+  BLUE: "\x1b[1;34m",
+  GREEN: "\x1b[32m"
+};
+
+
+for(let i in scriptArgs) {
+  let arg = scriptArgs[i];
+  let nArg = scriptArgs[+i + 1];
+  switch(arg) {
+    case "alias":
+      console.log(`l          ls
+la         ls -a
+v          vim
+c          clear
+cl         clear && ls
+..         cd ..
+...        cd ../..
+....       cd ../../..
+.....      cd ../../../..
+pserv      python -m http.server
+gitc       git clone
+775        chmod +775
+folder     du -h --max-depth=1
+h          history
+irc        weechat
+myip       curl http://ifconfig.me/ip
+quit       exit
+q          exit
+sb         source ~/.bashrc
+update     apt-get update && apt-get upgrade
+gacp       git add --all && git commit $1 && git push
+del        compress and move a file to recyclebin
+delete     same as del
+recycle    delete files inside /recyclebin
+recover    recover deleted files and move them to /recovered
+
+_smbse         _user           _rb            _ns
+_ts            _ss             _os            _bs
+_p             _a              _b             _c
+_cpp           _css            _go            _html
+_java          _javascript     _js            _browser
+_node          _qjs            _lua           _perl
+_php           _python         _python2       _ruby
+_sql           _pp             _projects      _h
+_ht            _htoolS         _hanalysis     _hnotes
+_hreports      _hig            _hinfo         _hexploits
+_hpostexploit  _hpersistence   _hbruteforce   _hreversing
+_hwireless     _hbalckseo      _sysadmin      _logs
+
+      `);
+    std.exit();
+
+    case "autocd":
+      console.log(`You can skip cd in case the argument is a folder and not a command or an alias.
+
+before: cd ~/SMBSE
+after: ~/SMBSE`);
+      std.exit();
+
+    case "bin":
+      console.log(`There is an extra bin folder under the path ~/SMBSE/bin
+Bin folder is there for you to add your commands, scripts and binaries. Intended to split system binaries from user defined binaries. You can use binaries in the bin folder same as if they where inside ~/../usr/bin`);
+      std.exit();
+
+    case "c++":
+    case "cpp":
+    case "c":
+      console.log(`Run c/c++ code. The code is being embeed inside an int main funcion with return 0, using namespace std and included iostream by default. Then the code is compiled by g++ and runned after.
+Examples:
+c++ '"'\"'\"'"'cout << 7 * 7;'"'\"'\"'"'
+
+c++ '"'\"'\"'"'#include <stdio.h>
+printf("Hello %s", "world");
+'"'\"'\"'"'
+
+c++ '"'\"'\"'"'cout << "Hey! how are you?";'"'\"'\"'"' | grep -i hey
+
+c++ '"'\"'\"'"'cout << "Need to add more examples xD" << endl;
+`);
+
+      std.exit();
+
+
+    case "extract":
+      console.log(`Extract from common files (based on file extension),
+tar.bz2, tar.gz, bz2, rar, .gz, tar, tbz2, tgz, zip, Z, 7z`);
+      std.exit();
+
+
+    case "filesystem":
+      console.log(`SMBSE/bin  Use this folder to add commands and scripts you make. Good way to split system binaries from your own binaries.
+
+SMBSE/.tmp  Ignore this one. The program use the folder internally to manipulate dependencies and temporal files.
+
+SMBSE/user/recycleBin  You can delete files and folders by using the del or the delete command. The deleted files are compressed and moved here afterwards
+You can recover the files by using the recover command.
+Or you can permanently delete all files by running recycle.
+
+SMBSE/user/recovered  The recovered files are available here. You probably want to manually move them to original path using mv command.
+
+SMBSE/user/nStorage  Normal storage, nothing special. Use this folder to store all your files that dont make sense to have anywhere else. Usefull yo avoid have files everywhere.
+
+SMBSE/user/tStorage  The files stored here are going to be removed. Youcan set the time you want to execute the remove. Use the enviroment variable directly from the terminal SMBSE_TTL_TSTORAGE="1" for no less than 1 minute.
+The files are deleted when you login/open a new terminal (in case their time to live expired). The timer restarts when you create or modify a file. Max time files can live is from X to 00:00. Remember that in case you create a file at 23:58 and expect it to be there for longer period of time.
+
+SMBSE/user/sStorage  Secure Storage is not developed yet.
+SMBSE/user/oStorage  Online Storage is not developed yet.
+SMBSE/user/bStorage  Backup Storage is not developed yet.
+SMBSE/user/programming/assembler
+SMBSE/user/programming/bash
+SMBSE/user/programming/c
+SMBSE/user/programming/cpp
+SMBSE/user/programming/css
+SMBSE/user/programming/go
+SMBSE/user/programming/html
+SMBSE/user/programming/java
+SMBSE/user/programming/javascript/browser
+SMBSE/user/programming/javascript/node
+SMBSE/user/programming/javascript/qjs
+SMBSE/user/programming/javascript
+SMBSE/user/programming/lua
+SMBSE/user/programming/perl
+SMBSE/user/programming/php
+SMBSE/user/programming/python
+SMBSE/user/programming/python2
+SMBSE/user/programming/ruby
+SMBSE/user/programming/sql
+SMBSE/user/programming/projects
+SMBSE/user/programming   Keep track of your codes.
+SMBSE/user/hacking/tools/analysis
+SMBSE/user/hacking/tools/notes
+SMBSE/user/hacking/tools/reports
+SMBSE/user/hacking/tools/infogathering
+SMBSE/user/hacking/tools/exploits
+SMBSE/user/hacking/tools/postexploitation
+SMBSE/user/hacking/tools/persistence
+SMBSE/user/hacking/tools/bruteforce
+SMBSE/user/hacking/tools/reversing
+SMBSE/user/hacking/tools/wireless
+SMBSE/user/hacking/tools/blackseo
+SMBSE/user/hacking/tools  Security tools
+SMBSE/user/hacking  Your security related stuff
+SMBSE/user/sysadmin/logs  Move all your logs here and use cd _logs
+SMBSE/user/sysadmin  Your sysadmin stuff go here
+SMBSE/user  User
+SMBSE/  Main
+
+Most of this directories are easily accesible by using cd _shortNameOfFolder. For example if you run cd _ts you change directory to SMBSE/user/tStorage. Use @help alias to see all the shortcuts to folders.
+`);
+      std.exit();
+
+    case "js":
+      console.log(`Run javascript code. Underliying engine is quickjs.
+std and os modules are imported by defualt.
+Extra run funcion to run commands in a bash subshell.
+Examples:
+js '"'\"'\"'"'console.log(7 *7);'"'\"'\"'"'
+
+js '"'\"'\"'"'let hello = "hello world";
+for (let i in hello) {
+  console.log(hello[i]);
+}'"'\"'\"'"'
+
+js '"'\"'\"'"'let httpHeaders = run("curl --silent https://example.com -I");
+console.log(httpHeaders)'"'\"'\"'"' | grep -i server
+
+js '"'\"'\"'"'let homeFiles = run("ls ~").split("\\n");
+homeFiles.splice(homeFiles.length - 1);
+console.log("Home files in json:\\n" + JSON.stringify(homeFiles, null, 2));'"'\"'\"'"'
+`);
+      std.exit();
+
+    case "logout":
+      console.log(`SMBSE/logout file have a logout bash funcion that is being called when you start a shell setting a trap.
+
+The trap is thrown when you logout from the shell. For example writting exit.
+
+This file exists in case you want to modify it and include your own logout text, command or bash code to do something before logout.
+`);
+      std.exit();
+
+    case "motd":
+      console.log(`SMBSE/motd file have a SMBSE_FUNCTION_MOTD() bash funcion that is being called when you start a shell.
+
+This file exists in case you want to modify it and include your own welcome text, command or bash code to do something when you open a shell.
+`);
+      std.exit();
+    case "sysinfo":
+      console.log(`sysinfo command show you information from the system. If your system is Android, show also extra information.`);
+      std.exit();
+
+    case "typewrite":
+      console.log(`typewrite command printf each character with specified delay.
+
+Examples:
+typewrite '"'\"'\"'"'Hello!'"'\"'\"'"' 100
+
+headers=$(curl https://example.com --silent -I) && typewrite "$headers" 200                                                                   `);
+      std.exit();
+
+  }
+}
+
+
+
+if (!Object.keys(cli).length) {
+  console.log(`${std.getenv("SMBSE_BASH_VERSION").replace("unknown", `${C.BLUE}smbse${C.RESET}`)} ${std.getenv("SMBSE_VERSION_LONG")}
+These shell commands are defined internally.  Type '"'\"'\"'"'@help'"'\"'\"'"' to see this list.
+Type '"'\"'\"'"'@help name'"'\"'\"'"' to find out more about the function '"'\"'\"'"'name'"'\"'\"'"'.
+
+  alias              autocd
+  bin                c++
+  extract            filesystem
+  js                 logout
+  motd               sysinfo
+  typewrite
+
+`);
+  std.exit(0);
+}
+
+
+
+'"'"' > "$SMBSE_BIN/.help.js";
+@help() {
+  qjs "$SMBSE_BIN/.help.js" $1 $2;
+}
+
+
+' > "$SMBSE/extras";
+  SMBSE_LOGME 'Extras file created sucefully, importing...';
+  . "$SMBSE/extras";
+  SMBSE_LOGME 'Extras file import DONE';
+fi
+
+SMBSE_LOGME 'Exporting color green to man';
+# Color for manpages
+   export LESS_TERMCAP_mb=${green};
+   export LESS_TERMCAP_md=${green};
+   # export LESS_TERMCAP_me=${white};
+   # export LESS_TERMCAP_se=${blue};
+   # export LESS_TERMCAP_so=${blue};
+
+ # Delete the files inside TSTORAGE if enought time passed by from last file modification inside the folder.
+SMBSE_LOGME 'Checking temporal files under TSTORAGE';
+SMBSEINTERNALTSTORAGEDATE;
+
+
+
+# Custom Welcome Msg
+SMBSE_LOGME 'Checking if internal logging is set to NONE';
+if [ "$SMBSE_INTERNAL_LOG" == "NONE" ]; then
+  SMBSE_LOGME 'Clearing console';
+  clear
+fi
+
+SMBSE_LOGME 'Checking if SMBSE motd file exists';
+if [ -f "$SMBSE/motd" ]; then
+  SMBSE_LOGME 'SMBSE motd found';
+  SMBSE_LOGME 'Checking if $PREFIX/etc/motd file exists';
+  if [ -f "$PREFIX/etc/motd" ]; then
+    SMBSE_LOGME '$PREFIX/etc/motd file found';
+    SMBSE_LOGME 'Making backup and removing original...';
+    cp "$PREFIX/etc/motd" "$PREFIX/etc/motd~" 2>&1 > /dev/null && rm "$PREFIX/etc/motd" 2>&1 > /dev/null;
+  fi
+  SMBSE_LOGME 'Importing SMBSE motd file';
+  . "$SMBSE/motd"
+  SMBSE_LOGME 'Calling SMBSE motd function';
+  SMBSE_FUNCTION_MOTD;
+
+else
+  # If you want to edit the welcome message, change the generated motd file.
+  echo '# This file is the function outputing the welcome message.
+
+SMBSE_FUNCTION_MOTD() {
+  echo "
+
+
+
+
+
+      ${green}.------------------------------------------------------.${endc}
+      ${green}¦                                                      ¦${endc}
+      ${green}¦${endc}     Welcome to Linux ${blue}SMBSE${endc} edition!                  ${green}¦${endc}
+      ¦                                                      ${green}¦${endc}
+      ¦     This version include:                            ${green}¦${endc}
+      ¦      - Extra packages     - Predefined Alias         ¦
+      ¦      - Custom Settings    - Programming Languages    ¦
+      ¦                                                      |
+      ¦     Custom filesystem:                               |
+      ¦      - Recyclebin                                    ¦
+      ¦                                                      ¦
+      ¦     Predefined Alias:                                ¦
+      ¦      * c:   clear         * ..:    cd ..             ¦
+      ¦      * l:   ls            * ...:   cd ../..          ¦
+      ¦      * v:   vim           * ....:  cd ../../..       ¦
+      ¦                                                      ¦
+      ¦     Custom Settings:                                 ¦
+      ¦      - Extended History Length    - Autocd           ¦
+      ¦      - Auto colors                - Custom PS1       ¦
+      ¦                                                      ¦
+      ¦     Programming Languages:                           ¦
+      ¦                                                      ¦
+      ¦     > js '"'"'console.log(new Date())'"'"';                  ¦
+      ¦     > c++ '"'"'#include <stdio.h>                        ¦
+      ¦            printf("Hell%c", 'o');'"'"'                       ¦
+      ¦                                                      ¦"
+    #.------------------------------------------------------."
+  typewrite '"'"'      .------------------------------------------------------.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+'"'"' 5;
+  echo "  use ${green}@help${endc} command!"
+}' > "$SMBSE/motd";
+  . "$SMBSE/motd";
+  SMBSE_FUNCTION_MOTD;
+fi
