@@ -110,7 +110,7 @@ let evaluateValueExpression = valueExpression => {
   } else if (isOperation(valueExpression)) {
     return eval(valueExpression);
   } else {
-    return valueExpression;
+    return eval(valueExpression);
   }
 
 
