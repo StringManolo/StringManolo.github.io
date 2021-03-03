@@ -1,6 +1,22 @@
 import * as std from "std";
 
-let code = std.loadFile("codeExample.tain");
+let cli = {};
+for (let i in scriptArgs) {
+  let value = scriptArgs[1 + +i];
+  switch(scriptArgs[i]) {
+    case "-f":
+    case "--file":
+      cli.file = value;
+    break;
+
+    case "-o":
+    case "--output":
+      cli.output = value;
+    break;
+  }
+}
+
+let code = std.loadFile( cli.file || "codeExample.tain")
 
 
 // Each Line Is An Expression
@@ -116,6 +132,15 @@ let evaluableExpressions = getEvaluableExpressions(trimmedExpr);
 
 let serialicedDef = serialiceDefinitions(definitions);
 
+
+if (cli.output) {
+  let fd = std.open(cli.output, "w");
+  fd.puts(JSON.stringify({ definitions: serialicedDef, expressions: evaluableExpressions}, null, 2));
+  fd.close();
+}
+
+
+// debug
 console.log(`Parsing Tain:
 EXPRESSIONS: ${expr}
 
