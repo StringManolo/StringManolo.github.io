@@ -14,10 +14,9 @@ for (let i in scriptArgs) {
       cli.output = value;
     break;
   }
-}
+}                                                                                                                                             let code = std.loadFile( cli.file || "codeExample.tain")
 
-let code = std.loadFile( cli.file || "codeExample.tain")
-
+console.log(JSON.stringify(code, null, 2));
 
 // Each Line Is An Expression
 let getExpressions = code => {
@@ -33,8 +32,7 @@ let getTrimmedExpressions = expressions => {
     trimmedExpressions.push(expressions[i].trim());
   }
   return trimmedExpressions;
-}
-
+}                                                                      
 // Lines Starting By T that are not Tain, are evaluableExpresssions
 let getEvaluableExpressions = expressions => {
   let evaluableExpressions = [];
@@ -44,7 +42,7 @@ let getEvaluableExpressions = expressions => {
     if (/^t/i.test(expressions[i]) && !/^tain/i.test(expressions[i])) {
       if (/\[/g.test(expressions[i])) {
         evaluableExpressions.push( { expression: expressions[i].split(" ")[0].trim(), contained: expressions[i].split(" ").splice(0,2)[1]});
-      } 
+      }
     }
   }
   return evaluableExpressions;
@@ -66,8 +64,19 @@ let getDefinitions = expressions => {
 let serialiceDefinitions = definitions => {
   let root = {};
   for (let i = 0; i < definitions.length; i+=2) {
-    let values = definitions[+i + 1].split("[")[1].split("]")[0].split("|");
-    let ids = definitions[i].split("[")[1].split("]")[0].split("|");
+    let values = definitions[+i + 1].split("[")[1].split("]")[0];
+    if (/\|/g.test(values)) {
+      values = values.split("|");
+    } else {
+      values = [values];
+    }
+
+    let ids = definitions[i].split("[")[1].split("]")[0]
+    if (/\|/g.test(ids)) {
+      ids = ids.split("|");
+    } else {
+      ids = [ids];
+    }
 
     for (let i in values) {
       values[i] = evaluateValueExpression(values[i].trim());
@@ -91,7 +100,7 @@ let evaluateValueExpression = valueExpression => {
   let isFunction = expression => {
     if (expression[0] == "<") {
       return 1;
-    } 
+    }
   }
 
   let isOperation = expression => {
@@ -110,7 +119,7 @@ let evaluateValueExpression = valueExpression => {
   } else if (isOperation(valueExpression)) {
     return eval(valueExpression);
   } else {
-    return eval(valueExpression);
+      return eval(valueExpression);
   }
 
 
@@ -141,6 +150,7 @@ if (cli.output) {
 
 
 // debug
+/*
 console.log(`Parsing Tain:
 EXPRESSIONS: ${expr}
 
@@ -155,4 +165,4 @@ EVALUABLE: ${JSON.stringify(evaluableExpressions)}
 
 
 SERIALICED: ${JSON.stringify(serialicedDef)}
-`);
+`);*/
