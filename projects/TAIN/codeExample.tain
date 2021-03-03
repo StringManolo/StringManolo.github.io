@@ -1,0 +1,7 @@
+tain animal [ age | height | width | run | sleep ]
+            [ 7 - 3 | 1.10 * 0.5 | 0.40 | <time, speed>{ "time is <time>, and speed is <speed>" } | 5 ]
+
+tout animal[run]
+
+tain animal2 [ age | height | width | run | sleep ]
+            [ 7 - 3 | 1.10 * 0.5 | 0.40 | <time, speed>{ "time is <time>, and speed is <speed>" } | 5 ]
