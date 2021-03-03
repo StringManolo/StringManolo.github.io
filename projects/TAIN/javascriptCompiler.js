@@ -141,6 +141,7 @@ if (cli.output) {
 
 
 // debug
+/*
 console.log(`Parsing Tain:
 EXPRESSIONS: ${expr}
 
@@ -155,4 +156,4 @@ EVALUABLE: ${JSON.stringify(evaluableExpressions)}
 
 
 SERIALICED: ${JSON.stringify(serialicedDef)}
-`);
+`);*/
