@@ -2,9 +2,7 @@ import * as std from "std";
 
 let cli = {};
 for (let i in scriptArgs) {
-  let value = scriptArgs[1 + +i];
-  switch(scriptArgs[i]) {
-    case "-f":
+  let value = scriptArgs[1 + +i];                                        switch(scriptArgs[i]) {                                                  case "-f":
     case "--file":
       cli.file = value;
     break;
@@ -22,16 +20,15 @@ let containers = Object.entries(code.definitions);
 
 let expressions = Object.entries(code.expressions);
 
-let cppIncludes = "";
-const cppMain1 = `int main(int argc, char * argv[]) {
+let cppIncludes = "";                                                  const cppMain1 = `int main(int argc, char * argv[]) {
 `;
-const cppMain2 = `return 0;
+const cppMain2 = `  return 0;
 }`;
 let cppCode = "";
 
 // Add type of value, example int, char, etx
 let addType = (value, id) => {
-  //console.log(typeof(value)); 
+  //console.log(typeof(value));
   let type = "";
 
   /* Numbers */
@@ -39,7 +36,7 @@ let addType = (value, id) => {
 
     /* sign */
     if(value[0] == "-") {
-      type += "signed"; 
+      type += "signed";
     } else {
       type += "unsigned";
     }
@@ -47,9 +44,9 @@ let addType = (value, id) => {
     /* floating point numbers */
     if (/\./.test(value.toString())) {
       if(+value >= -340282346638528859811704183484516925440 && +value <= 340282346638528859811704183484516925440) {
-        return type + " float";
+        return "float";
       } else {
-        return type + " double";
+        return "double";
       }
     }
 
@@ -81,13 +78,11 @@ let addType = (value, id) => {
 
 // Containers
 for (let i = 0; i < containers.length; ++i) {
-  console.log(containers[i][0]);
   let ids = containers[i][1].ids;
   let values = containers[i][1].values;
   let stringId = "";
-  console.log(`VALUES: ${JSON.stringify(values)}`);
 
-  cppCode += `  struct tain_${containers[i][0]} {\n`; 
+  cppCode += `  struct tain_${containers[i][0]} {\n`;
   for(let i in ids) {
     if (new RegExp("^char ", "").test(addType(values[i]))) {
       values[i] = `"${values[i]}"`;
@@ -97,11 +92,22 @@ for (let i = 0; i < containers.length; ++i) {
     cppCode += `    ${addType(values[i], stringId)} ${ids[i]} = ${values[i]};\n`
   }
   cppCode += `  }; tain_${containers[i][0]} ${containers[i][0]};\n\n`;
-} 
+}
 
 // Expresions
 for (let i = 0; i < expressions.length; ++i) {
+  let tout = false;
+  switch(expressions[i][1].expression) {
+    case "tout":
+      expressions[i][1].expression = "std::cout << ";
+      tout = true;
+      if (!/\<iostream\>/g.test(cppIncludes)) {
+        cppIncludes += "#include <iostream>\n";
+      }
+    break;
+  }
 
+  cppCode += `  ${expressions[i][1].expression}${expressions[i][1].contained.split("[")[0]}.${expressions[i][1].contained.split("[")[1].split("]")[0]}${tout ? " << std::endl;" : ";"}\n`;
 }
 
 const endCode = `${cppIncludes}
@@ -111,3 +117,9 @@ ${cppMain2}
 `;
 
 console.log(endCode);
+
+if (cli.output) {
+  let fd = std.open(cli.output, "w")
+  fd.puts(endCode);
+  fd.close();
+}
