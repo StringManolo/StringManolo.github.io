@@ -1,5 +1,5 @@
 import * as std from "std";
-
+ 
 const cli = {};
 cli.dest = [];
 for (let i in scriptArgs) {
