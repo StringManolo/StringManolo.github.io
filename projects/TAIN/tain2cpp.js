@@ -2,9 +2,7 @@ import * as std from "std";
 
 let cli = {};
 for (let i in scriptArgs) {
-  let value = scriptArgs[1 + +i];
-  switch(scriptArgs[i]) {
-    case "-f":
+  let value = scriptArgs[1 + +i];                                        switch(scriptArgs[i]) {                                                  case "-f":
     case "--file":
       cli.file = value;
     break;
@@ -22,8 +20,7 @@ let containers = Object.entries(code.definitions);
 
 let expressions = Object.entries(code.expressions);
 
-let cppIncludes = "";
-const cppMain1 = `int main(int argc, char * argv[]) {
+let cppIncludes = "";                                                  const cppMain1 = `int main(int argc, char * argv[]) {
 `;
 const cppMain2 = `  return 0;
 }`;
@@ -31,7 +28,7 @@ let cppCode = "";
 
 // Add type of value, example int, char, etx
 let addType = (value, id) => {
-  //console.log(typeof(value)); 
+  //console.log(typeof(value));
   let type = "";
 
   /* Numbers */
@@ -39,7 +36,7 @@ let addType = (value, id) => {
 
     /* sign */
     if(value[0] == "-") {
-      type += "signed"; 
+      type += "signed";
     } else {
       type += "unsigned";
     }
@@ -85,7 +82,7 @@ for (let i = 0; i < containers.length; ++i) {
   let values = containers[i][1].values;
   let stringId = "";
 
-  cppCode += `  struct tain_${containers[i][0]} {\n`; 
+  cppCode += `  struct tain_${containers[i][0]} {\n`;
   for(let i in ids) {
     if (new RegExp("^char ", "").test(addType(values[i]))) {
       values[i] = `"${values[i]}"`;
@@ -95,7 +92,7 @@ for (let i = 0; i < containers.length; ++i) {
     cppCode += `    ${addType(values[i], stringId)} ${ids[i]} = ${values[i]};\n`
   }
   cppCode += `  }; tain_${containers[i][0]} ${containers[i][0]};\n\n`;
-} 
+}
 
 // Expresions
 for (let i = 0; i < expressions.length; ++i) {

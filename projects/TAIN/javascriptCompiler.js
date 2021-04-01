@@ -14,9 +14,7 @@ for (let i in scriptArgs) {
       cli.output = value;
     break;
   }
-}
-
-let code = std.loadFile( cli.file || "codeExample.tain")
+}                                                                                                                                             let code = std.loadFile( cli.file || "codeExample.tain")
 
 console.log(JSON.stringify(code, null, 2));
 
@@ -34,8 +32,7 @@ let getTrimmedExpressions = expressions => {
     trimmedExpressions.push(expressions[i].trim());
   }
   return trimmedExpressions;
-}
-
+}                                                                      
 // Lines Starting By T that are not Tain, are evaluableExpresssions
 let getEvaluableExpressions = expressions => {
   let evaluableExpressions = [];
@@ -45,7 +42,7 @@ let getEvaluableExpressions = expressions => {
     if (/^t/i.test(expressions[i]) && !/^tain/i.test(expressions[i])) {
       if (/\[/g.test(expressions[i])) {
         evaluableExpressions.push( { expression: expressions[i].split(" ")[0].trim(), contained: expressions[i].split(" ").splice(0,2)[1]});
-      } 
+      }
     }
   }
   return evaluableExpressions;
@@ -103,7 +100,7 @@ let evaluateValueExpression = valueExpression => {
   let isFunction = expression => {
     if (expression[0] == "<") {
       return 1;
-    } 
+    }
   }
 
   let isOperation = expression => {
