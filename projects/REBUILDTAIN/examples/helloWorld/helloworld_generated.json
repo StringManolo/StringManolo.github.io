@@ -1,0 +1,18 @@
+{
+  "definitions": {
+    "example": {
+      "ids": [
+        "message"
+      ],
+      "values": [
+        "Hello World!"
+      ]
+    }
+  },
+  "expressions": [
+    {
+      "expression": "tout",
+      "contained": "example[message]"
+    }
+  ]
+}
