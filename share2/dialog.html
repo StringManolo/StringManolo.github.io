@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+  <title>Dialog Example</title>
+</head>
+<body>
+<pre>&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;
+  &lt;meta charset=&quot;utf-8&quot;&gt;
+  &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width&quot;&gt;
+  &lt;title&gt;Dialog Example&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+
+&lt;dialog id=&quot;d&quot;&gt;
+  &lt;form method=&quot;dialog&quot;&gt;
+    &lt;p&gt;This is my modal xD&lt;p&gt;
+    &lt;button&gt;Send Form&lt;/button&gt;
+  &lt;/form&gt;
+  &lt;button onclick=&quot;d.close()&quot;&gt;Close Modal&lt;/button&gt;
+&lt;/dialog&gt;
+&lt;button onclick=&quot;d.showModal()&quot;&gt;Show Modal&lt;/button&gt;
+
+&lt;/body&gt;
+&lt;/html&gt;</pre>
+
+<br><br>
+  
+<dialog id="d">
+  <form method="dialog">
+    <p>This is my modal xD<p>
+    <button>Send Form</button>
+  </form>
+  <button onclick="d.close()">Close Modal</button>
+</dialog>
+<button onclick="d.showModal()">Show Modal</button>
+
+</body>
+</html>
