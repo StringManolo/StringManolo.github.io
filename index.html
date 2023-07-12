@@ -5,77 +5,113 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Proyectos de StringManolo</title>
-  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Montserrat', sans-serif;
+      background-color: #f7fafc;
+    }
+
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 40px;
+    }
+
+    h1 {
+      font-size: 36px;
+      font-weight: 700;
+      text-align: center;
+      margin-bottom: 40px;
+    }
+
+    .projects-list {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      grid-gap: 20px;
+      list-style: none;
+      padding: 0;
+    }
+
+    .project-card {
+      background-color: #fff;
+      border-radius: 8px;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+      padding: 20px;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .project-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    }
+
+    .project-card h2 {
+      font-size: 20px;
+      font-weight: 700;
+      margin-bottom: 10px;
+    }
+
+    .project-card a {
+      display: inline-block;
+      background-color: #4c51bf;
+      color: #fff;
+      text-decoration: none;
+      padding: 10px 20px;
+      border-radius: 4px;
+      transition: background-color 0.2s;
+    }
+
+    .project-card a:hover {
+      background-color: #4CAF50;
+    }
+
+    .footer {
+      text-align: center;
+      margin-top: 40px;
+    }
+
+    .footer a {
+      color: #4c51bf;
+      text-decoration: none;
+      margin: 0 10px;
+    }
+
+    .footer a:hover {
+      text-decoration: underline;
+    }
+
+    .sponsor-badge {
+      display: inline-block;
+      margin-top: 10px;
+    }
+
+    .sponsor-badge img {
+      border: 0;
+      height: 20px;
+    }
+  </style>
 </head>
 
-<body class="bg-gray-100">
-  <div class="container mx-auto p-8">
-    <header class="mb-8">
-      <h1 class="text-4xl font-bold text-center">Proyectos de StringManolo</h1>
+<body>
+  <div class="container">
+    <header>
+      <h1>Proyectos de StringManolo</h1>
     </header>
 
     <main>
-      <ul class="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
+      <ul class="projects-list">
         <li>
-          <div class="bg-white rounded shadow p-6">
-            <h2 class="text-xl font-semibold mb-2">hackingTermux101</h2>
-            <a href="https://stringmanolo.github.io/hackingTermux101/" class="text-blue-500">Ver proyecto</a>
+          <div class="project-card">
+            <h2>hackingTermux101</h2>
+            <a href="https://stringmanolo.github.io/hackingTermux101/">Ver proyecto</a>
           </div>
         </li>
 
         <li>
-          <div class="bg-white rounded shadow p-6">
-            <h2 class="text-xl font-semibold mb-2">smallOS-cyberwarfare</h2>
-            <a href="https://github.com/smallOS-cyberwarfare/smallOS-cyberwarfare" class="text-blue-500">Ver proyecto</a>
-          </div>
-        </li>
-
-        <li>
-          <div class="bg-white rounded shadow p-6">
-            <h2 class="text-xl font-semibold mb-2">nbmxbsf</h2>
-            <a href="https://github.com/StringManolo/nbmxbsf" class="text-blue-500">Ver proyecto</a>
-          </div>
-        </li>
-
-        <li>
-          <div class="bg-white rounded shadow p-6">
-            <h2 class="text-xl font-semibold mb-2">tgbot.sh</h2>
-            <a href="https://github.com/StringManolo/tgbot.sh" class="text-blue-500">Ver proyecto</a>
-          </div>
-        </li>
-
-        <li>
-          <div class="bg-white rounded shadow p-6">
-            <h2 class="text-xl font-semibold mb-2">ngrok</h2>
-            <a href="https://github.com/StringManolo/ngrok" class="text-blue-500">Ver proyecto</a>
-          </div>
-        </li>
-
-        <li>
-          <div class="bg-white rounded shadow p-6">
-            <h2 class="text-xl font-semibold mb-2">simpleArgumentsParser</h2>
-            <a href="https://github.com/StringManolo/simpleArgumentsParser" class="text-blue-500">Ver proyecto</a>
-          </div>
-        </li>
-
-        <li>
-          <div class="bg-white rounded shadow p-6">
-            <h2 class="text-xl font-semibold mb-2">1337</h2>
-            <a href="https://github.com/StringManolo/1337" class="text-blue-500">Ver proyecto</a>
-          </div>
-        </li>
-
-        <li>
-          <div class="bg-white rounded shadow p-6">
-            <h2 class="text-xl font-semibold mb-2">cppjs</h2>
-            <a href="https://github.com/StringManolo/cppjs" class="text-blue-500">Ver proyecto</a>
-          </div>
-        </li>
-
-        <li>
-          <div class="bg-white rounded shadow p-6">
-            <h2 class="text-xl font-semibold mb-2">ff2</h2>
-            <a href="https://github.com/StringManolo/ff2" class="text-blue-500">Ver proyecto</a>
+          <div class="project-card">
+            <h2>smallOS-cyberwarfare</h2>
+            <a href="https://github.com/smallOS-cyberwarfare/smallOS-cyberwarfare">Ver proyecto</a>
           </div>
         </li>
 
@@ -84,15 +120,15 @@
       </ul>
     </main>
 
-    <footer class="mt-8 text-center">
-      <div class="flex justify-center">
-        <a href="https://t.me/stringmanolo" class="text-blue-500 mr-4">Telegram</a>
-        <a href="https://www.linkedin.com/in/manuel-varela-caldas-97576b207" class="text-blue-500 mr-4">LinkedIn</a>
-        <a href="https://twitter.com/xsstringmanolo" class="text-blue-500 mr-4">Twitter</a>
-        <a href="https://foro.elhacker.net/profiles/string_manolo-u595084.html" class="text-blue-500 mr-4">EHN</a>
-        <a href="mailto:manuelvarelacaldas@gmail.com" class="text-blue-500">Email</a>
+    <footer class="footer">
+      <div>
+        <a href="https://t.me/stringmanolo">Telegram</a>
+        <a href="https://www.linkedin.com/in/manuel-varela-caldas-97576b207">LinkedIn</a>
+        <a href="https://twitter.com/xsstringmanolo">Twitter</a>
+        <a href="https://foro.elhacker.net/profiles/string_manolo-u595084.html">EHN</a>
+        <a href="mailto:manuelvarelacaldas@gmail.com">Email</a>
       </div>
-      <div class="mt-4">
+      <div class="sponsor-badge">
         <a href="https://github.com/sponsors/stringmanolo" target="_blank">
           <img src="https://img.shields.io/static/v1?label=Sponsor&message=GitHub&color=green&logo=github" alt="Sponsor on GitHub">
         </a>
