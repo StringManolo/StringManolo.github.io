@@ -1,74 +1,16 @@
 <!DOCTYPE html>
-<html lang="en-US">
-<head prefix="og:http://ogp.me/ns#">
-<meta charset="utf-8">
-<title>StringManolo's Portfolio</title>
-<meta name="robots" content="index,follow">
-<meta name="application-name" content="StringManolo's Portfolio">
-<meta property="og:type" content="website">
-<meta name="summary" content="web developer's portfolio">
-<meta name="author" content="StringManolo">
-<meta name="web_author" content="StringManolo">
-<meta name="designer" content="StringManolo">
-<meta name="publisher" content="StringManolo">
-<meta name="lang" content="en">
-<meta name="description" content="A profesional portfolio made to share my work and increase job oportunity">
-<meta name="keywords" content="web,developer,hire,professional,security">
-<meta name="distribution" content="global">
-<meta name="rating" content="global">
-<meta name="rating" content="safe for kids">
-<meta name="subject" content="software">
-<meta name="title" content="StringManolo's Portfolio">
-<meta name="copyright" content="copyright 2020">
-<meta name="abstract" content="Web Developer Portfolio">
-<meta name="country" content="Spain">
-<meta name="classification" content="Web Developer, Security Enthusiast, Custom Projects">
-<meta name="format-detection" content="telephone=yes">
-<meta property="og:image" content="https://stringmanolo.guthub.io/">
-<meta property="og:description" content="A profesional portfolio made to share my work and increase job oportunity">
-<meta property="og:locale" content="es_ES">
-<meta property="og:url" content="https://stringmanolo.guthub.io">
-<meta property="og:site_name" content="StringManolo's Portfolio">
-<!--
-<script src="https://unpkg.com/vue/dist/vue.js"></script>
--->
-<script src="./libs/vue.js"></script>
-<script src="https://unpkg.com/vue-router/dist/vue-router.js"></script>
-<script src="./components.js"></script>
-<link rel="stylesheet"type="text/css" href="./main.css">
-</head>
-<body>
+<html lang="en">
+  <head prefix="og:http://ogp.me/ns#">
+    <meta charset="utf-8">
+    <link rel="icon" href="data:;base64,iVBORw0KGgo=">
+    <title>Index.html</title>
+    <meta name="theme-color" content="#fffdfd">
+  </head>
 
-<main id="app">
-  <div id="top">
-  <div id="navWrapper">
-  <nav>
-  <router-link to="/">Home</router-link> • 
-  <router-link to="/projects">Projects</router-link> • 
-  <router-link to="/about">About</router-link> 
-  </nav>
-  </div>
+  <body>
+    <main id="app"></main>
 
-  <web-header></web-header>
-  </div>
-  <span class="divisor">
-  <router-view></router-view>
-  <div class="marginSides">
-<!-- <div class="footerPlaceHolder"></div>  -->
-
-  <web-footer></web-footer>
-  <!--  </div> -->
-  </span>
-</main>
-
-
-
-<!-- Router -->
-<script src="./main.js"></script>
-
-<!-- Vue App Instance 
-<script src="./app.js"></script>
--->
-	
-</body>
+    <script src="./virtualDOM/dotdom.min.js"></script>
+    <script type="module" src="./main.js"></script>
+  </body>
 </html>
