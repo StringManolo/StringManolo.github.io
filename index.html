@@ -118,114 +118,23 @@
 </head>
 
 <body>
-  <div class="container">
+  <div id="app" class="container">
     <header>
       <h1>Proyectos de StringManolo</h1>
     </header>
 
     <main>
       <ul class="projects-list">
-        <li>
+        <li v-for="project in projects" :key="project.name">
           <div class="project-card">
-            <h2>hackingTermux101</h2>
-            <p>Libro sobre hacking básico/avanzado en Termux</p>
+            <h2>{{ project.name }}</h2>
+            <p>{{ project.description }}</p>
             <div class="project-image">
-              <img src="https://raw.githubusercontent.com/StringManolo/hackingTermux101/master/imagenes/portada.png" alt="Portada del libro">
+              <img :src="project.image" :alt="project.name">
             </div>
-            <a href="https://stringmanolo.github.io/hackingTermux101/">Ver proyecto</a>
+            <a :href="project.link">Ver proyecto</a>
           </div>
         </li>
-
-        <li>
-          <div class="project-card">
-            <h2>smallOS-cyberwarfare</h2>
-            <p>Distribución de Linux para escenarios de ciberguerra</p>
-            <div class="project-image">
-              <img src="https://user-images.githubusercontent.com/56775178/160309717-1587b6c0-7eea-4924-a904-a83eb57be724.png" alt="Captura de pantalla del OS corriendo">
-            </div>
-            <a href="https://github.com/smallOS-cyberwarfare/smallOS-cyberwarfare">Ver proyecto</a>
-          </div>
-        </li>
-
-        <li>
-          <div class="project-card">
-            <h2>nbmxbsf</h2>
-            <p>Bot de telegram con módulos de PE, ransomware, etc</p>
-            <div class="project-image">
-              <img src="https://raw.githubusercontent.com/StringManolo/nbmxbsf/master/docs/botExample.jpg" alt="nbmxbsf corriendo comandos desde telegram">
-            </div>
-            <a href="https://github.com/StringManolo/nbmxbsf">Ver proyecto</a>
-          </div>
-        </li>
-
-        <li>
-          <div class="project-card">
-            <h2>tgbot.sh</h2>
-            <p>Bot de telegram escrito en Bash</p>
-            <div class="project-image">
-              <img src="https://raw.githubusercontent.com/StringManolo/StringManolo.github.io/master/Screenshot_20230713_212904.jpg" alt="Captura del bot en telegram">
-            </div>
-            <a href="https://github.com/StringManolo/tgbot.sh">Ver proyecto</a>
-          </div>
-        </li>
-
-        <li>
-          <div class="project-card">
-            <h2>ngrok</h2>
-            <p>Cliente código abierto del servicio de Ngrok</p>
-            <div class="project-image">
-              <img src="https://raw.githubusercontent.com/StringManolo/StringManolo.github.io/master/Screenshot_20230713_213616.jpg" alt="Salida de consola de ngrok">
-            </div>
-            <a href="https://github.com/StringManolo/ngrok">Ver proyecto</a>
-          </div>
-        </li>
-
-        <li>
-          <div class="project-card">
-            <h2>simpleArgumentsParser</h2>
-            <p>Librería/Modulo para crear herramientas CLI con JS o TS</p>
-            <div class="project-image">
-              <img src="https://raw.githubusercontent.com/StringManolo/StringManolo.github.io/master/Screenshot_20230713_214137.jpg" alt="Ejemplo de código">
-            </div>
-            <a href="https://github.com/StringManolo/simpleArgumentsParser">Ver proyecto</a>
-          </div>
-        </li>
-
-        <li>
-          <div class="project-card">
-            <h2>1337</h2>
-            <p>Conjunto de utilidades en JS para hacking</p>
-            <div class="project-image">
-              <img src="https://raw.githubusercontent.com/StringManolo/StringManolo.github.io/master/Screenshot_20230713_214611.jpg" alt="Muestra de varios de los programas">
-            </div>
-            <a href="https://github.com/StringManolo/1337">Ver proyecto</a>
-          </div>
-        </li>
-
-        <li>
-          <div class="project-card">
-            <h2>cppjs</h2>
-            <p>Librería para programar en C++ usando Sintax Sugar de JS</p></p>
-            <div class="project-image">
-              <img src="https://raw.githubusercontent.com/StringManolo/StringManolo.github.io/master/Screenshot_20230713_214952.jpg" alt="Ejemplo de código">
-            </div>
-            <a href="https://github.com/StringManolo/cppjs">Ver proyecto</a>
-          </div>
-        </li>
-
-        <li>
-          <div class="project-card">
-            <h2>ff2</h2>
-            <p>Framework mínimo que no requiere de compilación/transpilación</p>
-            <div class="project-image">
-              <img src="https://raw.githubusercontent.com/StringManolo/StringManolo.github.io/master/Screenshot_20230713_215319.jpg" alt="Readme con las características">
-            </div>
-            <a href="https://github.com/StringManolo/ff2">Ver proyecto</a>
-          </div>
-        </li>
-
-        <!-- Agrega más elementos de lista para tus otros proyectos -->
-
       </ul>
     </main>
 
@@ -244,6 +153,72 @@
       </div>
     </footer>
   </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.min.js"></script>
+  <script>
+    new Vue({
+      el: '#app',
+      data: {
+        projects: [
+          {
+            name: 'hackingTermux101',
+            description: 'Libro sobre hacking básico/avanzado en Termux',
+            image: 'https://raw.githubusercontent.com/StringManolo/hackingTermux101/master/imagenes/portada.png',
+            link: 'https://stringmanolo.github.io/hackingTermux101/'
+          },
+          {
+            name: 'smallOS-cyberwarfare',
+            description: 'Distribución de Linux para escenarios de ciberguerra',
+            image: 'https://user-images.githubusercontent.com/56775178/160309717-1587b6c0-7eea-4924-a904-a83eb57be724.png',
+            link: 'https://github.com/smallOS-cyberwarfare/smallOS-cyberwarfare'
+          },
+          {
+            name: 'nbmxbsf',
+            description: 'Bot de telegram con módulos de PE, ransomware, etc',
+            image: 'https://raw.githubusercontent.com/StringManolo/nbmxbsf/master/docs/botExample.jpg',
+            link: 'https://github.com/StringManolo/nbmxbsf'
+          },
+          {
+            name: 'tgbot.sh',
+            description: 'Bot de telegram escrito en Bash',
+            image: 'https://raw.githubusercontent.com/StringManolo/StringManolo.github.io/master/Screenshot_20230713_212904.jpg',
+            link: 'https://github.com/StringManolo/tgbot.sh'
+          },
+          {
+            name: 'ngrok',
+            description: 'Cliente código abierto del servicio de Ngrok',
+            image: 'https://raw.githubusercontent.com/StringManolo/StringManolo.github.io/master/Screenshot_20230713_213616.jpg',
+            link: 'https://github.com/StringManolo/ngrok'
+          },
+          {
+            name: 'simpleArgumentsParser',
+            description: 'Librería/Modulo para crear herramientas CLI con JS o TS',
+            image: 'https://raw.githubusercontent.com/StringManolo/StringManolo.github.io/master/Screenshot_20230713_214137.jpg',
+            link: 'https://github.com/StringManolo/simpleArgumentsParser'
+          },
+          {
+            name: '1337',
+            description: 'Conjunto de utilidades en JS para hacking',
+            image: 'https://raw.githubusercontent.com/StringManolo/StringManolo.github.io/master/Screenshot_20230713_214611.jpg',
+            link: 'https://github.com/StringManolo/1337'
+          },
+          {
+            name: 'cppjs',
+            description: 'Librería para programar en C++ usando Sintax Sugar de JS',
+            image: 'https://raw.githubusercontent.com/StringManolo/StringManolo.github.io/master/Screenshot_20230713_214952.jpg',
+            link: 'https://github.com/StringManolo/cppjs'
+          },
+          {
+            name: 'ff2',
+            description: 'Framework mínimo que no requiere de compilación/transpilación',
+            image: 'https://raw.githubusercontent.com/StringManolo/StringManolo.github.io/master/Screenshot_20230713_215319.jpg',
+            link: 'https://github.com/StringManolo/ff2'
+          }
+        ]
+      }
+    });
+  </script>
 </body>
 
 </html>
+
