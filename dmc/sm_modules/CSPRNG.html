@@ -16,12 +16,12 @@
         return array.join("");
       }
 
-      // improve statistical redistribution (caused by fast CPU spikes)
+      // Improve statistical redistribution (caused by fast CPU spikes)
       const redistribute = (inputString) => {
         let numbers = inputString.split('');
         let countZeros = numbers.filter(num => num === '0').length;
         let percentage = 0.63 * (1 - Math.exp(-size / 2000)) + 0.01;
-        let zerosToReplace = Math.ceil(countZeros * percentage ); // 63% of zeros
+        let zerosToReplace = Math.ceil(countZeros * percentage); // 63% of zeros
         let replacementChars = ['1', '2', '3', '4', '5', '6', '7', '8', '9'];
 
         let replacedCount = 0;
@@ -103,6 +103,37 @@
       return shuffle(redistribute(entropy.substring(0, size)));
     }
 
+    const generatePassword = (size) => {
+      const numbersToCharacters = (numericString) => {
+        let binaryString = '';
+
+        for (let i = 0; i < numericString.length; i++) {
+          const digit = parseInt(numericString.charAt(i), 10);
+          const binary = digit.toString(2).padStart(4, '0');
+          binaryString += binary;
+        }
+
+        let password = '';
+        for (let j = 0; j < binaryString.length; j += 8) {
+          const byte = binaryString.substr(j, 8);
+          const asciiCode = parseInt(byte, 2);
+          if (asciiCode > 32 && asciiCode < 127) {
+            password += String.fromCharCode(asciiCode);
+          }
+        }
+
+        return password;
+      };
+
+      let generatedPassword = "";
+      while (generatedPassword.length < size) {
+        const numericString = CSPRNG(size);
+        generatedPassword += numbersToCharacters(numericString);
+      }
+      return generatedPassword.substring(0, size);
+    }
+
+    window.generatePassword = generatePassword;
   </script>
 </head>
 <body>
@@ -111,15 +142,23 @@
     <label>
       Select size of random numbers to generate (between 1 and 10000):
     </label><br>
-    <input type="range" id="slider" name="size" value="1" min="1" max="10000"><input type="number" id="sliderValue" value="1">
+    <input type="range" id="slider" name="size" value="1" min="1" max="10000">
+    <input type="number" id="sliderValue" value="1">
     <br />
     <button id="generate" type="button">Generate Numbers</button><br><br>
     <label for="random-numbers">Generated Numbers:</label><br>
-    <textarea id="random-numbers" rows="10" cols="50" readonly></textarea>
+    <textarea id="random-numbers" rows="10" cols="40" readonly></textarea>
   </form>
 
+  <div>
+    <h3>Password Generator</h3>
+    Password Size:  <input type="number" id="passwordSize" value="20">
+    <br>
+    <button id="generate-password">Generate Password</button><br><br>
+    <textarea id="random-password" rows="4" cols="40" readonly></textarea>
+  </div>
+
   <script>
-// IU:
     const slider = document.getElementById("slider");
     const output = document.getElementById("sliderValue");
     slider.addEventListener("input", () => {
@@ -135,6 +174,15 @@
       const size = parseInt(document.querySelector('#sliderValue').value);
       const randomNumbers = CSPRNG(size);
       document.getElementById('random-numbers').value = randomNumbers;
+    });
+
+    const passInput = document.getElementById("passwordSize");
+    const passButton = document.getElementById("generate-password");
+    const passResult = document.getElementById("random-password");
+
+    passButton.addEventListener("click", () => {
+      const passwordSize = passInput.value;
+      passResult.value = generatePassword(passwordSize);
     });
   </script>
 </body>
