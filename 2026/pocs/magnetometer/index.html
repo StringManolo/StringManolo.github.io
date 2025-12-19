@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>MagTest</title>
+</head>
+<body>
+  <div id="status">Iniciando...</div>
+  <div id="data" style="font-family: monospace; font-size: 1.5rem; margin-top: 10px;"></div>
+
+  <script>
+    const status = document.getElementById('status');
+    const data = document.getElementById('data');
+
+    if ('Magnetometer' in window) {
+      try {
+        const mag = new Magnetometer({ frequency: 30 });
+        
+        mag.addEventListener('reading', () => {
+          const total = Math.sqrt(mag.x ** 2 + mag.y ** 2 + mag.z ** 2).toFixed(2);
+          data.innerHTML = `
+            X: ${mag.x.toFixed(2)}<br>
+            Y: ${mag.y.toFixed(2)}<br>
+            Z: ${mag.z.toFixed(2)}<br>
+            Total: ${total} μT
+          `;
+          status.innerText = "Leyendo sensor...";
+        });
+
+        mag.addEventListener('error', e => {
+          status.innerText = `Error: ${e.error.name}`;
+        });
+
+        mag.start();
+      } catch (err) {
+        status.innerText = "Error al instanciar: " + err.name;
+      }
+    } else {
+      status.innerText = "API de Magnetómetro no soportada";
+    }
+  </script>
+</body>
+</html>
