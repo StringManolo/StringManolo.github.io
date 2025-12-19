@@ -1,187 +1,250 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>EMF Geiger Scanner</title>
-    <style>
-        :root {
-            --bg-color: #0a0a0a;
-            --card-bg: #161616;
-            --text-main: #e0e0e0;
-            --accent-blue: #2979ff;
-            --accent-red: #ff1744;
-            --accent-green: #00e676;
-        }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>EMF Pro Geiger Scanner</title>
+  <style>
+    :root {
+      --bg: #0a0a0b;
+      --card: #16161d;
+      --accent: #2979ff;
+      --danger: #ff1744;
+      --safe: #00e676;
+      --text: #e0e0e0;
+    }
 
-        body {
-            background-color: var(--bg-color);
-            color: var(--text-main);
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            padding: 20px;
-            margin: 0;
-            height: 100vh;
-            box-sizing: border-box;
-        }
+    body {
+      background-color: var(--bg);
+      color: var(--text);
+      font-family: 'Segoe UI', system-ui, sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin: 0;
+      padding: 20px;
+      height: 100vh;
+      box-sizing: border-box;
+      overflow-x: hidden;
+    }
 
-        .dashboard { width: 100%; max-width: 450px; text-align: center; }
+    .container { width: 100%; max-width: 450px; text-align: center; }
 
-        .readout-container {
-            background: var(--card-bg);
-            padding: 40px 20px;
-            border-radius: 20px;
-            margin: 20px 0;
-            border: 2px solid #333;
-            transition: all 0.1s ease;
-        }
+    /* Main Readout */
+    .readout {
+      background: var(--card);
+      padding: 40px 20px;
+      border-radius: 24px;
+      margin: 20px 0;
+      border: 2px solid #222;
+      transition: all 0.15s ease;
+      position: relative;
+    }
 
-        .alert-active {
-            border-color: var(--accent-red);
-            box-shadow: 0 0 30px rgba(255, 23, 68, 0.3);
-            background: #200a0a;
-        }
+    .readout.alert {
+      border-color: var(--danger);
+      box-shadow: 0 0 40px rgba(255, 23, 68, 0.25);
+      background: #1a0a0d;
+    }
 
-        .value { font-size: 4rem; font-weight: bold; font-family: monospace; color: var(--accent-green); }
-        .alert-active .value { color: var(--accent-red); }
+    .val { font-size: 4.5rem; font-weight: 800; font-family: monospace; color: var(--safe); }
+    .alert .val { color: var(--danger); }
+    .unit { color: #666; letter-spacing: 2px; font-size: 0.8rem; }
 
-        #status-text { height: 50px; color: #888; font-size: 0.9rem; margin-bottom: 10px; }
+    #status { height: 40px; color: #888; font-size: 0.9rem; margin-bottom: 15px; }
 
-        .controls { background: var(--card-bg); padding: 25px; border-radius: 15px; text-align: left; }
-        
-        button {
-            background: var(--accent-blue); color: white; border: none; padding: 15px; width: 100%;
-            border-radius: 10px; font-weight: bold; cursor: pointer; margin-bottom: 20px;
-        }
+    /* Controls */
+    .panel { background: var(--card); padding: 25px; border-radius: 20px; text-align: left; }
+    
+    button {
+      background: var(--accent); color: white; border: none; padding: 18px; width: 100%;
+      border-radius: 12px; font-weight: bold; cursor: pointer; margin-bottom: 20px;
+      text-transform: uppercase; letter-spacing: 1px;
+    }
+    button:disabled { background: #333; cursor: wait; }
 
-        input[type=range] { width: 100%; accent-color: var(--accent-blue); margin-top: 10px; }
+    .slider-box { margin: 15px 0; }
+    .labels { display: flex; justify-content: space-between; font-size: 0.8rem; color: #aaa; margin-bottom: 8px; }
+    
+    input[type=range] { width: 100%; accent-color: var(--accent); cursor: pointer; }
 
-        .label-group { display: flex; justify-content: space-between; font-size: 0.8rem; color: #aaa; }
-    </style>
+    /* Modal / Tutorial */
+    .modal {
+      display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.9);
+      z-index: 100; justify-content: center; align-items: center; padding: 20px;
+    }
+    .modal-content {
+      background: #1c1c22; padding: 30px; border-radius: 20px; max-width: 400px;
+      border: 1px solid #333; position: relative;
+    }
+    .close { position: absolute; top: 15px; right: 20px; font-size: 1.5rem; cursor: pointer; }
+    .code { background: #000; padding: 12px; border-radius: 8px; color: var(--safe); font-family: monospace; margin: 10px 0; display: flex; justify-content: space-between; }
+    
+    .help-btn { background: transparent; border: 1px solid #444; color: #888; margin-top: 10px; font-size: 0.75rem; }
+  </style>
 </head>
 <body>
 
-    <div class="dashboard">
-        <h2 style="letter-spacing: 3px; color: #555;">EMF GEIGER</h2>
-        
-        <div id="readout-box" class="readout-container">
-            <div class="value" id="mag-value">0.00</div>
-            <div style="color: #666; font-size: 0.8rem;">MICROTESLAS (μT)</div>
-        </div>
+  <div class="container">
+    <h1 style="font-size: 1rem; color: #555; letter-spacing: 4px;">EMF PRO GEIGER</h1>
 
-        <div id="status-text">Ready. Please calibrate in a clear area.</div>
-
-        <div class="controls">
-            <button id="cal-btn" onclick="startCalibration()">START CALIBRATION</button>
-            
-            <div class="label-group">
-                <span>Sensitivity Threshold</span>
-                <span id="thresh-display">10 μT</span>
-            </div>
-            <input type="range" id="sensitivity" min="1" max="300" value="10" oninput="updateThresh(this.value)">
-
-            <div class="label-group" style="margin-top: 20px;">
-                <span>Baseline Noise:</span>
-                <span id="base-display">0.00 μT</span>
-            </div>
-        </div>
+    <div id="display-box" class="readout">
+      <div id="mag-val" class="val">---</div>
+      <div class="unit">MICROTESLAS (μT)</div>
     </div>
 
-    <script>
-        let calibratedBase = 0;
-        let isCalibrating = false;
-        let tempMax = 0;
-        let threshold = 10;
-        
-        // Audio Context
-        let audioCtx = null;
-        let oscillator = null;
-        let gainNode = null;
+    <div id="status">Initializing sensors...</div>
 
-        function initAudio() {
-            if (audioCtx) return;
-            audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-            gainNode = audioCtx.createGain();
-            gainNode.connect(audioCtx.destination);
-            gainNode.gain.value = 0; // Silent by default
+    <div class="panel">
+      <button id="main-btn" onclick="startCalibration()">Start Calibration</button>
+      
+      <div class="slider-box">
+        <div class="labels">
+          <span>Sensitivity Range</span>
+          <span id="range-val">10 μT</span>
+        </div>
+        <input type="range" id="sens-slider" min="1" max="500" value="10" oninput="updateSens(this.value)">
+      </div>
+
+      <div class="labels" style="margin-top: 20px; border-top: 1px solid #333; padding-top: 15px;">
+        <span>Environment Baseline:</span>
+        <span id="base-val">0.00 μT</span>
+      </div>
+      <button class="help-btn" onclick="showHelp()">Browser Configuration Help</button>
+    </div>
+  </div>
+
+  <div id="help-modal" class="modal">
+    <div class="modal-content">
+      <span class="close" onclick="closeHelp()">&times;</span>
+      <h2 id="browser-title" style="color: var(--accent);">Setup</h2>
+      <div id="help-body"></div>
+    </div>
+  </div>
+
+  <script>
+    let baseline = 0;
+    let isCalibrating = false;
+    let tempPeak = 0;
+    let sensitivity = 10;
+    
+    // Audio State
+    let audioCtx, osc, gain;
+
+    function initAudio() {
+      if (audioCtx) return;
+      audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+      gain = audioCtx.createGain();
+      gain.connect(audioCtx.destination);
+      gain.gain.value = 0;
+      
+      osc = audioCtx.createOscillator();
+      osc.type = 'sawtooth';
+      osc.start();
+      osc.connect(gain);
+    }
+
+    function updateSens(v) {
+      sensitivity = parseInt(v);
+      document.getElementById('range-val').innerText = v + " μT";
+    }
+
+    function startCalibration() {
+      initAudio();
+      isCalibrating = true;
+      tempPeak = 0;
+      const btn = document.getElementById('main-btn');
+      btn.disabled = true;
+      
+      let count = 5;
+      const timer = setInterval(() => {
+        btn.innerText = `Calibrating... ${count}s`;
+        count--;
+        if (count < 0) {
+          clearInterval(timer);
+          baseline = tempPeak;
+          document.getElementById('base-val').innerText = baseline.toFixed(2);
+          isCalibrating = false;
+          btn.disabled = false;
+          btn.innerText = "Re-calibrate";
+          document.getElementById('status').innerText = "Scanning for anomalies...";
+        }
+      }, 1000);
+    }
+
+    // Detector Logic
+    if ('Magnetometer' in window) {
+      const mag = new Magnetometer({ frequency: 60 });
+      const valDisplay = document.getElementById('mag-val');
+      const box = document.getElementById('display-box');
+      const status = document.getElementById('status');
+
+      mag.addEventListener('reading', () => {
+        const current = Math.sqrt(mag.x**2 + mag.y**2 + mag.z**2);
+        valDisplay.innerText = current.toFixed(2);
+
+        if (isCalibrating) {
+          if (current > tempPeak) tempPeak = current;
+        } else if (baseline > 0) {
+          const diff = Math.abs(current - baseline);
+          
+          if (diff > sensitivity) {
+            box.classList.add('alert');
+            status.innerText = current > baseline ? "⚠️ POSITIVE PEAK DETECTED" : "⚠️ NEGATIVE DROP DETECTED";
+            status.style.color = "var(--danger)";
             
-            oscillator = audioCtx.createOscillator();
-            oscillator.type = 'sawtooth';
-            oscillator.start();
-            oscillator.connect(gainNode);
+            if (gain) {
+              const freq = 150 + (diff * 4);
+              osc.frequency.setTargetAtTime(Math.min(freq, 2000), audioCtx.currentTime, 0.05);
+              gain.gain.setTargetAtTime(0.12, audioCtx.currentTime, 0.05);
+            }
+          } else {
+            box.classList.remove('alert');
+            if (status.innerText.includes("DETECTED")) {
+              status.innerText = "Scanning...";
+              status.style.color = "#888";
+            }
+            if (gain) gain.gain.setTargetAtTime(0, audioCtx.currentTime, 0.1);
+          }
         }
+      });
 
-        function updateThresh(v) {
-            threshold = parseInt(v);
-            document.getElementById('thresh-display').innerText = v + " μT";
-        }
+      mag.addEventListener('error', () => {
+        status.innerText = "Sensor error. Check permissions.";
+        showHelp();
+      });
 
-        function startCalibration() {
-            initAudio(); // Initialize audio on first interaction
-            isCalibrating = true;
-            tempMax = 0;
-            const btn = document.getElementById('cal-btn');
-            btn.disabled = true;
-            
-            let count = 5;
-            const itv = setInterval(() => {
-                btn.innerText = `CALIBRATING... ${count}`;
-                count--;
-                if (count < 0) {
-                    clearInterval(itv);
-                    calibratedBase = tempMax;
-                    document.getElementById('base-display').innerText = calibratedBase.toFixed(2);
-                    isCalibrating = false;
-                    btn.disabled = false;
-                    btn.innerText = "RE-CALIBRATE";
-                    document.getElementById('status-text').innerText = "Scanning active. Move near devices.";
-                }
-            }, 1000);
-        }
+      mag.start();
+    } else {
+      document.getElementById('status').innerText = "API not supported.";
+      setTimeout(showHelp, 1500);
+    }
 
-        if ('Magnetometer' in window) {
-            const mag = new Magnetometer({ frequency: 60 });
-            const valEl = document.getElementById('mag-value');
-            const box = document.getElementById('readout-box');
-            const status = document.getElementById('status-text');
+    // Browser Detection & Help
+    function showHelp() {
+      const ua = navigator.userAgent;
+      const title = document.getElementById('browser-title');
+      const body = document.getElementById('help-body');
+      let url = "chrome://flags";
 
-            mag.addEventListener('reading', () => {
-                const current = Math.sqrt(mag.x**2 + mag.y**2 + mag.z**2);
-                valEl.innerText = current.toFixed(2);
+      if (/iPhone|iPad/.test(ua)) {
+        title.innerText = "iOS Restriction";
+        body.innerHTML = "<p>Apple blocks Magnetometer API. Please use an Android device.</p>";
+      } else {
+        if (ua.includes("Edg")) url = "edge://flags";
+        title.innerText = "Enable Sensor";
+        body.innerHTML = `
+          <p>1. Copy this address:</p>
+          <div class="code"><span>${url}</span></div>
+          <p>2. Paste it in your URL bar.</p>
+          <p>3. Enable <b>'Generic Sensor Extra Classes'</b>.</p>
+          <p>4. Restart your browser.</p>
+        `;
+      }
+      document.getElementById('help-modal').style.display = 'flex';
+    }
 
-                if (isCalibrating) {
-                    if (current > tempMax) tempMax = current;
-                } else if (calibratedBase > 0) {
-                    const diff = Math.abs(current - calibratedBase);
-                    
-                    if (diff > threshold) {
-                        box.classList.add('alert-active');
-                        status.innerText = (current > calibratedBase) ? "⚠️ POSITIVE PEAK DETECTED" : "⚠️ NEGATIVE DROP DETECTED";
-                        status.style.color = "#ff1744";
-                        
-                        // Audio Feedback
-                        if (gainNode) {
-                            // Frequency increases with the magnitude of the detection
-                            const freq = 100 + (diff * 5);
-                            oscillator.frequency.setTargetAtTime(Math.min(freq, 1500), audioCtx.currentTime, 0.05);
-                            gainNode.gain.setTargetAtTime(0.1, audioCtx.currentTime, 0.05);
-                        }
-                    } else {
-                        box.classList.remove('alert-active');
-                        if (status.innerText.includes("DETECTED")) {
-                            status.innerText = "Scanning...";
-                            status.style.color = "#888";
-                        }
-                        if (gainNode) gainNode.gain.setTargetAtTime(0, audioCtx.currentTime, 0.1);
-                    }
-                }
-            });
-            mag.start();
-        } else {
-            document.getElementById('status-text').innerText = "Magnetometer API not found.";
-        }
-    </script>
+    function closeHelp() { document.getElementById('help-modal').style.display = 'none'; }
+  </script>
 </body>
 </html>
