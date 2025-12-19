@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>EMF Pro Geiger Scanner</title>
+  <style>
+    :root {
+      --bg: #0a0a0b; --card: #16161d; --accent: #2979ff;
+      --danger: #ff1744; --safe: #00e676; --text: #e0e0e0;
+    }
+
+    body {
+      background-color: var(--bg); color: var(--text);
+      font-family: 'Segoe UI', system-ui, sans-serif;
+      display: flex; flex-direction: column; align-items: center;
+      margin: 0; padding: 20px; height: 100vh; box-sizing: border-box;
+    }
+
+    .container { width: 100%; max-width: 450px; text-align: center; position: relative; }
+
+    .info-btn {
+      position: absolute; top: -10px; right: 0;
+      width: 35px; height: 35px; border-radius: 50%;
+      background: #333; color: white; border: none;
+      font-weight: bold; font-family: serif; cursor: pointer; font-size: 1.2rem;
+    }
+
+    .readout {
+      background: var(--card); padding: 40px 20px; border-radius: 24px;
+      margin: 20px 0; border: 2px solid #222; transition: all 0.1s ease;
+    }
+
+    .readout.alert {
+      border-color: var(--danger); box-shadow: 0 0 40px rgba(255, 23, 68, 0.25);
+      background: #1a0a0d;
+    }
+
+    .val { font-size: 4.5rem; font-weight: 800; font-family: monospace; color: var(--safe); }
+    .alert .val { color: var(--danger); }
+    .unit { color: #666; letter-spacing: 2px; font-size: 0.8rem; }
+
+    #status { height: 40px; color: #888; font-size: 0.9rem; margin-bottom: 10px; font-weight: bold; }
+
+    .panel { background: var(--card); padding: 20px; border-radius: 20px; text-align: left; margin-bottom: 10px; }
+    
+    button.main {
+      background: var(--accent); color: white; border: none; padding: 18px; width: 100%;
+      border-radius: 12px; font-weight: bold; cursor: pointer; margin-bottom: 15px;
+      text-transform: uppercase;
+    }
+
+    .audio-controls {
+      display: flex; gap: 10px; margin-bottom: 15px; align-items: center;
+    }
+
+    select, .mute-btn {
+      background: #222; color: #ccc; border: 1px solid #444; padding: 10px; border-radius: 8px; flex: 1;
+    }
+    .mute-btn.active { background: var(--danger); color: white; border-color: var(--danger); }
+
+    .labels { display: flex; justify-content: space-between; font-size: 0.8rem; color: #aaa; margin-bottom: 8px; }
+    input[type=range] { width: 100%; accent-color: var(--accent); cursor: pointer; }
+
+    .modal {
+      display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.95);
+      z-index: 100; justify-content: center; align-items: center; padding: 20px;
+    }
+    .modal-content {
+      background: #1c1c22; padding: 25px; border-radius: 20px; max-width: 400px;
+      border: 1px solid #333; position: relative; max-height: 85vh; overflow-y: auto;
+    }
+    .close { position: absolute; top: 15px; right: 20px; font-size: 1.8rem; cursor: pointer; color: #666; }
+    h3 { color: var(--accent); margin-top: 0; }
+    p, li { font-size: 0.9rem; line-height: 1.4; color: #ccc; }
+    .code { background: #000; padding: 10px; border-radius: 8px; color: var(--safe); font-family: monospace; font-size: 0.8rem; }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <button class="info-btn" onclick="openModal('inst-modal')">i</button>
+    <h1 style="font-size: 0.7rem; color: #444; letter-spacing: 4px; margin: 0 0 10px 0;">EMF PRO GEIGER v2.0</h1>
+
+    <div id="display-box" class="readout">
+      <div id="mag-val" class="val">---</div>
+      <div class="unit">MICROTESLAS (μT)</div>
+    </div>
+
+    <div id="status">INITIALIZING...</div>
+
+    <div class="panel">
+      <button class="main" id="main-btn" onclick="startCalibration()">Start Calibration</button>
+      
+      <div class="audio-controls">
+        <button id="mute-btn" class="mute-btn" onclick="toggleMute()">SOUND: ON</button>
+        <select id="osc-type" onchange="updateOscType()">
+          <option value="sawtooth">MODE: GEIGER</option>
+          <option value="sine">MODE: SONAR</option>
+          <option value="square">MODE: INDUSTRIAL</option>
+        </select>
+      </div>
+
+      <div class="labels">
+        <span>Sensitivity Threshold</span>
+        <span id="range-val">10 μT</span>
+      </div>
+      <input type="range" id="sens-slider" min="1" max="500" value="10" oninput="updateSens(this.value)">
+
+      <div class="labels" style="margin-top: 15px; border-top: 1px solid #333; padding-top: 10px;">
+        <span>Baseline: <strong id="base-val" style="color:var(--accent)">0</strong> μT</span>
+      </div>
+    </div>
+  </div>
+
+  <div id="inst-modal" class="modal">
+    <div class="modal-content">
+      <span class="close" onclick="closeModal('inst-modal')">&times;</span>
+      <h3>Instructions</h3>
+      <ul style="padding-left: 20px;">
+        <li><strong>Calibrate:</strong> Hold still away from tech for 5s.</li>
+        <li><strong>Scan:</strong> Use the <strong>top-center</strong> of your phone.</li>
+        <li><strong>Movement:</strong> Slide flat. <strong>Don't rotate</strong> (rotation causes false positives due to Earth's poles).</li>
+        <li><strong>Audio:</strong> Geiger (fast peaks), Sonar (subtle changes), Industrial (loud/clear).</li>
+      </ul>
+    </div>
+  </div>
+
+  <div id="help-modal" class="modal">
+    <div class="modal-content">
+      <span class="close" onclick="closeModal('help-modal')">&times;</span>
+      <h3 id="browser-title">Setup Needed</h3>
+      <div id="help-body"></div>
+    </div>
+  </div>
+
+  <script>
+    let baseline = 0, isCalibrating = false, tempPeak = 0, sensitivity = 10;
+    let audioCtx, osc, gain, isMuted = false;
+
+    function openModal(id) { document.getElementById(id).style.display = 'flex'; }
+    function closeModal(id) { document.getElementById(id).style.display = 'none'; }
+
+    function initAudio() {
+      if (audioCtx) return;
+      audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+      gain = audioCtx.createGain();
+      gain.connect(audioCtx.destination);
+      gain.gain.value = 0;
+      osc = audioCtx.createOscillator();
+      osc.type = document.getElementById('osc-type').value;
+      osc.start();
+      osc.connect(gain);
+    }
+
+    function toggleMute() {
+      isMuted = !isMuted;
+      const btn = document.getElementById('mute-btn');
+      btn.innerText = isMuted ? "SOUND: OFF" : "SOUND: ON";
+      btn.classList.toggle('active', isMuted);
+      if (isMuted && gain) gain.gain.setTargetAtTime(0, audioCtx.currentTime, 0.05);
+    }
+
+    function updateOscType() {
+      if (osc) osc.type = document.getElementById('osc-type').value;
+    }
+
+    function updateSens(v) {
+      sensitivity = parseInt(v);
+      document.getElementById('range-val').innerText = v + " μT";
+    }
+
+    function startCalibration() {
+      initAudio();
+      if (audioCtx.state === 'suspended') audioCtx.resume();
+      isCalibrating = true; tempPeak = 0;
+      const btn = document.getElementById('main-btn');
+      btn.disabled = true;
+      let count = 5;
+      const timer = setInterval(() => {
+        btn.innerText = `CALIBRATING... ${count}s`;
+        if (count-- < 0) {
+          clearInterval(timer);
+          baseline = tempPeak;
+          document.getElementById('base-val').innerText = baseline.toFixed(2);
+          isCalibrating = false; btn.disabled = false; btn.innerText = "RE-CALIBRATE";
+          document.getElementById('status').innerText = "SCANNING...";
+        }
+      }, 1000);
+    }
+
+    if ('Magnetometer' in window) {
+      const mag = new Magnetometer({ frequency: 60 });
+      mag.addEventListener('reading', () => {
+        const current = Math.sqrt(mag.x**2 + mag.y**2 + mag.z**2);
+        document.getElementById('mag-val').innerText = current.toFixed(2);
+
+        if (isCalibrating) {
+          if (current > tempPeak) tempPeak = current;
+        } else if (baseline > 0) {
+          const diff = Math.abs(current - baseline);
+          if (diff > sensitivity) {
+            document.getElementById('display-box').classList.add('alert');
+            document.getElementById('status').innerText = current > baseline ? "⚠️ POSITIVE PEAK" : "⚠️ NEGATIVE DROP";
+            if (gain && !isMuted) {
+              osc.frequency.setTargetAtTime(150 + (diff * 5), audioCtx.currentTime, 0.05);
+              gain.gain.setTargetAtTime(0.12, audioCtx.currentTime, 0.05);
+            }
+          } else {
+            document.getElementById('display-box').classList.remove('alert');
+            if (gain) gain.gain.setTargetAtTime(0, audioCtx.currentTime, 0.1);
+          }
+        }
+      });
+      mag.start();
+      document.getElementById('status').innerText = "READY. CALIBRATE FIRST.";
+    } else {
+      document.getElementById('status').innerText = "API NOT SUPPORTED";
+      setTimeout(showHelp, 1000);
+    }
+
+    function showHelp() {
+      const ua = navigator.userAgent;
+      const body = document.getElementById('help-body');
+      let url = navigator.userAgent.includes("Edg") ? "edge://flags" : "chrome://flags";
+      if (/iPhone|iPad/.test(ua)) {
+        body.innerHTML = "<p>iOS blocks this API. Use Android with Chrome/Edge.</p>";
+      } else {
+        body.innerHTML = `<p>Copy this to URL bar:</p><div class="code">${url}</div><p>Enable <b>'Generic Sensor Extra Classes'</b> and restart.</p>`;
+      }
+      openModal('help-modal');
+    }
+  </script>
+</body>
+</html>
