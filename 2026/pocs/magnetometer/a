@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>EMF Pro Industrial Geiger</title>
+  <style>
+    :root {
+      --bg: #080808; --card: #121216; --accent: #2979ff;
+      --danger: #ff1744; --safe: #00e676; --text: #f0f0f0;
+    }
+
+    body {
+      background-color: var(--bg); color: var(--text);
+      font-family: 'Segoe UI', system-ui, sans-serif;
+      display: flex; flex-direction: column; align-items: center;
+      margin: 0; padding: 15px; height: 100vh; box-sizing: border-box;
+    }
+
+    .container { width: 100%; max-width: 450px; text-align: center; position: relative; }
+
+    .info-btn {
+      position: absolute; top: 0; right: 0;
+      width: 32px; height: 32px; border-radius: 50%;
+      background: #222; color: var(--accent); border: 1px solid #444;
+      font-weight: bold; cursor: pointer;
+    }
+
+    .readout {
+      background: var(--card); padding: 35px 15px; border-radius: 24px;
+      margin: 15px 0; border: 1px solid #222; transition: all 0.1s ease;
+      position: relative; overflow: hidden;
+    }
+
+    .readout.alert { border-color: var(--danger); box-shadow: 0 0 30px rgba(255, 23, 68, 0.15); }
+
+    /* Prediction Badge */
+    #predict-badge {
+      display: none; position: absolute; top: 10px; left: 50%; transform: translateX(-50%);
+      background: var(--danger); color: white; padding: 4px 12px;
+      border-radius: 10px; font-size: 0.7rem; font-weight: bold; letter-spacing: 1px;
+    }
+
+    .val { font-size: 4.2rem; font-weight: 800; font-family: monospace; color: var(--safe); line-height: 1; }
+    .alert .val { color: var(--danger); }
+    .unit { color: #555; letter-spacing: 2px; font-size: 0.75rem; margin-top: 5px; }
+
+    #status { height: 30px; color: #777; font-size: 0.85rem; margin-bottom: 10px; text-transform: uppercase; }
+
+    .panel { background: var(--card); padding: 20px; border-radius: 20px; text-align: left; border: 1px solid #222; }
+    
+    button.main {
+      background: var(--accent); color: white; border: none; padding: 16px; width: 100%;
+      border-radius: 12px; font-weight: bold; cursor: pointer; margin-bottom: 15px;
+    }
+
+    .controls-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 15px; }
+
+    select, .mute-btn {
+      background: #1a1a20; color: #ccc; border: 1px solid #333; padding: 10px; border-radius: 8px; font-size: 0.8rem;
+    }
+    .mute-btn.active { background: var(--danger); border-color: var(--danger); color: white; }
+
+    .labels { display: flex; justify-content: space-between; font-size: 0.75rem; color: #888; margin-bottom: 6px; }
+    input[type=range] { width: 100%; accent-color: var(--accent); height: 5px; }
+
+    /* Modal Tables */
+    .modal {
+      display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.95);
+      z-index: 100; justify-content: center; align-items: center; padding: 20px;
+    }
+    .modal-content {
+      background: #121216; padding: 25px; border-radius: 20px; max-width: 420px;
+      border: 1px solid #333; position: relative; max-height: 90vh; overflow-y: auto;
+    }
+    .close { position: absolute; top: 15px; right: 20px; font-size: 1.5rem; cursor: pointer; }
+
+    table { width: 100%; border-collapse: collapse; margin-top: 15px; font-size: 0.8rem; }
+    th, td { padding: 10px; border: 1px solid #333; text-align: left; }
+    th { background: #1a1a1a; color: var(--accent); }
+    .t-pos { color: var(--safe); }
+    .t-neg { color: var(--danger); }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <button class="info-btn" onclick="openModal('inst-modal')">i</button>
+    <h1 style="font-size: 0.7rem; color: #444; letter-spacing: 4px; margin: 0 0 15px 0;">PRO EMF INDUSTRIAL</h1>
+
+    <div id="display-box" class="readout">
+      <div id="predict-badge">SCANNING</div>
+      <div id="mag-val" class="val">---</div>
+      <div class="unit">MICROTESLAS (μT)</div>
+    </div>
+
+    <div id="status">SENSOR STANDBY</div>
+
+    <div class="panel">
+      <button class="main" id="main-btn" onclick="startCalibration()">Start Calibration</button>
+      
+      <div class="controls-grid">
+        <button id="mute-btn" class="mute-btn" onclick="toggleMute()">AUDIO: ON</button>
+        <select id="osc-type" onchange="updateOscType()">
+          <option value="clicker">SOUND: CLICKER</option>
+          <option value="sawtooth">SOUND: GEIGER</option>
+          <option value="sine">SOUND: SONAR</option>
+        </select>
+      </div>
+
+      <div class="labels">
+        <span>Sensitivity</span>
+        <span id="range-val">10 μT</span>
+      </div>
+      <input type="range" id="sens-slider" min="1" max="500" value="10" oninput="updateSens(this.value)">
+
+      <div class="labels" style="margin-top: 15px; border-top: 1px solid #333; padding-top: 10px;">
+        <span>Reference Baseline:</span>
+        <span id="base-val" style="color:var(--accent)">0.00</span>
+      </div>
+    </div>
+  </div>
+
+  <div id="inst-modal" class="modal">
+    <div class="modal-content">
+      <span class="close" onclick="closeModal('inst-modal')">&times;</span>
+      <h3 style="color:var(--accent)">Manual de Usuario</h3>
+      <p><b>1. Calibración:</b> Mantenga el móvil lejos de metales y tech por 5s para definir el "Cero".</p>
+      <p><b>2. Técnica:</b> No rote el móvil. Deslícelo como una plancha sobre la superficie.</p>
+      
+      <h3>Interpretación de Detección</h3>
+      <table>
+        <tr>
+          <th>Tipo</th>
+          <th>Causa Probable</th>
+          <th>Materiales</th>
+        </tr>
+        <tr>
+          <td class="t-pos"><b>Pico (+)</b></td>
+          <td>Emisión Electromagnética / Activa</td>
+          <td>Móviles, Routers, Procesadores, Cables con corriente, Imanes (Polo N).</td>
+        </tr>
+        <tr>
+          <td class="t-neg"><b>Drop (-)</b></td>
+          <td>Interferencia Pasiva / Escudo</td>
+          <td>Vigas de Acero, Hierro, Níquel, Blindajes metálicos, Imanes (Polo S).</td>
+        </tr>
+      </table>
+    </div>
+  </div>
+
+  <script>
+    let baseline = 0, isCalibrating = false, tempPeak = 0, sensitivity = 10;
+    let audioCtx, osc, gain, isMuted = false;
+    let lastClickTime = 0;
+
+    function openModal(id) { document.getElementById(id).style.display = 'flex'; }
+    function closeModal(id) { document.getElementById(id).style.display = 'none'; }
+    function updateSens(v) { sensitivity = parseInt(v); document.getElementById('range-val').innerText = v + " μT"; }
+
+    function initAudio() {
+      if (audioCtx) return;
+      audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+      gain = audioCtx.createGain();
+      gain.connect(audioCtx.destination);
+      gain.gain.value = 0;
+      osc = audioCtx.createOscillator();
+      osc.type = document.getElementById('osc-type').value === 'clicker' ? 'square' : document.getElementById('osc-type').value;
+      osc.start();
+      osc.connect(gain);
+    }
+
+    function toggleMute() {
+      isMuted = !isMuted;
+      document.getElementById('mute-btn').innerText = isMuted ? "AUDIO: OFF" : "AUDIO: ON";
+      document.getElementById('mute-btn').classList.toggle('active', isMuted);
+    }
+
+    function updateOscType() { if(osc) osc.type = document.getElementById('osc-type').value === 'clicker' ? 'square' : document.getElementById('osc-type').value; }
+
+    function startCalibration() {
+      initAudio();
+      if (audioCtx.state === 'suspended') audioCtx.resume();
+      isCalibrating = true; tempPeak = 0;
+      const btn = document.getElementById('main-btn');
+      btn.disabled = true;
+      let count = 5;
+      const timer = setInterval(() => {
+        btn.innerText = `CALIBRATING... ${count}s`;
+        if (count-- < 0) {
+          clearInterval(timer);
+          baseline = tempPeak;
+          document.getElementById('base-val').innerText = baseline.toFixed(2);
+          isCalibrating = false; btn.disabled = false; btn.innerText = "RE-CALIBRATE";
+          document.getElementById('status').innerText = "SYSTEM ACTIVE";
+        }
+      }, 1000);
+    }
+
+    function playClick() {
+      if (isMuted) return;
+      const clickOsc = audioCtx.createOscillator();
+      const clickGain = audioCtx.createGain();
+      clickOsc.type = 'square';
+      clickOsc.frequency.setValueAtTime(150, audioCtx.currentTime);
+      clickGain.gain.setValueAtTime(0.2, audioCtx.currentTime);
+      clickGain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.01);
+      clickOsc.connect(clickGain);
+      clickGain.connect(audioCtx.destination);
+      clickOsc.start();
+      clickOsc.stop(audioCtx.currentTime + 0.01);
+    }
+
+    if ('Magnetometer' in window) {
+      const mag = new Magnetometer({ frequency: 60 });
+      mag.addEventListener('reading', () => {
+        const current = Math.sqrt(mag.x**2 + mag.y**2 + mag.z**2);
+        document.getElementById('mag-val').innerText = current.toFixed(2);
+
+        if (isCalibrating) {
+          if (current > tempPeak) tempPeak = current;
+        } else if (baseline > 0) {
+          const diff = Math.abs(current - baseline);
+          const badge = document.getElementById('predict-badge');
+          
+          if (diff > sensitivity) {
+            document.getElementById('display-box').classList.add('alert');
+            badge.style.display = 'block';
+            badge.innerText = current > baseline ? "ACTIVE EMISSION / MAGNET" : "METAL INTERFERENCE / DROP";
+            
+            if (navigator.vibrate) navigator.vibrate(20);
+
+            const mode = document.getElementById('osc-type').value;
+            if (!isMuted && gain) {
+              if (mode === 'clicker') {
+                const now = Date.now();
+                const interval = Math.max(20, 300 - (diff * 2));
+                if (now - lastClickTime > interval) {
+                  playClick();
+                  lastClickTime = now;
+                }
+              } else {
+                osc.frequency.setTargetAtTime(120 + (diff * 4), audioCtx.currentTime, 0.05);
+                gain.gain.setTargetAtTime(0.12, audioCtx.currentTime, 0.05);
+              }
+            }
+          } else {
+            document.getElementById('display-box').classList.remove('alert');
+            badge.style.display = 'none';
+            if (gain) gain.gain.setTargetAtTime(0, audioCtx.currentTime, 0.1);
+          }
+        }
+      });
+      mag.start();
+    }
+  </script>
+</body>
+</html>
