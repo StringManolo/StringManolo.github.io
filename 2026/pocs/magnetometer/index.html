@@ -3,339 +3,185 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pro EMF Scanner</title>
+    <title>EMF Geiger Scanner</title>
     <style>
         :root {
-            --bg-color: #121212;
-            --card-bg: #1e1e1e;
+            --bg-color: #0a0a0a;
+            --card-bg: #161616;
             --text-main: #e0e0e0;
-            --accent-green: #00e676;
-            --accent-red: #ff1744;
             --accent-blue: #2979ff;
-            --overlay-bg: rgba(0, 0, 0, 0.95);
+            --accent-red: #ff1744;
+            --accent-green: #00e676;
         }
 
         body {
             background-color: var(--bg-color);
             color: var(--text-main);
-            font-family: system-ui, -apple-system, sans-serif;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             display: flex;
             flex-direction: column;
             align-items: center;
-            margin: 0;
             padding: 20px;
+            margin: 0;
             height: 100vh;
             box-sizing: border-box;
-            overflow: hidden;
         }
 
-        /* Dashboard UI */
-        .dashboard { width: 100%; max-width: 500px; text-align: center; }
+        .dashboard { width: 100%; max-width: 450px; text-align: center; }
 
-        h1 { font-weight: 300; letter-spacing: 2px; margin-bottom: 5px; font-size: 1.2rem; color: #888; text-transform: uppercase;}
-        
         .readout-container {
             background: var(--card-bg);
-            padding: 30px;
-            border-radius: 15px;
+            padding: 40px 20px;
+            border-radius: 20px;
             margin: 20px 0;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.5);
-            transition: border 0.2s;
             border: 2px solid #333;
+            transition: all 0.1s ease;
         }
 
-        .value { font-size: 3.5rem; font-family: 'Courier New', monospace; font-weight: bold; color: var(--accent-green); }
-        .unit { font-size: 1rem; color: #888; }
+        .alert-active {
+            border-color: var(--accent-red);
+            box-shadow: 0 0 30px rgba(255, 23, 68, 0.3);
+            background: #200a0a;
+        }
 
-        /* Status & Alert */
-        #status-text { font-size: 0.9rem; min-height: 40px; color: #aaa; margin-bottom: 15px; }
-        .alert-mode .value { color: var(--accent-red); }
-        .alert-mode .readout-container { border-color: var(--accent-red); box-shadow: 0 0 20px rgba(255, 23, 68, 0.4); }
+        .value { font-size: 4rem; font-weight: bold; font-family: monospace; color: var(--accent-green); }
+        .alert-active .value { color: var(--accent-red); }
 
-        /* Controls */
-        .controls { background: var(--card-bg); padding: 20px; border-radius: 12px; margin-bottom: 20px; text-align: left; }
+        #status-text { height: 50px; color: #888; font-size: 0.9rem; margin-bottom: 10px; }
+
+        .controls { background: var(--card-bg); padding: 25px; border-radius: 15px; text-align: left; }
         
         button {
-            background: var(--accent-blue); color: white; border: none; padding: 15px; width: 100%; border-radius: 8px;
-            font-size: 1rem; font-weight: bold; cursor: pointer; text-transform: uppercase; letter-spacing: 1px; transition: opacity 0.2s;
+            background: var(--accent-blue); color: white; border: none; padding: 15px; width: 100%;
+            border-radius: 10px; font-weight: bold; cursor: pointer; margin-bottom: 20px;
         }
-        button:disabled { background: #555; cursor: wait; }
-        button:active { opacity: 0.8; }
-        
-        .secondary-btn { background: transparent; border: 1px solid #555; margin-top: 10px; font-size: 0.8rem; color: #aaa; }
 
-        .slider-container { margin-top: 20px; }
-        .slider-label { display: flex; justify-content: space-between; margin-bottom: 10px; font-size: 0.9rem;}
-        input[type=range] { width: 100%; accent-color: var(--accent-blue); height: 6px; background: #444; border-radius: 5px; outline: none; }
+        input[type=range] { width: 100%; accent-color: var(--accent-blue); margin-top: 10px; }
 
-        .sources-list { font-size: 0.8rem; color: #777; text-align: left; width: 100%; border-top: 1px solid #333; padding-top: 15px; }
-        .sources-list ul { padding-left: 20px; display: grid; grid-template-columns: 1fr 1fr; gap: 5px;}
-
-        /* MODAL & TUTORIAL STYLES */
-        .modal {
-            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: var(--overlay-bg); z-index: 100; justify-content: center; align-items: center; padding: 20px; box-sizing: border-box;
-        }
-        .modal-content {
-            background: #252525; border: 1px solid #444; padding: 25px; border-radius: 12px; max-width: 400px; text-align: left; position: relative;
-        }
-        .modal-content h2 { margin-top: 0; color: var(--accent-blue); }
-        .modal-content p { color: #ccc; font-size: 0.9rem; line-height: 1.5; }
-        .close-modal { position: absolute; top: 15px; right: 20px; font-size: 1.5rem; color: #666; cursor: pointer; }
-        
-        .code-box {
-            background: #111; padding: 10px; border-radius: 6px; font-family: monospace; color: #00e676;
-            display: flex; justify-content: space-between; align-items: center; margin: 10px 0; border: 1px solid #333;
-        }
-        .copy-btn {
-            background: #444; color: white; border: none; padding: 5px 10px; border-radius: 4px; font-size: 0.7rem; cursor: pointer; width: auto;
-        }
-        .step-list { padding-left: 20px; color: #ccc; font-size: 0.9rem; }
-        .step-list li { margin-bottom: 8px; }
+        .label-group { display: flex; justify-content: space-between; font-size: 0.8rem; color: #aaa; }
     </style>
 </head>
 <body>
 
     <div class="dashboard">
-        <h1>EMF Field Scanner</h1>
+        <h2 style="letter-spacing: 3px; color: #555;">EMF GEIGER</h2>
         
         <div id="readout-box" class="readout-container">
-            <div class="value" id="mag-value">---</div>
-            <div class="unit">MICROTESLAS (μT)</div>
+            <div class="value" id="mag-value">0.00</div>
+            <div style="color: #666; font-size: 0.8rem;">MICROTESLAS (μT)</div>
         </div>
 
-        <div id="status-text">Checking sensor availability...</div>
+        <div id="status-text">Ready. Please calibrate in a clear area.</div>
 
         <div class="controls">
-            <button id="calibrate-btn" onclick="startCalibration()" disabled>WAITING FOR SENSOR</button>
-            <button class="secondary-btn" onclick="showTutorial()">API CONFIGURATION HELP</button>
+            <button id="cal-btn" onclick="startCalibration()">START CALIBRATION</button>
             
-            <div class="slider-container">
-                <div class="slider-label">
-                    <span>Detection Threshold</span>
-                    <span id="threshold-val">10 μT</span>
-                </div>
-                <input type="range" id="sensitivity" min="0" max="500" value="10" oninput="updateSlider(this.value)">
+            <div class="label-group">
+                <span>Sensitivity Threshold</span>
+                <span id="thresh-display">10 μT</span>
             </div>
-            
-            <div style="margin-top: 15px; font-size: 0.8rem; color: #666; display: flex; justify-content: space-between;">
-                <span>Calibrated Peak: <strong id="base-val">0</strong> μT</span>
+            <input type="range" id="sensitivity" min="1" max="300" value="10" oninput="updateThresh(this.value)">
+
+            <div class="label-group" style="margin-top: 20px;">
+                <span>Baseline Noise:</span>
+                <span id="base-display">0.00 μT</span>
             </div>
-        </div>
-
-        <div class="sources-list">
-            <strong>DETECTABLE INTERFERENCES:</strong>
-            <ul>
-                <li>Active Smartphones</li>
-                <li>Wifi Routers / Modems</li>
-                <li>Smartwatches / Tablets</li>
-                <li>Laptops (CPU/Fans)</li>
-                <li>Microwaves (In Use)</li>
-                <li>Magnetic Covers</li>
-            </ul>
-        </div>
-    </div>
-
-    <div id="tutorial-modal" class="modal">
-        <div class="modal-content">
-            <span class="close-modal" onclick="closeTutorial()">&times;</span>
-            <h2 id="browser-name">Browser Setup</h2>
-            <div id="tutorial-body">
-                </div>
         </div>
     </div>
 
     <script>
-        // DOM Elements
-        const valDisplay = document.getElementById('mag-value');
-        const statusText = document.getElementById('status-text');
-        const box = document.getElementById('readout-box');
-        const btn = document.getElementById('calibrate-btn');
-        const baseDisplay = document.getElementById('base-val');
-        const thresholdDisplay = document.getElementById('threshold-val');
-        const modal = document.getElementById('tutorial-modal');
-
-        // State Variables
+        let calibratedBase = 0;
         let isCalibrating = false;
-        let calibratedMax = 0;
-        let sensitivity = 10;
-        let calibrationTempMax = 0;
-
-        function updateSlider(val) {
-            sensitivity = parseInt(val);
-            thresholdDisplay.innerText = `+ ${sensitivity} μT`;
-        }
-
-        // --- BROWSER DETECTION & TUTORIAL LOGIC ---
-        function getBrowserInfo() {
-            const ua = navigator.userAgent;
-            let browser = "Unknown";
-            let flagUri = "";
-
-            if (/iPhone|iPad|iPod/.test(ua)) return { name: "iOS", type: "ios" };
-            
-            if (ua.includes("Edg")) {
-                browser = "Microsoft Edge";
-                flagUri = "edge://flags";
-            } else if (ua.includes("OPR")) {
-                browser = "Opera";
-                flagUri = "opera://flags";
-            } else if (ua.includes("Chrome")) {
-                browser = "Google Chrome";
-                flagUri = "chrome://flags";
-            } else if (ua.includes("Firefox")) {
-                return { name: "Firefox", type: "firefox" };
-            }
-
-            return { name: browser, uri: flagUri, type: "chromium" };
-        }
-
-        function showTutorial() {
-            const info = getBrowserInfo();
-            const title = document.getElementById('browser-name');
-            const body = document.getElementById('tutorial-body');
-            
-            title.innerText = info.name + " Detected";
-
-            if (info.type === 'ios') {
-                body.innerHTML = `
-                    <p style="color: #ff5252"><strong>Apple iOS Limitation:</strong></p>
-                    <p>iPhones do not support the <em>Magnetometer API</em> required for this scanner. This is a hardware restriction by Apple.</p>
-                    <p>Please use an <strong>Android device</strong> with Chrome or Edge.</p>
-                `;
-            } else if (info.type === 'firefox') {
-                body.innerHTML = `
-                    <p>Firefox has limited support for the Generic Sensor API. For the best results, please use <strong>Chrome</strong> or <strong>Edge</strong> on Android.</p>
-                `;
-            } else if (info.type === 'chromium') {
-                body.innerHTML = `
-                    <p>To enable the sensor, you must activate a specific flag. Browsers block direct links, so please follow these steps:</p>
-                    <ol class="step-list">
-                        <li>Copy the address below:</li>
-                        <div class="code-box">
-                            <span id="flag-url">${info.uri}</span>
-                            <button class="copy-btn" onclick="copyText('${info.uri}')">COPY</button>
-                        </div>
-                        <li>Paste it into your address bar and press Enter.</li>
-                        <li>Search for: <strong>Generic Sensor Extra Classes</strong></li>
-                        <li>Set it to <strong>Enabled</strong>.</li>
-                        <li>Tap <strong>Relaunch</strong> at the bottom.</li>
-                    </ol>
-                `;
-            }
-            modal.style.display = 'flex';
-        }
-
-        function closeTutorial() { modal.style.display = 'none'; }
+        let tempMax = 0;
+        let threshold = 10;
         
-        function copyText(text) {
-            navigator.clipboard.writeText(text).then(() => {
-                const btn = document.querySelector('.copy-btn');
-                btn.innerText = "COPIED!";
-                setTimeout(() => btn.innerText = "COPY", 2000);
-            });
+        // Audio Context
+        let audioCtx = null;
+        let oscillator = null;
+        let gainNode = null;
+
+        function initAudio() {
+            if (audioCtx) return;
+            audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+            gainNode = audioCtx.createGain();
+            gainNode.connect(audioCtx.destination);
+            gainNode.gain.value = 0; // Silent by default
+            
+            oscillator = audioCtx.createOscillator();
+            oscillator.type = 'sawtooth';
+            oscillator.start();
+            oscillator.connect(gainNode);
         }
 
-        // --- SENSOR LOGIC ---
-
-        function initSensor() {
-            if ('Magnetometer' in window) {
-                try {
-                    const mag = new Magnetometer({ frequency: 60 });
-                    
-                    mag.addEventListener('reading', () => {
-                        const currentVal = Math.sqrt(mag.x**2 + mag.y**2 + mag.z**2);
-                        valDisplay.innerText = currentVal.toFixed(2);
-
-                        if (isCalibrating) {
-                            if (currentVal > calibrationTempMax) calibrationTempMax = currentVal;
-                        } else {
-                            if (calibratedMax > 0 && currentVal > (calibratedMax + sensitivity)) {
-                                triggerAlert(true);
-                            } else {
-                                triggerAlert(false);
-                            }
-                        }
-                    });
-
-                    mag.addEventListener('error', e => {
-                        statusText.innerText = "Error: " + e.error.name;
-                        showTutorial(); // Show help if error occurs
-                    });
-
-                    mag.start();
-                    btn.disabled = false;
-                    btn.innerText = "CALIBRATE SENSOR";
-                    statusText.innerText = "Sensor Active. Please calibrate.";
-
-                } catch (err) {
-                    handleFailure();
-                }
-            } else {
-                handleFailure();
-            }
-        }
-
-        function handleFailure() {
-            statusText.innerText = "Sensor not detected or blocked.";
-            btn.innerText = "SETUP REQUIRED";
-            btn.onclick = showTutorial; // Change button action to show help
-            btn.style.backgroundColor = "#555";
-            btn.disabled = false; // Enable so they can click to see help
-            // Auto show tutorial on first load failure
-            setTimeout(showTutorial, 1000);
+        function updateThresh(v) {
+            threshold = parseInt(v);
+            document.getElementById('thresh-display').innerText = v + " μT";
         }
 
         function startCalibration() {
+            initAudio(); // Initialize audio on first interaction
             isCalibrating = true;
-            calibrationTempMax = 0;
+            tempMax = 0;
+            const btn = document.getElementById('cal-btn');
             btn.disabled = true;
-            btn.style.backgroundColor = "#2979ff";
             
-            statusText.innerText = "Do not move... measuring background noise...";
-            statusText.style.color = "#00e676";
-
-            let timeLeft = 5;
-            const timer = setInterval(() => {
-                timeLeft--;
-                btn.innerText = `CALIBRATING... ${timeLeft}`;
-                if(timeLeft <= 0) {
-                    clearInterval(timer);
-                    finishCalibration();
+            let count = 5;
+            const itv = setInterval(() => {
+                btn.innerText = `CALIBRATING... ${count}`;
+                count--;
+                if (count < 0) {
+                    clearInterval(itv);
+                    calibratedBase = tempMax;
+                    document.getElementById('base-display').innerText = calibratedBase.toFixed(2);
+                    isCalibrating = false;
+                    btn.disabled = false;
+                    btn.innerText = "RE-CALIBRATE";
+                    document.getElementById('status-text').innerText = "Scanning active. Move near devices.";
                 }
             }, 1000);
         }
 
-        function finishCalibration() {
-            isCalibrating = false;
-            calibratedMax = calibrationTempMax;
-            baseDisplay.innerText = calibratedMax.toFixed(2);
-            btn.disabled = false;
-            btn.innerText = "RE-CALIBRATE";
-            statusText.innerText = "Scanning active...";
-            statusText.style.color = "#aaa";
-        }
+        if ('Magnetometer' in window) {
+            const mag = new Magnetometer({ frequency: 60 });
+            const valEl = document.getElementById('mag-value');
+            const box = document.getElementById('readout-box');
+            const status = document.getElementById('status-text');
 
-        function triggerAlert(isActive) {
-            if (isActive) {
-                box.classList.add('alert-mode');
-                statusText.innerText = "⚠️ SIGNAL DETECTED ⚠️";
-                statusText.style.color = "#ff1744";
-                statusText.style.fontWeight = "bold";
-                if(navigator.vibrate) navigator.vibrate(200);
-            } else {
-                box.classList.remove('alert-mode');
-                if (!isCalibrating && statusText.innerText.includes("DETECTED")) {
-                    statusText.innerText = "Scanning active...";
-                    statusText.style.color = "#aaa";
-                    statusText.style.fontWeight = "normal";
+            mag.addEventListener('reading', () => {
+                const current = Math.sqrt(mag.x**2 + mag.y**2 + mag.z**2);
+                valEl.innerText = current.toFixed(2);
+
+                if (isCalibrating) {
+                    if (current > tempMax) tempMax = current;
+                } else if (calibratedBase > 0) {
+                    const diff = Math.abs(current - calibratedBase);
+                    
+                    if (diff > threshold) {
+                        box.classList.add('alert-active');
+                        status.innerText = (current > calibratedBase) ? "⚠️ POSITIVE PEAK DETECTED" : "⚠️ NEGATIVE DROP DETECTED";
+                        status.style.color = "#ff1744";
+                        
+                        // Audio Feedback
+                        if (gainNode) {
+                            // Frequency increases with the magnitude of the detection
+                            const freq = 100 + (diff * 5);
+                            oscillator.frequency.setTargetAtTime(Math.min(freq, 1500), audioCtx.currentTime, 0.05);
+                            gainNode.gain.setTargetAtTime(0.1, audioCtx.currentTime, 0.05);
+                        }
+                    } else {
+                        box.classList.remove('alert-active');
+                        if (status.innerText.includes("DETECTED")) {
+                            status.innerText = "Scanning...";
+                            status.style.color = "#888";
+                        }
+                        if (gainNode) gainNode.gain.setTargetAtTime(0, audioCtx.currentTime, 0.1);
+                    }
                 }
-            }
+            });
+            mag.start();
+        } else {
+            document.getElementById('status-text').innerText = "Magnetometer API not found.";
         }
-
-        // Start
-        initSensor();
-
     </script>
 </body>
 </html>
