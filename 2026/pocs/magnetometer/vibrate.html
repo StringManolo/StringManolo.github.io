@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EMF Signal Generator</title>
+    <style>
+        :root {
+            --bg: #0a0a0b; --card: #16161d; --accent: #00e676;
+            --danger: #ff1744; --text: #e0e0e0;
+        }
+
+        body {
+            background-color: var(--bg); color: var(--text);
+            font-family: 'Segoe UI', system-ui, sans-serif;
+            display: flex; flex-direction: column; align-items: center;
+            margin: 0; padding: 20px; text-align: center;
+        }
+
+        .container { width: 100%; max-width: 400px; }
+
+        .status-card {
+            background: var(--card); padding: 30px; border-radius: 24px;
+            border: 2px solid #222; margin: 20px 0; transition: all 0.3s;
+        }
+
+        .status-card.active { border-color: var(--accent); box-shadow: 0 0 20px rgba(0, 230, 118, 0.2); }
+
+        .indicator {
+            width: 60px; height: 60px; border-radius: 50%; background: #333;
+            margin: 0 auto 15px; transition: 0.1s;
+        }
+        .active .indicator { background: var(--accent); box-shadow: 0 0 15px var(--accent); }
+
+        h1 { font-size: 1.2rem; letter-spacing: 3px; color: #555; }
+        
+        .grid { display: grid; grid-template-columns: 1fr; gap: 10px; }
+
+        button {
+            background: #222; color: #ccc; border: 1px solid #444;
+            padding: 15px; border-radius: 12px; font-weight: bold;
+            cursor: pointer; text-align: left; transition: 0.2s;
+        }
+
+        button:hover { background: #2a2a2a; }
+        button.active { background: var(--accent); color: #000; border-color: var(--accent); }
+
+        .stop-btn {
+            background: var(--danger); color: white; border: none;
+            width: 100%; padding: 20px; border-radius: 12px;
+            margin-top: 20px; font-weight: bold; text-transform: uppercase;
+        }
+
+        .desc { font-size: 0.8rem; color: #777; margin-top: 5px; display: block; }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>SIGNAL GENERATOR</h1>
+
+        <div id="status-box" class="status-card">
+            <div class="indicator"></div>
+            <div id="mode-text">IDLE / STANDBY</div>
+            <small id="sub-text" style="color: #555;">Select a pattern to begin</small>
+        </div>
+
+        <div class="grid">
+            <button onclick="startPattern('binary', this)">
+                [01] PULSO BINARIO
+                <span class="desc">1s vibración / 0.5s pausa (Ideal para pruebas de rango)</span>
+            </button>
+
+            <button onclick="startPattern('burst', this)">
+                [!!] RÁFAGA RÁPIDA (High Freq)
+                <span class="desc">Intervalos de 100ms. Genera máxima interferencia.</span>
+            </button>
+
+            <button onclick="startPattern('long', this)">
+                [--] CICLO LARGO
+                <span class="desc">2s activo / 2s pausa. Para detectar "Drops" estables.</span>
+            </button>
+
+            <button onclick="startPattern('pulse', this)">
+                [V] LATIDO (Heartbeat)
+                <span class="desc">Doble pulso corto y pausa larga.</span>
+            </button>
+        </div>
+
+        <button class="stop-btn" onclick="stopAll()">STOP SIGNAL</button>
+    </div>
+
+    <script>
+        let loopInterval = null;
+        const statusBox = document.getElementById('status-box');
+        const modeText = document.getElementById('mode-text');
+        const subText = document.getElementById('sub-text');
+
+        const patterns = {
+            binary: [1000, 500],
+            burst: [100, 100, 100, 100, 100, 500],
+            long: [2000, 2000],
+            pulse: [150, 100, 150, 800]
+        };
+
+        function startPattern(type, btn) {
+            stopAll();
+            
+            if (!("vibrate" in navigator)) {
+                alert("Este navegador no soporta vibración.");
+                return;
+            }
+
+            // UI Update
+            document.querySelectorAll('.grid button').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            statusBox.classList.add('active');
+            modeText.innerText = "TRANSMITTING: " + type.toUpperCase();
+            subText.innerText = "Emitting magnetic pulses...";
+
+            const pattern = patterns[type];
+            const totalDuration = pattern.reduce((a, b) => a + b, 0);
+
+            // Ejecutar inmediatamente y luego en bucle
+            const run = () => navigator.vibrate(pattern);
+            run();
+            loopInterval = setInterval(run, totalDuration);
+        }
+
+        function stopAll() {
+            clearInterval(loopInterval);
+            navigator.vibrate(0);
+            
+            // UI Reset
+            document.querySelectorAll('.grid button').forEach(b => b.classList.remove('active'));
+            statusBox.classList.remove('active');
+            modeText.innerText = "IDLE / STANDBY";
+            subText.innerText = "Select a pattern to begin";
+        }
+    </script>
+</body>
+</html>
