@@ -12,10 +12,11 @@
     }
 
     body {
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      font-family: 'Courier New', monospace;
       background: #0d1117;
       color: #c9d1d9;
       line-height: 1.6;
+      font-size: 14px;
     }
 
     .container {
@@ -26,31 +27,30 @@
 
     header {
       border-bottom: 1px solid #21262d;
-      padding: 40px 0 30px;
-      margin-bottom: 30px;
+      padding: 30px 0 20px;
+      margin-bottom: 20px;
     }
 
     h1 {
       color: #58a6ff;
-      font-size: 2.5em;
+      font-size: 1.8em;
       font-weight: 600;
       margin-bottom: 8px;
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', monospace;
     }
 
     .repo-meta {
       color: #8b949e;
-      font-size: 0.95em;
+      font-size: 0.9em;
       display: flex;
-      gap: 20px;
+      gap: 15px;
       align-items: center;
       flex-wrap: wrap;
     }
 
     .badge {
       background: #21262d;
-      padding: 4px 10px;
-      border-radius: 20px;
+      padding: 3px 8px;
+      border-radius: 3px;
       font-size: 0.85em;
       border: 1px solid #30363d;
     }
@@ -59,33 +59,32 @@
       background: #161b22;
       border: 1px solid #30363d;
       border-radius: 6px;
-      padding: 20px;
-      margin-bottom: 20px;
+      padding: 15px;
+      margin-bottom: 15px;
     }
 
     .api-info h2 {
       color: #58a6ff;
-      font-size: 1.2em;
-      margin-bottom: 12px;
+      font-size: 1em;
+      margin-bottom: 10px;
       font-weight: 600;
     }
 
     .api-endpoint {
       background: #0d1117;
       border: 1px solid #30363d;
-      padding: 12px;
+      padding: 10px;
       border-radius: 6px;
-      font-family: 'Courier New', monospace;
-      font-size: 0.9em;
       color: #79c0ff;
       overflow-x: auto;
-      margin: 10px 0;
+      margin: 8px 0;
+      font-size: 0.85em;
     }
 
     .controls {
       display: flex;
-      gap: 12px;
-      margin-bottom: 20px;
+      gap: 10px;
+      margin-bottom: 15px;
       flex-wrap: wrap;
     }
 
@@ -93,12 +92,12 @@
       background: #238636;
       color: white;
       border: 1px solid #2ea043;
-      padding: 8px 16px;
+      padding: 6px 14px;
       border-radius: 6px;
-      font-size: 0.95em;
+      font-size: 0.9em;
       cursor: pointer;
       font-weight: 500;
-      transition: background 0.2s;
+      font-family: 'Courier New', monospace;
     }
 
     button:hover {
@@ -126,11 +125,12 @@
       background: #0d1117;
       border: 1px solid #30363d;
       color: #c9d1d9;
-      padding: 8px 12px;
+      padding: 6px 12px;
       border-radius: 6px;
-      font-size: 0.95em;
+      font-size: 0.9em;
       flex: 1;
-      min-width: 300px;
+      min-width: 250px;
+      font-family: 'Courier New', monospace;
     }
 
     input[type="text"]:focus {
@@ -138,144 +138,94 @@
       border-color: #58a6ff;
     }
 
-    .stats-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: 16px;
-      margin-bottom: 20px;
-    }
-
-    .stat-box {
+    .stats {
       background: #161b22;
       border: 1px solid #30363d;
       border-radius: 6px;
-      padding: 16px;
+      padding: 15px;
+      margin-bottom: 15px;
+      display: flex;
+      gap: 30px;
+      flex-wrap: wrap;
     }
 
-    .stat-value {
-      font-size: 2em;
-      font-weight: 600;
-      color: #58a6ff;
-      font-family: monospace;
+    .stat-item {
+      display: flex;
+      align-items: baseline;
+      gap: 8px;
     }
 
     .stat-label {
       color: #8b949e;
-      font-size: 0.9em;
-      margin-top: 4px;
+    }
+
+    .stat-value {
+      color: #58a6ff;
+      font-weight: bold;
     }
 
     .incident {
       background: #161b22;
       border: 1px solid #30363d;
       border-radius: 6px;
-      padding: 20px;
-      margin-bottom: 16px;
+      padding: 15px;
+      margin-bottom: 12px;
+      font-size: 0.9em;
     }
 
     .incident-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding-bottom: 16px;
-      border-bottom: 1px solid #21262d;
-      margin-bottom: 16px;
-    }
-
-    .incident-id {
-      font-family: monospace;
-      color: #8b949e;
-      font-size: 0.9em;
-    }
-
-    .severity {
-      padding: 4px 12px;
-      border-radius: 20px;
-      font-size: 0.85em;
-      font-weight: 500;
-    }
-
-    .severity-high { background: #da3633; color: white; }
-    .severity-medium { background: #d29922; color: #0d1117; }
-    .severity-low { background: #238636; color: white; }
-    .severity-unknown { background: #30363d; color: #c9d1d9; }
-
-    .data-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 20px;
-      margin-top: 16px;
-    }
-
-    .data-section {
-      background: #0d1117;
-      border: 1px solid #21262d;
-      border-radius: 6px;
-      padding: 16px;
-    }
-
-    .data-section h3 {
       color: #58a6ff;
-      font-size: 0.95em;
-      font-weight: 600;
-      margin-bottom: 12px;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-    }
-
-    .data-row {
-      display: flex;
+      font-weight: bold;
       margin-bottom: 8px;
-      font-size: 0.9em;
+      padding-bottom: 8px;
+      border-bottom: 1px solid #21262d;
     }
 
-    .data-key {
+    .incident-line {
+      padding: 2px 0;
+      display: flex;
+    }
+
+    .field-label {
       color: #8b949e;
-      min-width: 120px;
-      font-family: monospace;
+      min-width: 180px;
+      flex-shrink: 0;
     }
 
-    .data-value {
+    .field-value {
       color: #c9d1d9;
       word-break: break-word;
     }
 
+    .severity-high { color: #f85149; }
+    .severity-medium { color: #d29922; }
+    .severity-low { color: #3fb950; }
+
     .map-link {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
       color: #58a6ff;
       text-decoration: none;
-      font-size: 0.9em;
-      margin-top: 8px;
-      padding: 6px 12px;
-      background: #0d1117;
-      border: 1px solid #30363d;
-      border-radius: 6px;
-      transition: all 0.2s;
     }
 
     .map-link:hover {
-      background: #21262d;
-      border-color: #58a6ff;
+      text-decoration: underline;
     }
 
     .loading {
       text-align: center;
-      padding: 60px 20px;
+      padding: 40px 20px;
       background: #161b22;
       border: 1px solid #30363d;
       border-radius: 6px;
     }
 
     .spinner {
-      width: 40px;
-      height: 40px;
+      width: 30px;
+      height: 30px;
       border: 3px solid #21262d;
       border-top-color: #58a6ff;
       border-radius: 50%;
       animation: spin 0.8s linear infinite;
-      margin: 0 auto 20px;
+      margin: 0 auto 15px;
     }
 
     @keyframes spin {
@@ -287,45 +237,28 @@
       border: 1px solid #da3633;
       border-left: 4px solid #da3633;
       color: #f85149;
-      padding: 16px;
+      padding: 15px;
       border-radius: 6px;
-      margin-bottom: 20px;
-      font-family: monospace;
+      margin-bottom: 15px;
       font-size: 0.9em;
     }
 
     .empty-state {
       text-align: center;
-      padding: 60px 20px;
+      padding: 40px 20px;
       background: #161b22;
       border: 1px solid #30363d;
       border-radius: 6px;
       color: #8b949e;
     }
 
-    .empty-state svg {
-      width: 64px;
-      height: 64px;
-      margin-bottom: 16px;
-      opacity: 0.5;
-    }
-
-    code {
-      background: #0d1117;
-      padding: 2px 6px;
-      border-radius: 3px;
-      font-family: 'Courier New', monospace;
-      font-size: 0.9em;
-      color: #79c0ff;
-    }
-
     footer {
-      margin-top: 60px;
-      padding: 30px 0;
+      margin-top: 40px;
+      padding: 20px 0;
       border-top: 1px solid #21262d;
       text-align: center;
       color: #8b949e;
-      font-size: 0.9em;
+      font-size: 0.85em;
     }
 
     footer a {
@@ -338,22 +271,22 @@
     }
 
     @media (max-width: 768px) {
-      h1 { font-size: 1.8em; }
-      .data-grid { grid-template-columns: 1fr; }
+      h1 { font-size: 1.5em; }
+      .field-label { min-width: 150px; }
       .controls { flex-direction: column; }
       input[type="text"] { min-width: 100%; }
+      .stats { flex-direction: column; gap: 10px; }
     }
   </style>
 </head>
 <body>
   <div class="container">
     <header>
-      <h1>DGT Traffic Incidents API</h1>
+      <h1>🚨 DGT TRAFFIC INCIDENTS API</h1>
       <div class="repo-meta">
         <span class="badge">DATEX II v3.6</span>
-        <span class="badge">Real-time Data</span>
-        <span class="badge">ES Government</span>
-        <span>⭐ XML Parser & Visualizer</span>
+        <span class="badge">Real-time</span>
+        <span class="badge">XML Parser</span>
       </div>
     </header>
 
@@ -362,28 +295,20 @@
       <div class="api-endpoint">
         GET https://nap.dgt.es/datex2/v3/dgt/SituationPublication/datex2_v36.xml
       </div>
-      <p style="color: #8b949e; margin-top: 12px;">
-        This tool fetches and parses traffic incident data from Spain's <code>Dirección General de Tráfico</code> (DGT) 
-        using the DATEX II standard protocol. Data includes real-time road incidents, closures, and traffic management information.
-      </p>
     </div>
 
-    <div class="stats-grid" id="stats" style="display: none;">
-      <div class="stat-box">
-        <div class="stat-value" id="totalIncidents">0</div>
-        <div class="stat-label">Total Incidents</div>
+    <div id="stats" style="display: none;" class="stats">
+      <div class="stat-item">
+        <span class="stat-label">Total:</span>
+        <span class="stat-value" id="totalIncidents">0</span>
       </div>
-      <div class="stat-box">
-        <div class="stat-value" id="highSeverity">0</div>
-        <div class="stat-label">High Severity</div>
+      <div class="stat-item">
+        <span class="stat-label">High Severity:</span>
+        <span class="stat-value" id="highSeverity">0</span>
       </div>
-      <div class="stat-box">
-        <div class="stat-value" id="activeNow">0</div>
-        <div class="stat-label">Active Now</div>
-      </div>
-      <div class="stat-box">
-        <div class="stat-value" id="lastFetch">--:--</div>
-        <div class="stat-label">Last Fetch</div>
+      <div class="stat-item">
+        <span class="stat-label">Last Fetch:</span>
+        <span class="stat-value" id="lastFetch">--:--</span>
       </div>
     </div>
 
@@ -402,10 +327,8 @@
     <div id="incidents"></div>
 
     <footer>
-      <p>Built with vanilla JavaScript • Data provided by <a href="https://nap.dgt.es" target="_blank">DGT NAP</a></p>
-      <p style="margin-top: 8px;">
-        <a href="https://github.com/stringmanolo" target="_blank">github.com/stringmanolo</a>
-      </p>
+      <p>Built with vanilla JS • Data: <a href="https://nap.dgt.es" target="_blank">DGT NAP</a> • 
+      <a href="https://github.com/stringmanolo" target="_blank">github.com/stringmanolo</a></p>
     </footer>
   </div>
 
@@ -462,8 +385,6 @@
 
         const { text: xmlText, proxy: winnerProxy } = result;
         console.log(`✓ Fastest proxy: ${winnerProxy}`);
-        console.log(`✓ XML length: ${xmlText.length} chars`);
-        console.log(`✓ XML preview (first 500 chars):`, xmlText.substring(0, 500));
 
         const parser = new DOMParser();
         const xmlDoc = parser.parseFromString(xmlText, 'text/xml');
@@ -473,25 +394,16 @@
           throw new Error('XML parsing failed');
         }
 
-        console.log(`✓ XML root element:`, xmlDoc.documentElement.tagName);
-        console.log(`✓ All tags in XML:`, Array.from(new Set(
-          Array.from(xmlDoc.getElementsByTagName('*')).map(el => el.tagName)
-        )).slice(0, 20));
-
         let situations = xmlDoc.getElementsByTagName('sit:situation');
         if (situations.length === 0) {
           situations = xmlDoc.getElementsByTagName('situation');
         }
         console.log(`✓ Found ${situations.length} situation elements`);
-        
+
         if (situations.length === 0) {
           incidents.innerHTML = `
             <div class="empty-state">
-              <svg fill="currentColor" viewBox="0 0 16 16">
-                <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
-                <path d="M10.97 4.97a.235.235 0 0 0-.02.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-1.071-1.05z"/>
-              </svg>
-              <h3>No Active Incidents</h3>
+              <h3>✅ No Active Incidents</h3>
               <p>There are currently no traffic incidents reported by DGT.</p>
             </div>
           `;
@@ -499,10 +411,17 @@
         }
 
         incidentsData = Array.from(situations).map((sit, idx) => parseIncident(sit, idx));
+        
+        incidentsData.sort((a, b) => {
+          const dateA = new Date(a.created || 0);
+          const dateB = new Date(b.created || 0);
+          return dateB - dateA;
+        });
+
         filteredData = [...incidentsData];
         renderIncidents(filteredData);
         updateStats(incidentsData);
-        stats.style.display = 'grid';
+        stats.style.display = 'flex';
 
       } catch (err) {
         error.style.display = 'block';
@@ -514,70 +433,121 @@
       }
     }
 
-    function parseIncident(situation, index) {
-      const get = (tag, parent = situation) => {
-        let el = parent.getElementsByTagName(tag)[0];
-        if (!el && tag.indexOf(':') === -1) {
-          el = parent.getElementsByTagName('sit:' + tag)[0];
-        }
-        if (!el && tag.indexOf(':') === -1) {
-          el = parent.getElementsByTagName('com:' + tag)[0];
-        }
-        if (!el && tag.indexOf(':') === -1) {
-          el = parent.getElementsByTagName('loc:' + tag)[0];
-        }
-        return el ? el.textContent.trim() : null;
-      };
+    function getTagValue(parent, ...tags) {
+      for (const tag of tags) {
+        const el = parent.getElementsByTagName(tag)[0];
+        if (el) return el.textContent.trim();
+      }
+      return null;
+    }
 
-      let record = situation.getElementsByTagName('situationRecord')[0];
-      if (!record) record = situation.getElementsByTagName('sit:situationRecord')[0];
+    function getElement(parent, ...tags) {
+      for (const tag of tags) {
+        const el = parent.getElementsByTagName(tag)[0];
+        if (el) return el;
+      }
+      return null;
+    }
+
+    function parseIncident(situation, index) {
+      const record = getElement(situation, 'sit:situationRecord', 'situationRecord');
+      const location = record ? getElement(record, 'sit:locationReference', 'locationReference') : null;
       
-      let location = record?.getElementsByTagName('locationReference')[0];
-      if (!location) location = record?.getElementsByTagName('sit:locationReference')[0];
-      
-      let coords = null, road = null, province = null, municipality = null;
+      let coords = null, road = null, province = null, municipality = null, autonomousCommunity = null, kilometerPoint = null;
 
       if (location) {
-        let pointCoords = location.getElementsByTagName('pointCoordinates')[0];
-        if (!pointCoords) pointCoords = location.getElementsByTagName('loc:pointCoordinates')[0];
+        const tpegPoint = getElement(location, 'loc:tpegPointLocation', 'tpegPointLocation');
+        const tpegLinear = getElement(location, 'loc:tpegLinearLocation', 'tpegLinearLocation');
         
-        if (pointCoords) {
-          const lat = get('latitude', pointCoords) || get('loc:latitude', pointCoords);
-          const lon = get('longitude', pointCoords) || get('loc:longitude', pointCoords);
-          if (lat && lon) coords = { lat, lon };
+        const tpeg = tpegPoint || tpegLinear;
+        
+        if (tpeg) {
+          const point = getElement(tpeg, 'loc:point', 'point') || getElement(tpeg, 'loc:from', 'from');
+          
+          if (point) {
+            const pointCoords = getElement(point, 'loc:pointCoordinates', 'pointCoordinates');
+            if (pointCoords) {
+              const lat = getTagValue(pointCoords, 'loc:latitude', 'latitude');
+              const lon = getTagValue(pointCoords, 'loc:longitude', 'longitude');
+              if (lat && lon) coords = { lat, lon };
+            }
+
+            const extension = getElement(point, 'loc:_tpegNonJunctionPointExtension', '_tpegNonJunctionPointExtension');
+            if (extension) {
+              const extPoint = getElement(extension, 'cse:extendedTpegNonJunctionPoint', 'extendedTpegNonJunctionPoint');
+              if (extPoint) {
+                autonomousCommunity = getTagValue(extPoint, 'cse:autonomousCommunity', 'autonomousCommunity');
+                province = getTagValue(extPoint, 'cse:province', 'province');
+                municipality = getTagValue(extPoint, 'cse:municipality', 'municipality');
+                kilometerPoint = getTagValue(extPoint, 'cse:kilometerPoint', 'kilometerPoint');
+              }
+            }
+          }
         }
 
-        let roadInfo = location.getElementsByTagName('roadInformation')[0];
-        if (!roadInfo) roadInfo = location.getElementsByTagName('loc:roadInformation')[0];
-        if (roadInfo) {
-          road = get('roadName', roadInfo) || get('loc:roadName', roadInfo);
-        }
-
-        let extPoint = location.getElementsByTagName('extendedTpegNonJunctionPoint')[0];
-        if (!extPoint) extPoint = location.getElementsByTagName('cse:extendedTpegNonJunctionPoint')[0];
-        if (extPoint) {
-          province = get('province', extPoint) || get('cse:province', extPoint);
-          municipality = get('municipality', extPoint) || get('cse:municipality', extPoint);
+        const suppDesc = getElement(location, 'loc:supplementaryPositionalDescription', 'supplementaryPositionalDescription');
+        if (suppDesc) {
+          const roadInfo = getElement(suppDesc, 'loc:roadInformation', 'roadInformation');
+          if (roadInfo) {
+            road = getTagValue(roadInfo, 'loc:roadName', 'roadName');
+          }
         }
       }
+
+      const severity = getTagValue(situation, 'sit:overallSeverity', 'overallSeverity') || 'unknown';
+      const headerInfo = getElement(situation, 'sit:headerInformation', 'headerInformation');
+      const status = headerInfo ? getTagValue(headerInfo, 'com:informationStatus', 'informationStatus') : null;
+
+      const cause = getElement(record, 'sit:cause', 'cause');
+      let causeType = null, detailedCause = null;
+      if (cause) {
+        causeType = getTagValue(cause, 'sit:causeType', 'causeType');
+        const detailedCauseEl = getElement(cause, 'sit:detailedCauseType', 'detailedCauseType');
+        if (detailedCauseEl) {
+          const allTags = Array.from(detailedCauseEl.getElementsByTagName('*'));
+          if (allTags.length > 0) {
+            detailedCause = allTags[0].textContent.trim();
+          }
+        }
+      }
+
+      const validity = getElement(record, 'sit:validity', 'validity');
+      let validityStatus = null, validityStart = null;
+      if (validity) {
+        validityStatus = getTagValue(validity, 'com:validityStatus', 'validityStatus');
+        const timeSpec = getElement(validity, 'com:validityTimeSpecification', 'validityTimeSpecification');
+        if (timeSpec) {
+          validityStart = getTagValue(timeSpec, 'com:overallStartTime', 'overallStartTime');
+        }
+      }
+
+      const source = getElement(record, 'sit:source', 'source');
+      const sourceId = source ? getTagValue(source, 'com:sourceIdentification', 'sourceIdentification') : null;
 
       return {
         index: index + 1,
         id: situation.getAttribute('id') || `INC-${index + 1}`,
-        severity: get('overallSeverity') || get('sit:overallSeverity') || 'unknown',
-        status: get('informationStatus') || get('com:informationStatus') || 'N/A',
+        severity: severity,
+        status: status || 'N/A',
         type: record?.getAttribute('xsi:type') || 'N/A',
-        created: get('situationRecordCreationTime') || get('sit:situationRecordCreationTime'),
-        updated: get('situationRecordVersionTime') || get('sit:situationRecordVersionTime'),
-        probability: get('probabilityOfOccurrence') || get('sit:probabilityOfOccurrence') || 'N/A',
-        cause: get('causeType') || get('sit:causeType') || 'N/A',
-        detailedCause: get('detailedCauseType') || get('sit:detailedCauseType'),
-        road,
-        province,
-        municipality,
-        coords,
-        direction: get('tpegDirection') || get('loc:tpegDirection') || 'N/A',
-        source: get('sourceIdentification') || get('com:sourceIdentification') || 'N/A'
+        created: getTagValue(record, 'sit:situationRecordCreationTime', 'situationRecordCreationTime'),
+        updated: getTagValue(record, 'sit:situationRecordVersionTime', 'situationRecordVersionTime'),
+        recordId: record?.getAttribute('id') || 'N/A',
+        recordVersion: record?.getAttribute('version') || 'N/A',
+        probability: getTagValue(record, 'sit:probabilityOfOccurrence', 'probabilityOfOccurrence') || 'N/A',
+        specificSeverity: getTagValue(record, 'sit:severity', 'severity'),
+        cause: causeType || 'N/A',
+        detailedCause: detailedCause,
+        road: road,
+        province: province,
+        municipality: municipality,
+        autonomousCommunity: autonomousCommunity,
+        kilometerPoint: kilometerPoint,
+        coords: coords,
+        direction: getTagValue(location, 'loc:tpegDirection', 'tpegDirection') || getTagValue(location, 'tpegDirection') || 'N/A',
+        source: sourceId || 'N/A',
+        validityStatus: validityStatus,
+        validityStart: validityStart
       };
     }
 
@@ -586,102 +556,84 @@
       container.innerHTML = '';
 
       data.forEach(inc => {
-        const severityClass = `severity-${
-          inc.severity.toLowerCase().includes('high') ? 'high' :
-          inc.severity.toLowerCase().includes('medium') ? 'medium' :
-          inc.severity.toLowerCase().includes('low') ? 'low' : 'unknown'
-        }`;
+        const severityClass = 
+          inc.severity.toLowerCase().includes('high') ? 'severity-high' :
+          inc.severity.toLowerCase().includes('medium') ? 'severity-medium' :
+          inc.severity.toLowerCase().includes('low') ? 'severity-low' : '';
 
-        const mapBtn = inc.coords 
-          ? `<a href="https://www.google.com/maps?q=${inc.coords.lat},${inc.coords.lon}" target="_blank" class="map-link">
-               📍 View on Map
-             </a>`
-          : '';
+        const mapLink = inc.coords 
+          ? `<a href="https://www.google.com/maps?q=${inc.coords.lat},${inc.coords.lon}" target="_blank" class="map-link">Lat ${inc.coords.lat}, Lon ${inc.coords.lon}</a>`
+          : 'N/A';
 
-        container.innerHTML += `
+        let html = `
           <div class="incident">
-            <div class="incident-header">
-              <span class="incident-id">#${inc.index} • ${inc.id}</span>
-              <span class="severity ${severityClass}">${inc.severity.toUpperCase()}</span>
-            </div>
-
-            <div class="data-grid">
-              <div class="data-section">
-                <h3>General Info</h3>
-                <div class="data-row">
-                  <span class="data-key">Status:</span>
-                  <span class="data-value">${inc.status}</span>
-                </div>
-                <div class="data-row">
-                  <span class="data-key">Type:</span>
-                  <span class="data-value">${inc.type}</span>
-                </div>
-                <div class="data-row">
-                  <span class="data-key">Probability:</span>
-                  <span class="data-value">${inc.probability}</span>
-                </div>
-                <div class="data-row">
-                  <span class="data-key">Source:</span>
-                  <span class="data-value">${inc.source}</span>
-                </div>
-              </div>
-
-              <div class="data-section">
-                <h3>Location</h3>
-                <div class="data-row">
-                  <span class="data-key">Road:</span>
-                  <span class="data-value">${inc.road || 'N/A'}</span>
-                </div>
-                <div class="data-row">
-                  <span class="data-key">Province:</span>
-                  <span class="data-value">${inc.province || 'N/A'}</span>
-                </div>
-                <div class="data-row">
-                  <span class="data-key">Municipality:</span>
-                  <span class="data-value">${inc.municipality || 'N/A'}</span>
-                </div>
-                <div class="data-row">
-                  <span class="data-key">Direction:</span>
-                  <span class="data-value">${inc.direction}</span>
-                </div>
-                ${mapBtn}
-              </div>
-
-              <div class="data-section">
-                <h3>Cause</h3>
-                <div class="data-row">
-                  <span class="data-key">Type:</span>
-                  <span class="data-value">${inc.cause}</span>
-                </div>
-                ${inc.detailedCause ? `
-                <div class="data-row">
-                  <span class="data-key">Detail:</span>
-                  <span class="data-value">${inc.detailedCause}</span>
-                </div>
-                ` : ''}
-              </div>
-
-              <div class="data-section">
-                <h3>Timestamps</h3>
-                <div class="data-row">
-                  <span class="data-key">Created:</span>
-                  <span class="data-value">${formatDate(inc.created)}</span>
-                </div>
-                <div class="data-row">
-                  <span class="data-key">Updated:</span>
-                  <span class="data-value">${formatDate(inc.updated)}</span>
-                </div>
-              </div>
-            </div>
-          </div>
+            <div class="incident-header">--- INCIDENCIA Nº ${inc.index} ---</div>
+            <div class="incident-line"><span class="field-label">ID:</span><span class="field-value">${inc.id}</span></div>
         `;
+
+        if (inc.severity && inc.severity !== 'unknown') {
+          html += `<div class="incident-line"><span class="field-label">GRAVEDAD GENERAL:</span><span class="field-value ${severityClass}">${inc.severity}</span></div>`;
+        }
+
+        html += `<div class="incident-line"><span class="field-label">ESTADO INFORMACIÓN:</span><span class="field-value">${inc.status}</span></div>`;
+        html += `<div class="incident-line"><span class="field-label">TIPO REGISTRO:</span><span class="field-value">${inc.type}</span></div>`;
+        html += `<div class="incident-line"><span class="field-label">ID REGISTRO:</span><span class="field-value">${inc.recordId} (v${inc.recordVersion})</span></div>`;
+        html += `<div class="incident-line"><span class="field-label">CREACIÓN:</span><span class="field-value">${formatDate(inc.created)}</span></div>`;
+        html += `<div class="incident-line"><span class="field-label">ACTUALIZACIÓN:</span><span class="field-value">${formatDate(inc.updated)}</span></div>`;
+        html += `<div class="incident-line"><span class="field-label">PROBABILIDAD:</span><span class="field-value">${inc.probability}</span></div>`;
+
+        if (inc.specificSeverity) {
+          html += `<div class="incident-line"><span class="field-label">GRAVEDAD ESPECÍFICA:</span><span class="field-value">${inc.specificSeverity}</span></div>`;
+        }
+
+        html += `<div class="incident-line"><span class="field-label">FUENTE:</span><span class="field-value">${inc.source}</span></div>`;
+
+        if (inc.validityStatus) {
+          html += `<div class="incident-line"><span class="field-label">ESTADO VALIDEZ:</span><span class="field-value">${inc.validityStatus}</span></div>`;
+        }
+
+        if (inc.validityStart) {
+          html += `<div class="incident-line"><span class="field-label">INICIO VALIDEZ:</span><span class="field-value">${formatDate(inc.validityStart)}</span></div>`;
+        }
+
+        html += `<div class="incident-line"><span class="field-label">CAUSA:</span><span class="field-value">${inc.cause}</span></div>`;
+
+        if (inc.detailedCause) {
+          html += `<div class="incident-line"><span class="field-label">CAUSA DETALLADA:</span><span class="field-value">${inc.detailedCause}</span></div>`;
+        }
+
+        if (inc.road) {
+          html += `<div class="incident-line"><span class="field-label">CARRETERA:</span><span class="field-value">${inc.road}</span></div>`;
+        }
+
+        html += `<div class="incident-line"><span class="field-label">DIRECCIÓN:</span><span class="field-value">${inc.direction}</span></div>`;
+        html += `<div class="incident-line"><span class="field-label">UBICACIÓN:</span><span class="field-value">${mapLink}</span></div>`;
+
+        if (inc.autonomousCommunity) {
+          html += `<div class="incident-line"><span class="field-label">COMUNIDAD:</span><span class="field-value">${inc.autonomousCommunity}</span></div>`;
+        }
+
+        if (inc.province) {
+          html += `<div class="incident-line"><span class="field-label">PROVINCIA:</span><span class="field-value">${inc.province}</span></div>`;
+        }
+
+        if (inc.municipality) {
+          html += `<div class="incident-line"><span class="field-label">MUNICIPIO:</span><span class="field-value">${inc.municipality}</span></div>`;
+        }
+
+        if (inc.kilometerPoint) {
+          html += `<div class="incident-line"><span class="field-label">PUNTO KILOMÉTRICO:</span><span class="field-value">${inc.kilometerPoint}</span></div>`;
+        }
+
+        html += `</div>`;
+        container.innerHTML += html;
       });
     }
 
     function formatDate(str) {
       if (!str) return 'N/A';
       try {
-        return new Date(str).toLocaleString('en-GB', {
+        return new Date(str).toLocaleString('es-ES', {
           year: 'numeric', month: '2-digit', day: '2-digit',
           hour: '2-digit', minute: '2-digit', second: '2-digit'
         });
@@ -698,13 +650,8 @@
       ).length;
       document.getElementById('highSeverity').textContent = highSev;
       
-      const active = data.filter(i => 
-        i.status.toLowerCase().includes('real')
-      ).length;
-      document.getElementById('activeNow').textContent = active;
-      
       document.getElementById('lastFetch').textContent = 
-        new Date().toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' });
+        new Date().toLocaleTimeString('es-ES', { hour: '2-digit', minute: '2-digit' });
     }
 
     function filterIncidents() {
@@ -717,6 +664,7 @@
           (inc.road && inc.road.toLowerCase().includes(term)) ||
           (inc.province && inc.province.toLowerCase().includes(term)) ||
           (inc.municipality && inc.municipality.toLowerCase().includes(term)) ||
+          (inc.autonomousCommunity && inc.autonomousCommunity.toLowerCase().includes(term)) ||
           (inc.cause && inc.cause.toLowerCase().includes(term)) ||
           (inc.type && inc.type.toLowerCase().includes(term)) ||
           (inc.id && inc.id.toLowerCase().includes(term))
