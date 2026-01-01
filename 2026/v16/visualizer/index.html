@@ -431,27 +431,41 @@
                 const apiUrl = 'https://nap.dgt.es/datex2/v3/dgt/SituationPublication/datex2_v36.xml';
                 
                 const proxies = [
-                    'https://cors.sh/',
-                    'https://api.allorigins.win/raw?url=',
-                    'https://api.codetabs.com/v1/proxy?quest='
+                    { url: 'https://api.allorigins.win/raw?url=', name: 'AllOrigins' },
+                    { url: 'https://api.codetabs.com/v1/proxy?quest=', name: 'CodeTabs' },
+                    { url: 'https://corsproxy.io/?', name: 'CorsProxy.io' }
                 ];
 
-                // Lanzar las 3 peticiones simultáneamente
+                // Envolver cada fetch para que nunca rechace, solo resuelva con éxito o null
                 const fetchPromises = proxies.map(async (proxy) => {
-                    const response = await fetch(proxy + encodeURIComponent(apiUrl));
-                    if (!response.ok) {
-                        throw new Error(`Proxy failed: ${proxy}`);
+                    try {
+                        const response = await fetch(proxy.url + encodeURIComponent(apiUrl));
+                        if (!response.ok) return null;
+                        
+                        const text = await response.text();
+                        
+                        // Validar que es XML válido
+                        if (!text.includes('<?xml') && !text.includes('<payload')) {
+                            return null;
+                        }
+                        
+                        return { text, proxy: proxy.name };
+                    } catch (e) {
+                        // Falló silenciosamente, continúa la carrera
+                        return null;
                     }
-                    const text = await response.text();
-                    // Validar que es XML válido
-                    if (!text.includes('<?xml') && !text.includes('<payload')) {
-                        throw new Error('Invalid XML response');
-                    }
-                    return { text, proxy };
                 });
 
-                // El primero que responda correctamente gana
-                const { text: xmlText, proxy: winnerProxy } = await Promise.race(fetchPromises);
+                // Esperar a que al menos uno responda correctamente
+                let result = null;
+                const results = await Promise.all(fetchPromises);
+                result = results.find(r => r !== null);
+
+                if (!result) {
+                    throw new Error('All CORS proxies failed. Try again later.');
+                }
+
+                const { text: xmlText, proxy: winnerProxy } = result;
                 console.log(`✓ Fastest proxy: ${winnerProxy}`);
                 const parser = new DOMParser();
                 const xmlDoc = parser.parseFromString(xmlText, 'text/xml');
