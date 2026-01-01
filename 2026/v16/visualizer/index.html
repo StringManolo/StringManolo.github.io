@@ -462,7 +462,9 @@
         const tpeg = tpegPoint || tpegLinear;
         
         if (tpeg) {
-          const point = getElement(tpeg, 'loc:point', 'point') || getElement(tpeg, 'loc:from', 'from');
+          let point = getElement(tpeg, 'loc:point', 'point');
+          if (!point) point = getElement(tpeg, 'loc:from', 'from');
+          if (!point) point = getElement(tpeg, 'loc:to', 'to');
           
           if (point) {
             const pointCoords = getElement(point, 'loc:pointCoordinates', 'pointCoordinates');
@@ -482,6 +484,17 @@
                 kilometerPoint = getTagValue(extPoint, 'cse:kilometerPoint', 'kilometerPoint');
               }
             }
+          }
+
+          if (index === 0) {
+            console.log('DEBUG primera incidencia:');
+            console.log('  tpegPoint:', tpegPoint ? 'yes' : 'no');
+            console.log('  tpegLinear:', tpegLinear ? 'yes' : 'no');
+            console.log('  point found:', point ? 'yes' : 'no');
+            console.log('  autonomousCommunity:', autonomousCommunity);
+            console.log('  province:', province);
+            console.log('  municipality:', municipality);
+            console.log('  kilometerPoint:', kilometerPoint);
           }
         }
 
@@ -568,61 +581,61 @@
         let html = `
           <div class="incident">
             <div class="incident-header">--- INCIDENCIA Nº ${inc.index} ---</div>
-            <div class="incident-line"><span class="field-label">ID:</span><span class="field-value">${inc.id}</span></div>
+            <div class="incident-line"><span class="field-label">ID: </span><span class="field-value">${inc.id}</span></div>
         `;
 
         if (inc.severity && inc.severity !== 'unknown') {
-          html += `<div class="incident-line"><span class="field-label">GRAVEDAD GENERAL:</span><span class="field-value ${severityClass}">${inc.severity}</span></div>`;
+          html += `<div class="incident-line"><span class="field-label">GRAVEDAD GENERAL: </span><span class="field-value ${severityClass}">${inc.severity}</span></div>`;
         }
 
-        html += `<div class="incident-line"><span class="field-label">ESTADO INFORMACIÓN:</span><span class="field-value">${inc.status}</span></div>`;
-        html += `<div class="incident-line"><span class="field-label">TIPO REGISTRO:</span><span class="field-value">${inc.type}</span></div>`;
-        html += `<div class="incident-line"><span class="field-label">ID REGISTRO:</span><span class="field-value">${inc.recordId} (v${inc.recordVersion})</span></div>`;
-        html += `<div class="incident-line"><span class="field-label">CREACIÓN:</span><span class="field-value">${formatDate(inc.created)}</span></div>`;
-        html += `<div class="incident-line"><span class="field-label">ACTUALIZACIÓN:</span><span class="field-value">${formatDate(inc.updated)}</span></div>`;
-        html += `<div class="incident-line"><span class="field-label">PROBABILIDAD:</span><span class="field-value">${inc.probability}</span></div>`;
+        html += `<div class="incident-line"><span class="field-label">ESTADO INFORMACIÓN: </span><span class="field-value">${inc.status}</span></div>`;
+        html += `<div class="incident-line"><span class="field-label">TIPO REGISTRO: </span><span class="field-value">${inc.type}</span></div>`;
+        html += `<div class="incident-line"><span class="field-label">ID REGISTRO: </span><span class="field-value">${inc.recordId} (v${inc.recordVersion})</span></div>`;
+        html += `<div class="incident-line"><span class="field-label">CREACIÓN: </span><span class="field-value">${inc.created || 'N/A'}</span></div>`;
+        html += `<div class="incident-line"><span class="field-label">ACTUALIZACIÓN: </span><span class="field-value">${inc.updated || 'N/A'}</span></div>`;
+        html += `<div class="incident-line"><span class="field-label">PROBABILIDAD: </span><span class="field-value">${inc.probability}</span></div>`;
 
         if (inc.specificSeverity) {
-          html += `<div class="incident-line"><span class="field-label">GRAVEDAD ESPECÍFICA:</span><span class="field-value">${inc.specificSeverity}</span></div>`;
+          html += `<div class="incident-line"><span class="field-label">GRAVEDAD ESPECÍFICA: </span><span class="field-value">${inc.specificSeverity}</span></div>`;
         }
 
-        html += `<div class="incident-line"><span class="field-label">FUENTE:</span><span class="field-value">${inc.source}</span></div>`;
+        html += `<div class="incident-line"><span class="field-label">FUENTE: </span><span class="field-value">${inc.source}</span></div>`;
 
         if (inc.validityStatus) {
-          html += `<div class="incident-line"><span class="field-label">ESTADO VALIDEZ:</span><span class="field-value">${inc.validityStatus}</span></div>`;
+          html += `<div class="incident-line"><span class="field-label">ESTADO VALIDEZ: </span><span class="field-value">${inc.validityStatus}</span></div>`;
         }
 
         if (inc.validityStart) {
-          html += `<div class="incident-line"><span class="field-label">INICIO VALIDEZ:</span><span class="field-value">${formatDate(inc.validityStart)}</span></div>`;
+          html += `<div class="incident-line"><span class="field-label">INICIO VALIDEZ: </span><span class="field-value">${inc.validityStart}</span></div>`;
         }
 
-        html += `<div class="incident-line"><span class="field-label">CAUSA:</span><span class="field-value">${inc.cause}</span></div>`;
+        html += `<div class="incident-line"><span class="field-label">CAUSA: </span><span class="field-value">${inc.cause}</span></div>`;
 
         if (inc.detailedCause) {
-          html += `<div class="incident-line"><span class="field-label">CAUSA DETALLADA:</span><span class="field-value">${inc.detailedCause}</span></div>`;
+          html += `<div class="incident-line"><span class="field-label">CAUSA DETALLADA: </span><span class="field-value">${inc.detailedCause}</span></div>`;
         }
 
         if (inc.road) {
-          html += `<div class="incident-line"><span class="field-label">CARRETERA:</span><span class="field-value">${inc.road}</span></div>`;
+          html += `<div class="incident-line"><span class="field-label">CARRETERA: </span><span class="field-value">${inc.road}</span></div>`;
         }
 
-        html += `<div class="incident-line"><span class="field-label">DIRECCIÓN:</span><span class="field-value">${inc.direction}</span></div>`;
-        html += `<div class="incident-line"><span class="field-label">UBICACIÓN:</span><span class="field-value">${mapLink}</span></div>`;
+        html += `<div class="incident-line"><span class="field-label">DIRECCIÓN: </span><span class="field-value">${inc.direction}</span></div>`;
+        html += `<div class="incident-line"><span class="field-label">UBICACIÓN: </span><span class="field-value">${mapLink}</span></div>`;
 
         if (inc.autonomousCommunity) {
-          html += `<div class="incident-line"><span class="field-label">COMUNIDAD:</span><span class="field-value">${inc.autonomousCommunity}</span></div>`;
+          html += `<div class="incident-line"><span class="field-label">COMUNIDAD: </span><span class="field-value">${inc.autonomousCommunity}</span></div>`;
         }
 
         if (inc.province) {
-          html += `<div class="incident-line"><span class="field-label">PROVINCIA:</span><span class="field-value">${inc.province}</span></div>`;
+          html += `<div class="incident-line"><span class="field-label">PROVINCIA: </span><span class="field-value">${inc.province}</span></div>`;
         }
 
         if (inc.municipality) {
-          html += `<div class="incident-line"><span class="field-label">MUNICIPIO:</span><span class="field-value">${inc.municipality}</span></div>`;
+          html += `<div class="incident-line"><span class="field-label">MUNICIPIO: </span><span class="field-value">${inc.municipality}</span></div>`;
         }
 
         if (inc.kilometerPoint) {
-          html += `<div class="incident-line"><span class="field-label">PUNTO KILOMÉTRICO:</span><span class="field-value">${inc.kilometerPoint}</span></div>`;
+          html += `<div class="incident-line"><span class="field-label">PUNTO KILOMÉTRICO: </span><span class="field-value">${inc.kilometerPoint}</span></div>`;
         }
 
         html += `</div>`;
@@ -632,14 +645,7 @@
 
     function formatDate(str) {
       if (!str) return 'N/A';
-      try {
-        return new Date(str).toLocaleString('es-ES', {
-          year: 'numeric', month: '2-digit', day: '2-digit',
-          hour: '2-digit', minute: '2-digit', second: '2-digit'
-        });
-      } catch {
-        return str;
-      }
+      return str;
     }
 
     function updateStats(data) {
