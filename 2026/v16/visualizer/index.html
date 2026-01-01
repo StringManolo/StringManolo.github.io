@@ -476,25 +476,14 @@
 
             const extension = getElement(point, 'loc:_tpegNonJunctionPointExtension', '_tpegNonJunctionPointExtension');
             if (extension) {
-              const extPoint = getElement(extension, 'cse:extendedTpegNonJunctionPoint', 'extendedTpegNonJunctionPoint');
+              const extPoint = getElement(extension, 'loc:extendedTpegNonJunctionPoint', 'extendedTpegNonJunctionPoint');
               if (extPoint) {
-                autonomousCommunity = getTagValue(extPoint, 'cse:autonomousCommunity', 'autonomousCommunity');
-                province = getTagValue(extPoint, 'cse:province', 'province');
-                municipality = getTagValue(extPoint, 'cse:municipality', 'municipality');
-                kilometerPoint = getTagValue(extPoint, 'cse:kilometerPoint', 'kilometerPoint');
+                autonomousCommunity = getTagValue(extPoint, 'lse:autonomousCommunity', 'cse:autonomousCommunity', 'autonomousCommunity');
+                province = getTagValue(extPoint, 'lse:province', 'cse:province', 'province');
+                municipality = getTagValue(extPoint, 'lse:municipality', 'cse:municipality', 'municipality');
+                kilometerPoint = getTagValue(extPoint, 'lse:kilometerPoint', 'cse:kilometerPoint', 'kilometerPoint');
               }
             }
-          }
-
-          if (index === 0) {
-            console.log('DEBUG primera incidencia:');
-            console.log('  tpegPoint:', tpegPoint ? 'yes' : 'no');
-            console.log('  tpegLinear:', tpegLinear ? 'yes' : 'no');
-            console.log('  point found:', point ? 'yes' : 'no');
-            console.log('  autonomousCommunity:', autonomousCommunity);
-            console.log('  province:', province);
-            console.log('  municipality:', municipality);
-            console.log('  kilometerPoint:', kilometerPoint);
           }
         }
 
