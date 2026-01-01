@@ -478,8 +478,11 @@
           Array.from(xmlDoc.getElementsByTagName('*')).map(el => el.tagName)
         )).slice(0, 20));
 
-        const situations = xmlDoc.getElementsByTagName('situation');
-        console.log(`✓ Found ${situations.length} <situation> elements`);
+        let situations = xmlDoc.getElementsByTagName('sit:situation');
+        if (situations.length === 0) {
+          situations = xmlDoc.getElementsByTagName('situation');
+        }
+        console.log(`✓ Found ${situations.length} situation elements`);
         
         if (situations.length === 0) {
           incidents.innerHTML = `
@@ -513,50 +516,68 @@
 
     function parseIncident(situation, index) {
       const get = (tag, parent = situation) => {
-        const el = parent.getElementsByTagName(tag)[0];
+        let el = parent.getElementsByTagName(tag)[0];
+        if (!el && tag.indexOf(':') === -1) {
+          el = parent.getElementsByTagName('sit:' + tag)[0];
+        }
+        if (!el && tag.indexOf(':') === -1) {
+          el = parent.getElementsByTagName('com:' + tag)[0];
+        }
+        if (!el && tag.indexOf(':') === -1) {
+          el = parent.getElementsByTagName('loc:' + tag)[0];
+        }
         return el ? el.textContent.trim() : null;
       };
 
-      const record = situation.getElementsByTagName('situationRecord')[0];
-      const location = record?.getElementsByTagName('locationReference')[0];
+      let record = situation.getElementsByTagName('situationRecord')[0];
+      if (!record) record = situation.getElementsByTagName('sit:situationRecord')[0];
+      
+      let location = record?.getElementsByTagName('locationReference')[0];
+      if (!location) location = record?.getElementsByTagName('sit:locationReference')[0];
       
       let coords = null, road = null, province = null, municipality = null;
 
       if (location) {
-        const pointCoords = location.getElementsByTagName('pointCoordinates')[0];
+        let pointCoords = location.getElementsByTagName('pointCoordinates')[0];
+        if (!pointCoords) pointCoords = location.getElementsByTagName('loc:pointCoordinates')[0];
+        
         if (pointCoords) {
-          const lat = get('latitude', pointCoords);
-          const lon = get('longitude', pointCoords);
+          const lat = get('latitude', pointCoords) || get('loc:latitude', pointCoords);
+          const lon = get('longitude', pointCoords) || get('loc:longitude', pointCoords);
           if (lat && lon) coords = { lat, lon };
         }
 
-        const roadInfo = location.getElementsByTagName('roadInformation')[0];
-        if (roadInfo) road = get('roadName', roadInfo);
+        let roadInfo = location.getElementsByTagName('roadInformation')[0];
+        if (!roadInfo) roadInfo = location.getElementsByTagName('loc:roadInformation')[0];
+        if (roadInfo) {
+          road = get('roadName', roadInfo) || get('loc:roadName', roadInfo);
+        }
 
-        const extPoint = location.getElementsByTagName('extendedTpegNonJunctionPoint')[0];
+        let extPoint = location.getElementsByTagName('extendedTpegNonJunctionPoint')[0];
+        if (!extPoint) extPoint = location.getElementsByTagName('cse:extendedTpegNonJunctionPoint')[0];
         if (extPoint) {
-          province = get('province', extPoint);
-          municipality = get('municipality', extPoint);
+          province = get('province', extPoint) || get('cse:province', extPoint);
+          municipality = get('municipality', extPoint) || get('cse:municipality', extPoint);
         }
       }
 
       return {
         index: index + 1,
         id: situation.getAttribute('id') || `INC-${index + 1}`,
-        severity: get('overallSeverity') || 'unknown',
-        status: get('informationStatus') || 'N/A',
+        severity: get('overallSeverity') || get('sit:overallSeverity') || 'unknown',
+        status: get('informationStatus') || get('com:informationStatus') || 'N/A',
         type: record?.getAttribute('xsi:type') || 'N/A',
-        created: get('situationRecordCreationTime'),
-        updated: get('situationRecordVersionTime'),
-        probability: get('probabilityOfOccurrence') || 'N/A',
-        cause: get('causeType') || 'N/A',
-        detailedCause: get('detailedCauseType'),
+        created: get('situationRecordCreationTime') || get('sit:situationRecordCreationTime'),
+        updated: get('situationRecordVersionTime') || get('sit:situationRecordVersionTime'),
+        probability: get('probabilityOfOccurrence') || get('sit:probabilityOfOccurrence') || 'N/A',
+        cause: get('causeType') || get('sit:causeType') || 'N/A',
+        detailedCause: get('detailedCauseType') || get('sit:detailedCauseType'),
         road,
         province,
         municipality,
         coords,
-        direction: get('tpegDirection') || 'N/A',
-        source: get('sourceIdentification') || 'N/A'
+        direction: get('tpegDirection') || get('loc:tpegDirection') || 'N/A',
+        source: get('sourceIdentification') || get('com:sourceIdentification') || 'N/A'
       };
     }
 
