@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Language Learning Game</title>
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: var(--tg-theme-bg-color, linear-gradient(135deg, #667eea 0%, #764ba2 100%));
+            color: var(--tg-theme-text-color, #000);
+            min-height: 100vh;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .header {
+            background: var(--tg-theme-secondary-bg-color, white);
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            margin-bottom: 30px;
+            text-align: center;
+            width: 100%;
+            max-width: 900px;
+        }
+
+        h1 {
+            color: var(--tg-theme-button-color, #667eea);
+            margin-bottom: 15px;
+        }
+
+        .stats {
+            display: flex;
+            gap: 30px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 15px;
+        }
+
+        .stat {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .stat-label {
+            font-size: 14px;
+            color: var(--tg-theme-hint-color, #666);
+            margin-bottom: 5px;
+        }
+
+        .stat-value {
+            font-size: 24px;
+            font-weight: bold;
+            color: var(--tg-theme-button-color, #667eea);
+        }
+
+        .hearts {
+            font-size: 28px;
+        }
+
+        .cards-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 20px;
+            max-width: 900px;
+            width: 100%;
+            margin-bottom: 20px;
+        }
+
+        .card {
+            background: var(--tg-theme-secondary-bg-color, white);
+            border-radius: 15px;
+            padding: 30px 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            min-height: 150px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .card:hover:not(.correct):not(.wrong):not(.disabled) {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+        }
+
+        .card:active:not(.correct):not(.wrong):not(.disabled) {
+            transform: scale(0.95);
+        }
+
+        .card.disabled {
+            cursor: not-allowed;
+            opacity: 0.5;
+        }
+
+        .card-word {
+            font-size: 24px;
+            font-weight: bold;
+            color: var(--tg-theme-text-color, #333);
+            margin-bottom: 10px;
+        }
+
+        .card-translation {
+            font-size: 16px;
+            color: var(--tg-theme-hint-color, #666);
+            display: none;
+        }
+
+        .card.revealed .card-translation {
+            display: block;
+        }
+
+        .card.correct {
+            background: linear-gradient(135deg, #6dd5ed 0%, #2193b0 100%);
+            color: white;
+        }
+
+        .card.correct .card-word,
+        .card.correct .card-translation {
+            color: white;
+        }
+
+        .card.wrong {
+            background: linear-gradient(135deg, #ff6b6b 0%, #ee5a6f 100%);
+            color: white;
+            animation: shake 0.5s;
+        }
+
+        .card.wrong .card-word {
+            color: white;
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-10px); }
+            75% { transform: translateX(10px); }
+        }
+
+        .question {
+            background: var(--tg-theme-secondary-bg-color, white);
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            margin-bottom: 30px;
+            text-align: center;
+            width: 100%;
+            max-width: 900px;
+        }
+
+        .question h2 {
+            color: var(--tg-theme-text-color, #333);
+            margin-bottom: 10px;
+        }
+
+        .question-text {
+            font-size: 32px;
+            font-weight: bold;
+            color: var(--tg-theme-button-color, #667eea);
+        }
+
+        .message {
+            background: var(--tg-theme-secondary-bg-color, white);
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            width: 100%;
+            max-width: 900px;
+            margin-top: 20px;
+        }
+
+        .message.success {
+            background: linear-gradient(135deg, #6dd5ed 0%, #2193b0 100%);
+            color: white;
+        }
+
+        .message.error {
+            background: linear-gradient(135deg, #ff6b6b 0%, #ee5a6f 100%);
+            color: white;
+        }
+
+        .reset-btn {
+            background: var(--tg-theme-button-color, #667eea);
+            color: var(--tg-theme-button-text-color, white);
+            border: none;
+            padding: 15px 30px;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 15px;
+            transition: all 0.3s ease;
+        }
+
+        .reset-btn:hover {
+            opacity: 0.9;
+            transform: translateY(-2px);
+        }
+
+        .reset-btn:active {
+            transform: scale(0.95);
+        }
+
+        .game-over {
+            background: var(--tg-theme-secondary-bg-color, white);
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            max-width: 500px;
+        }
+
+        .game-over h2 {
+            color: #ff6b6b;
+            margin-bottom: 20px;
+            font-size: 32px;
+        }
+
+        .game-over p {
+            color: var(--tg-theme-hint-color, #666);
+            margin-bottom: 20px;
+            font-size: 18px;
+        }
+
+        .timer {
+            font-size: 14px;
+            color: var(--tg-theme-hint-color, #999);
+            margin-top: 10px;
+        }
+
+        .share-btn {
+            background: #0088cc;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 10px;
+            font-size: 14px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 10px;
+            transition: all 0.3s ease;
+        }
+
+        .share-btn:active {
+            transform: scale(0.95);
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>🌍 Language Learning Game</h1>
+        <div class="stats">
+            <div class="stat">
+                <div class="stat-label">Daily Points</div>
+                <div class="stat-value hearts" id="points">❤️❤️❤️❤️❤️</div>
+            </div>
+            <div class="stat">
+                <div class="stat-label">Score</div>
+                <div class="stat-value" id="score">0</div>
+            </div>
+            <div class="stat">
+                <div class="stat-label">Streak</div>
+                <div class="stat-value" id="streak">0 🔥</div>
+            </div>
+        </div>
+        <div class="timer" id="timer"></div>
+    </div>
+
+    <div id="game-container"></div>
+
+    <script>
+        // Initialize Telegram Web App
+        let tg = window.Telegram.WebApp;
+        tg.ready();
+        tg.expand();
+
+        const vocabulary = [
+            { word: 'Hello', translation: 'Hola', category: 'greeting' },
+            { word: 'Goodbye', translation: 'Adiós', category: 'greeting' },
+            { word: 'Thank you', translation: 'Gracias', category: 'courtesy' },
+            { word: 'Please', translation: 'Por favor', category: 'courtesy' },
+            { word: 'Yes', translation: 'Sí', category: 'basic' },
+            { word: 'No', translation: 'No', category: 'basic' },
+            { word: 'Water', translation: 'Agua', category: 'food' },
+            { word: 'Food', translation: 'Comida', category: 'food' },
+            { word: 'Friend', translation: 'Amigo', category: 'people' },
+            { word: 'Family', translation: 'Familia', category: 'people' },
+            { word: 'House', translation: 'Casa', category: 'places' },
+            { word: 'School', translation: 'Escuela', category: 'places' },
+            { word: 'Good', translation: 'Bueno', category: 'adjectives' },
+            { word: 'Bad', translation: 'Malo', category: 'adjectives' },
+            { word: 'Beautiful', translation: 'Hermoso', category: 'adjectives' }
+        ];
+
+        let gameState = {
+            points: 5,
+            score: 0,
+            streak: 0,
+            mistakes: 0,
+            currentQuestion: null,
+            cards: [],
+            lastPlayDate: null
+        };
+
+        function loadGameState() {
+            const today = new Date().toDateString();
+            const userId = tg.initDataUnsafe?.user?.id || 'guest';
+            const storageKey = `languageGame_${userId}`;
+            const saved = localStorage.getItem(storageKey);
+            
+            if (saved) {
+                const data = JSON.parse(saved);
+                
+                if (data.lastPlayDate === today) {
+                    gameState = data;
+                } else {
+                    gameState.points = 5;
+                    gameState.lastPlayDate = today;
+                    saveGameState();
+                }
+            } else {
+                gameState.lastPlayDate = today;
+                saveGameState();
+            }
+        }
+
+        function saveGameState() {
+            const userId = tg.initDataUnsafe?.user?.id || 'guest';
+            const storageKey = `languageGame_${userId}`;
+            localStorage.setItem(storageKey, JSON.stringify(gameState));
+        }
+
+        function updateStats() {
+            const hearts = '❤️'.repeat(gameState.points) + '🖤'.repeat(5 - gameState.points);
+            document.getElementById('points').textContent = hearts;
+            document.getElementById('score').textContent = gameState.score;
+            document.getElementById('streak').textContent = gameState.streak + ' 🔥';
+            updateTimer();
+        }
+
+        function updateTimer() {
+            const now = new Date();
+            const tomorrow = new Date(now);
+            tomorrow.setDate(tomorrow.getDate() + 1);
+            tomorrow.setHours(0, 0, 0, 0);
+            
+            const diff = tomorrow - now;
+            const hours = Math.floor(diff / (1000 * 60 * 60));
+            const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+            
+            document.getElementById('timer').textContent = 
+                `Points reset in ${hours}h ${minutes}m`;
+        }
+
+        function getRandomCards() {
+            const shuffled = [...vocabulary].sort(() => Math.random() - 0.5);
+            return shuffled.slice(0, 10);
+        }
+
+        function startNewRound() {
+            if (gameState.points <= 0) {
+                showGameOver();
+                return;
+            }
+
+            gameState.cards = getRandomCards();
+            gameState.currentQuestion = gameState.cards[Math.floor(Math.random() * gameState.cards.length)];
+            gameState.mistakes = 0;
+            
+            renderGame();
+        }
+
+        function renderGame() {
+            const container = document.getElementById('game-container');
+            container.innerHTML = '';
+
+            const question = document.createElement('div');
+            question.className = 'question';
+            question.innerHTML = `
+                <h2>Find the translation for:</h2>
+                <div class="question-text">${gameState.currentQuestion.word}</div>
+            `;
+            container.appendChild(question);
+
+            const cardsContainer = document.createElement('div');
+            cardsContainer.className = 'cards-container';
+
+            gameState.cards.forEach((item, index) => {
+                const card = document.createElement('div');
+                card.className = 'card';
+                card.innerHTML = `
+                    <div class="card-word">${item.translation}</div>
+                    <div class="card-translation">${item.word}</div>
+                `;
+                
+                card.onclick = () => handleCardClick(card, item, index);
+                cardsContainer.appendChild(card);
+            });
+
+            container.appendChild(cardsContainer);
+            updateStats();
+        }
+
+        function handleCardClick(cardElement, item, index) {
+            if (cardElement.classList.contains('disabled')) return;
+
+            const isCorrect = item.word === gameState.currentQuestion.word;
+
+            if (isCorrect) {
+                cardElement.classList.add('correct', 'revealed');
+                gameState.score += 10;
+                gameState.streak++;
+                
+                // Haptic feedback
+                if (tg.HapticFeedback) {
+                    tg.HapticFeedback.notificationOccurred('success');
+                }
+                
+                const allCards = document.querySelectorAll('.card');
+                allCards.forEach(c => c.classList.add('disabled'));
+
+                const message = document.createElement('div');
+                message.className = 'message success';
+                message.innerHTML = `
+                    <h3>🎉 Correct!</h3>
+                    <p>+10 points</p>
+                    <button class="reset-btn" onclick="startNewRound()">Next Round</button>
+                `;
+                document.getElementById('game-container').appendChild(message);
+                
+                saveGameState();
+                updateStats();
+            } else {
+                cardElement.classList.add('wrong');
+                gameState.mistakes++;
+                
+                // Haptic feedback for error
+                if (tg.HapticFeedback) {
+                    tg.HapticFeedback.notificationOccurred('error');
+                }
+                
+                setTimeout(() => {
+                    cardElement.classList.remove('wrong');
+                }, 500);
+
+                if (gameState.mistakes >= 3) {
+                    gameState.points--;
+                    gameState.streak = 0;
+                    
+                    const allCards = document.querySelectorAll('.card');
+                    allCards.forEach(c => c.classList.add('disabled'));
+
+                    const correctCard = document.querySelectorAll('.card')[
+                        gameState.cards.findIndex(c => c.word === gameState.currentQuestion.word)
+                    ];
+                    correctCard.classList.add('correct', 'revealed');
+
+                    const message = document.createElement('div');
+                    message.className = 'message error';
+                    message.innerHTML = `
+                        <h3>❌ 3 Mistakes!</h3>
+                        <p>Lost 1 point. The correct answer was: ${gameState.currentQuestion.translation}</p>
+                        <button class="reset-btn" onclick="startNewRound()">Next Round</button>
+                    `;
+                    document.getElementById('game-container').appendChild(message);
+                    
+                    saveGameState();
+                    updateStats();
+                }
+            }
+        }
+
+        function shareScore() {
+            const text = `🌍 I scored ${gameState.score} points in Language Learning Game! 🔥 Streak: ${gameState.streak}\n\nCan you beat my score?`;
+            const url = `https://t.me/share/url?url=${encodeURIComponent(tg.initDataUnsafe?.start_param || '')}&text=${encodeURIComponent(text)}`;
+            tg.openTelegramLink(url);
+        }
+
+        function showGameOver() {
+            const container = document.getElementById('game-container');
+            container.innerHTML = `
+                <div class="game-over">
+                    <h2>😔 No Points Left!</h2>
+                    <p>You've used all your daily points.</p>
+                    <p>Come back tomorrow to play again!</p>
+                    <p><strong>Final Score: ${gameState.score}</strong></p>
+                    <button class="share-btn" onclick="shareScore()">📤 Share Score</button>
+                </div>
+            `;
+        }
+
+        loadGameState();
+        startNewRound();
+        setInterval(updateTimer, 60000);
+    </script>
+</body>
+</html>
